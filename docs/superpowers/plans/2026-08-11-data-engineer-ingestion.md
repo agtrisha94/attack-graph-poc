@@ -530,13 +530,6 @@ def generate_topology(products: list[str], seed: int = 42) -> tuple[pd.DataFrame
 
     # Hub-and-spoke connectivity per the Enterprise-Scale VWAN model: every
     # landing zone connects through Connectivity, which connects through Identity.
-    mg_representative = {}
-    for n in nodes:
-        mg_representative.setdefault(n["management_group"], n["node_id"] if n["node_type"] == "Computer" else None)
-    for mg, rep in mg_representative.items():
-        if rep is None:
-            continue
-
     connectivity_computer = next(n["node_id"] for n in nodes if n["management_group"] == "Platform/Connectivity" and n["node_type"] == "Computer")
     identity_computer = next(n["node_id"] for n in nodes if n["management_group"] == "Platform/Identity" and n["node_type"] == "Computer")
     edges.append({"source_id": connectivity_computer, "target_id": identity_computer, "edge_type": "CONNECTS_TO", "properties": ""})
