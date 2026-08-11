@@ -114,27 +114,37 @@ def test_cwe_fallback_to_kev_when_corpus_empty(tmp_path):
         "cve_id,base_severity,base_score,epss_score,epss_perc,cisa_kev,"
         "attack_vector,published_date\n"
         "CVE-2026-0003,HIGH,8.0,0.15,0.6,False,NETWORK,2026-01-01\n"
+        "CVE-2026-0004,HIGH,8.5,0.2,0.7,False,NETWORK,2026-01-01\n"
     )
     (kaggle_dir / "cve_corpus.csv").write_text(
         "cve_id,description_data,cwe_data,cpe_data\n"
         'CVE-2026-0003,["Elevation of privilege in Windows kernel"],[],'
         '["cpe:2.3:o:microsoft:windows_10:21h2:*:*:*:*:*:*:*"]\n'
+        'CVE-2026-0004,["Privilege escalation in Active Directory"],[],'
+        '["cpe:2.3:a:microsoft:active_directory:2019:*:*:*:*:*:*:*"]\n'
     )
     kev_path = tmp_path / "kev_catalog.csv"
     kev_path.write_text(
         "cveID,vendorProject,product,dateAdded,knownRansomwareCampaignUse,cwes\n"
         "CVE-2026-0003,Microsoft,Windows 10,2026-01-05,Known,CWE-269\n"
+        "CVE-2026-0004,Microsoft,Active Directory,2026-01-05,Known,\"CWE-269, CWE-287, CWE-306\"\n"
     )
     epss_dir = tmp_path / "epss"
     epss_dir.mkdir()
     epss_path = epss_dir / "epss_scores-2026-08-10.csv.gz"
     epss_path.write_bytes(
         pd.DataFrame(
-            [{"cve": "CVE-2026-0003", "epss": 0.5, "percentile": 0.85}]
+            [
+                {"cve": "CVE-2026-0003", "epss": 0.5, "percentile": 0.85},
+                {"cve": "CVE-2026-0004", "epss": 0.55, "percentile": 0.9},
+            ]
         ).to_csv(index=False).encode()
     )
 
     result = build_microsoft_cve_master(kaggle_dir, kev_path, str(epss_dir / "epss_scores-*.csv.gz"))
 
-    assert len(result) == 1
+    assert len(result) == 2
+    # Single CWE value fallback
     assert result.iloc[0]["cwe_id"] == "CWE-269", "Should fall back to KEV cwes when corpus cwe_data is empty"
+    # Multi-CWE comma-separated fallback - should return first CWE
+    assert result.iloc[1]["cwe_id"] == "CWE-269", "Should extract first CWE from comma-separated list"

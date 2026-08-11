@@ -86,13 +86,20 @@ def build_microsoft_cve_master(kaggle_dir: pathlib.Path, kev_path: pathlib.Path,
         if row["cwe_id_from_corpus"]:
             return row["cwe_id_from_corpus"]
         if pd.notna(row["cwes"]):
-            # cwes might be a list string or a single CWE code
-            parsed = parse_list_field(row["cwes"])
+            cwes_raw = str(row["cwes"]).strip()
+            # Try parsing as list string first (e.g., "['CWE-269', 'CWE-287']")
+            parsed = parse_list_field(cwes_raw)
             if parsed:
                 return next((c for c in parsed if c.startswith("CWE-")), None)
-            # If not a list string, try as a single code
-            if str(row["cwes"]).strip().startswith("CWE-"):
-                return str(row["cwes"]).strip()
+            # Handle comma-separated format (e.g., "CWE-269, CWE-287, CWE-306")
+            if "," in cwes_raw:
+                for token in cwes_raw.split(","):
+                    token = token.strip()
+                    if token.startswith("CWE-"):
+                        return token
+            # Handle single CWE code (e.g., "CWE-269")
+            if cwes_raw.startswith("CWE-"):
+                return cwes_raw
         return None
 
     merged["cwe_id"] = merged.apply(extract_cwe_fallback, axis=1)

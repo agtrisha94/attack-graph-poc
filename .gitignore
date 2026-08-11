@@ -4,4 +4,4 @@ __pycache__/
 .superpowers/
 
 # Raw external data sources (large clones/snapshots, refetchable — not checked in)
-data/raw/
+data/raw
