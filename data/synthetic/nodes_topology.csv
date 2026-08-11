@@ -1,81 +1,81 @@
 node_id,node_type,display_name,criticality_tier,installed_software,management_group
 group-0001,Group,Management-Admins,High,,Platform/Management
-computer-0002,Computer,Management-Host-computer-0002,High,wmi administrative tools;wordperfect converter,Platform/Management
-app-0003,Application,wmi administrative tools,High,,Platform/Management
-app-0004,Application,wordperfect converter,High,,Platform/Management
-computer-0005,Computer,Management-Host-computer-0005,High,tslint;rConfig,Platform/Management
-app-0006,Application,tslint,High,,Platform/Management
-app-0007,Application,rConfig,High,,Platform/Management
-computer-0008,Computer,Management-Host-computer-0008,High,nuget;office zombie,Platform/Management
-app-0009,Application,nuget,High,,Platform/Management
-app-0010,Application,office zombie,High,,Platform/Management
-computer-0011,Computer,Management-Host-computer-0011,High,office project;ad-exchange script,Platform/Management
-app-0012,Application,office project,High,,Platform/Management
-app-0013,Application,ad-exchange script,High,,Platform/Management
+computer-0002,Computer,Management-Host-computer-0002,High,crypto and defi widgets;immediacy .net cms,Platform/Management
+app-0003,Application,crypto and defi widgets,High,,Platform/Management
+app-0004,Application,immediacy .net cms,High,,Platform/Management
+computer-0005,Computer,Management-Host-computer-0005,High,word;edge,Platform/Management
+app-0006,Application,word,High,,Platform/Management
+app-0007,Application,edge,High,,Platform/Management
+computer-0008,Computer,Management-Host-computer-0008,High,malware protection engine;megalith,Platform/Management
+app-0009,Application,malware protection engine,High,,Platform/Management
+app-0010,Application,megalith,High,,Platform/Management
+computer-0011,Computer,Management-Host-computer-0011,High,register server;zoho virtual office,Platform/Management
+app-0012,Application,register server,High,,Platform/Management
+app-0013,Application,zoho virtual office,High,,Platform/Management
 user-0014,User,Management-User-user-0014,High,,Platform/Management
 user-0015,User,Management-User-user-0015,High,,Platform/Management
 user-0016,User,Management-User-user-0016,High,,Platform/Management
 group-0017,Group,Connectivity-Admins,High,,Platform/Connectivity
-computer-0018,Computer,Connectivity-Host-computer-0018,High,Xperience;universal office converter,Platform/Connectivity
-app-0019,Application,Xperience,High,,Platform/Connectivity
-app-0020,Application,universal office converter,High,,Platform/Connectivity
-computer-0021,Computer,Connectivity-Host-computer-0021,High,dynamics 365 customer voice;all windows,Platform/Connectivity
-app-0022,Application,dynamics 365 customer voice,High,,Platform/Connectivity
-app-0023,Application,all windows,High,,Platform/Connectivity
-computer-0024,Computer,Connectivity-Host-computer-0024,High,stex exchange ico;sql server 2016,Platform/Connectivity
-app-0025,Application,stex exchange ico,High,,Platform/Connectivity
-app-0026,Application,sql server 2016,High,,Platform/Connectivity
-computer-0027,Computer,Connectivity-Host-computer-0027,High,open enclave software development kit;fe collaborative office platform,Platform/Connectivity
-app-0028,Application,open enclave software development kit,High,,Platform/Connectivity
-app-0029,Application,fe collaborative office platform,High,,Platform/Connectivity
+computer-0018,Computer,Connectivity-Host-computer-0018,High,knowledgetree;windows xp media center,Platform/Connectivity
+app-0019,Application,knowledgetree,High,,Platform/Connectivity
+app-0020,Application,windows xp media center,High,,Platform/Connectivity
+computer-0021,Computer,Connectivity-Host-computer-0021,High,ip office customer call reporter;sicam gridedge essential,Platform/Connectivity
+app-0022,Application,ip office customer call reporter,High,,Platform/Connectivity
+app-0023,Application,sicam gridedge essential,High,,Platform/Connectivity
+computer-0024,Computer,Connectivity-Host-computer-0024,High,xbox gaming services;frontpage server extensions,Platform/Connectivity
+app-0025,Application,xbox gaming services,High,,Platform/Connectivity
+app-0026,Application,frontpage server extensions,High,,Platform/Connectivity
+computer-0027,Computer,Connectivity-Host-computer-0027,High,Outlook;windows 7,Platform/Connectivity
+app-0028,Application,Outlook,High,,Platform/Connectivity
+app-0029,Application,windows 7,High,,Platform/Connectivity
 user-0030,User,Connectivity-User-user-0030,High,,Platform/Connectivity
 user-0031,User,Connectivity-User-user-0031,High,,Platform/Connectivity
 user-0032,User,Connectivity-User-user-0032,High,,Platform/Connectivity
 group-0033,Group,Identity-Admins,Crown Jewel,,Platform/Identity
-computer-0034,Computer,Identity-Host-computer-0034,Crown Jewel,ua .net standard stack;solid edge,Platform/Identity
-app-0035,Application,ua .net standard stack,Crown Jewel,,Platform/Identity
-app-0036,Application,solid edge,Crown Jewel,,Platform/Identity
-computer-0037,Computer,Identity-Host-computer-0037,Crown Jewel,kancolleviewer;ThinkPHP,Platform/Identity
-app-0038,Application,kancolleviewer,Crown Jewel,,Platform/Identity
-app-0039,Application,ThinkPHP,Crown Jewel,,Platform/Identity
-computer-0040,Computer,Identity-Host-computer-0040,Crown Jewel,link to windows service;knowledge manager,Platform/Identity
-app-0041,Application,link to windows service,Crown Jewel,,Platform/Identity
-app-0042,Application,knowledge manager,Crown Jewel,,Platform/Identity
-computer-0043,Computer,Identity-Host-computer-0043,Crown Jewel,quick tree view .net;BioTime,Platform/Identity
-app-0044,Application,quick tree view .net,Crown Jewel,,Platform/Identity
-app-0045,Application,BioTime,Crown Jewel,,Platform/Identity
+computer-0034,Computer,Identity-Host-computer-0034,Crown Jewel,terminal server;project,Platform/Identity
+app-0035,Application,terminal server,Crown Jewel,,Platform/Identity
+app-0036,Application,project,Crown Jewel,,Platform/Identity
+computer-0037,Computer,Identity-Host-computer-0037,Crown Jewel,payment orchestrator service;azure functions,Platform/Identity
+app-0038,Application,payment orchestrator service,Crown Jewel,,Platform/Identity
+app-0039,Application,azure functions,Crown Jewel,,Platform/Identity
+computer-0040,Computer,Identity-Host-computer-0040,Crown Jewel,visual studio code;auto-exchanger,Platform/Identity
+app-0041,Application,visual studio code,Crown Jewel,,Platform/Identity
+app-0042,Application,auto-exchanger,Crown Jewel,,Platform/Identity
+computer-0043,Computer,Identity-Host-computer-0043,Crown Jewel,sendfile.net;one office e-notetaker,Platform/Identity
+app-0044,Application,sendfile.net,Crown Jewel,,Platform/Identity
+app-0045,Application,one office e-notetaker,Crown Jewel,,Platform/Identity
 user-0046,User,Identity-User-user-0046,Crown Jewel,,Platform/Identity
 user-0047,User,Identity-User-user-0047,Crown Jewel,,Platform/Identity
 user-0048,User,Identity-User-user-0048,Crown Jewel,,Platform/Identity
 group-0049,Group,Corp-Admins,Medium,,LandingZones/Corp
-computer-0050,Computer,Corp-Host-computer-0050,Medium,phpbannerexchange;kkfileviewofficeedit,LandingZones/Corp
-app-0051,Application,phpbannerexchange,Medium,,LandingZones/Corp
-app-0052,Application,kkfileviewofficeedit,Medium,,LandingZones/Corp
-computer-0053,Computer,Corp-Host-computer-0053,Medium,networker module for microsoft applications;pandocupload,LandingZones/Corp
-app-0054,Application,networker module for microsoft applications,Medium,,LandingZones/Corp
-app-0055,Application,pandocupload,Medium,,LandingZones/Corp
-computer-0056,Computer,Corp-Host-computer-0056,Medium,websphere edge server;subledger accounting,LandingZones/Corp
-app-0057,Application,websphere edge server,Medium,,LandingZones/Corp
-app-0058,Application,subledger accounting,Medium,,LandingZones/Corp
-computer-0059,Computer,Corp-Host-computer-0059,Medium,manageengine exchange reporter plus;IOS Software,LandingZones/Corp
-app-0060,Application,manageengine exchange reporter plus,Medium,,LandingZones/Corp
-app-0061,Application,IOS Software,Medium,,LandingZones/Corp
+computer-0050,Computer,Corp-Host-computer-0050,Medium,captcha asp.net;azure app service on azure stack,LandingZones/Corp
+app-0051,Application,captcha asp.net,Medium,,LandingZones/Corp
+app-0052,Application,azure app service on azure stack,Medium,,LandingZones/Corp
+computer-0053,Computer,Corp-Host-computer-0053,Medium,wireless display adapter firmware;azure compute gallery,LandingZones/Corp
+app-0054,Application,wireless display adapter firmware,Medium,,LandingZones/Corp
+app-0055,Application,azure compute gallery,Medium,,LandingZones/Corp
+computer-0056,Computer,Corp-Host-computer-0056,Medium,bbc knowledge magazine;java virtual machine,LandingZones/Corp
+app-0057,Application,bbc knowledge magazine,Medium,,LandingZones/Corp
+app-0058,Application,java virtual machine,Medium,,LandingZones/Corp
+computer-0059,Computer,Corp-Host-computer-0059,Medium,peoplesoft enterprise fin staffing front office brazil;kubernetes tools,LandingZones/Corp
+app-0060,Application,peoplesoft enterprise fin staffing front office brazil,Medium,,LandingZones/Corp
+app-0061,Application,kubernetes tools,Medium,,LandingZones/Corp
 user-0062,User,Corp-User-user-0062,Medium,,LandingZones/Corp
 user-0063,User,Corp-User-user-0063,Medium,,LandingZones/Corp
 user-0064,User,Corp-User-user-0064,Medium,,LandingZones/Corp
 group-0065,Group,Online-Admins,Medium,,LandingZones/Online
-computer-0066,Computer,Online-Host-computer-0066,Medium,compatibility pack word excel powerpoint 2007;FastCGI Process Manager (FPM),LandingZones/Online
-app-0067,Application,compatibility pack word excel powerpoint 2007,Medium,,LandingZones/Online
-app-0068,Application,FastCGI Process Manager (FPM),Medium,,LandingZones/Online
-computer-0069,Computer,Online-Host-computer-0069,Medium,windows media format runtime;BioTime,LandingZones/Online
-app-0070,Application,windows media format runtime,Medium,,LandingZones/Online
-app-0071,Application,BioTime,Medium,,LandingZones/Online
-computer-0072,Computer,Online-Host-computer-0072,Medium,solid edge;azure storage resource provider,LandingZones/Online
-app-0073,Application,solid edge,Medium,,LandingZones/Online
-app-0074,Application,azure storage resource provider,Medium,,LandingZones/Online
-computer-0075,Computer,Online-Host-computer-0075,Medium,Joomla!;anyoffice secureapp,LandingZones/Online
-app-0076,Application,Joomla!,Medium,,LandingZones/Online
-app-0077,Application,anyoffice secureapp,Medium,,LandingZones/Online
+computer-0066,Computer,Online-Host-computer-0066,Medium,power automate;fabedge,LandingZones/Online
+app-0067,Application,power automate,Medium,,LandingZones/Online
+app-0068,Application,fabedge,Medium,,LandingZones/Online
+computer-0069,Computer,Online-Host-computer-0069,Medium,windows azure pack rollup;azure rtos threadx,LandingZones/Online
+app-0070,Application,windows azure pack rollup,Medium,,LandingZones/Online
+app-0071,Application,azure rtos threadx,Medium,,LandingZones/Online
+computer-0072,Computer,Online-Host-computer-0072,Medium,office message system;azure custom locations resource provider,LandingZones/Online
+app-0073,Application,office message system,Medium,,LandingZones/Online
+app-0074,Application,azure custom locations resource provider,Medium,,LandingZones/Online
+computer-0075,Computer,Online-Host-computer-0075,Medium,trac;ftgateoffice,LandingZones/Online
+app-0076,Application,trac,Medium,,LandingZones/Online
+app-0077,Application,ftgateoffice,Medium,,LandingZones/Online
 user-0078,User,Online-User-user-0078,Medium,,LandingZones/Online
 user-0079,User,Online-User-user-0079,Medium,,LandingZones/Online
 user-0080,User,Online-User-user-0080,Medium,,LandingZones/Online
