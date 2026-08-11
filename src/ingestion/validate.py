@@ -3,11 +3,32 @@ consumer_must_validate checklist."""
 import pathlib
 
 import pandas as pd
+import yaml
 
 from src.ingestion.cve_merge import is_microsoft_scope
 
 DEFAULT_PROCESSED = pathlib.Path("data/processed")
 DEFAULT_SYNTHETIC = pathlib.Path("data/synthetic")
+SCHEMA_PATH = pathlib.Path("schemas/data_schema.yaml")
+
+# schema name in data_schema.yaml -> output CSV filename
+_SCHEMA_FILES = {
+    "microsoft_cve_master": "microsoft_cve_master.csv",
+    "technique_map": "technique_map.csv",
+    "topology_nodes": "nodes_topology.csv",
+    "topology_edges": "edges_topology.csv",
+}
+
+
+def _required_columns_violations(dataframes: dict[str, pd.DataFrame]) -> list[str]:
+    schemas = yaml.safe_load(SCHEMA_PATH.read_text())["schemas"]
+    violations = []
+    for schema_name, filename in _SCHEMA_FILES.items():
+        required = [f["name"] for f in schemas[schema_name]["fields"] if f.get("required")]
+        missing = [c for c in required if c not in dataframes[filename].columns]
+        if missing:
+            violations.append(f"{filename} missing required columns: {missing}")
+    return violations
 
 
 def _read_csv(path: pathlib.Path) -> pd.DataFrame:
@@ -25,6 +46,16 @@ def validate_outputs(processed_dir: pathlib.Path, synthetic_dir: pathlib.Path) -
     violations: list[str] = []
 
     cve_master = _read_csv(processed_dir / "microsoft_cve_master.csv")
+    technique_map = _read_csv(processed_dir / "technique_map.csv")
+    nodes = _read_csv(synthetic_dir / "nodes_topology.csv")
+    edges = _read_csv(synthetic_dir / "edges_topology.csv")
+    violations += _required_columns_violations({
+        "microsoft_cve_master.csv": cve_master,
+        "technique_map.csv": technique_map,
+        "nodes_topology.csv": nodes,
+        "edges_topology.csv": edges,
+    })
+
     if len(cve_master) == 0:
         violations.append("microsoft_cve_master.csv is empty")
         cve_master = pd.DataFrame(columns=[
@@ -53,12 +84,9 @@ def validate_outputs(processed_dir: pathlib.Path, synthetic_dir: pathlib.Path) -
     if len(out_of_scope) > 0:
         violations.append(f"microsoft_cve_master.csv has {len(out_of_scope)} row(s) outside the Microsoft-scope filter")
 
-    technique_map = _read_csv(processed_dir / "technique_map.csv")
     if len(technique_map) == 0:
         violations.append("technique_map.csv is empty")
 
-    nodes = _read_csv(synthetic_dir / "nodes_topology.csv")
-    edges = _read_csv(synthetic_dir / "edges_topology.csv")
     if len(nodes) == 0:
         violations.append("nodes_topology.csv is empty")
     if len(edges) == 0:
