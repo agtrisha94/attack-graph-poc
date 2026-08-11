@@ -689,11 +689,18 @@ assert not at.exception, at.exception
 assert len(at.metric) == 2, f'expected 2 metrics, got {len(at.metric)}'
 print('Overview metrics:', [(m.label, m.value) for m in at.metric])
 
-at2 = AppTest.from_file('dashboard/pages/1_Attack_Paths.py', default_timeout=30).run()
+# Use switch_page, not a second AppTest.from_file() call: AppTest.from_file()
+# treats the given script as its own entrypoint (that script's own directory
+# goes on sys.path), which breaks the pages' bare imports. switch_page keeps
+# app.py as the entrypoint, matching how Streamlit actually resolves
+# sys.path for real multipage navigation -- verified directly against this
+# failure mode during Task 5. Paths passed to switch_page are relative to
+# the entrypoint's directory (dashboard/), not the CWD.
+at2 = at.switch_page('pages/1_Attack_Paths.py').run()
 print('Attack Paths exception:', at2.exception)
 assert not at2.exception, at2.exception
 
-at3 = AppTest.from_file('dashboard/pages/2_Graph_Explorer.py', default_timeout=30).run()
+at3 = at.switch_page('pages/2_Graph_Explorer.py').run()
 print('Graph Explorer exception:', at3.exception)
 assert not at3.exception, at3.exception
 print('All three pages ran with no exceptions.')
