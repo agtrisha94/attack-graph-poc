@@ -1,0 +1,28 @@
+contract: 02_data_to_graph
+producer: data_engineer
+consumer: graph_architect
+
+# Backfilled by Agent 3 — Agent 2's commits produced the four output files
+# below but never wrote this handoff file. Documents what was actually
+# delivered, verified against the files present in the repo.
+
+inputs:
+  - path: data/processed/microsoft_cve_master.csv
+    description: 29205 in-scope CVE rows, columns per schemas/data_schema.yaml -> microsoft_cve_master.
+  - path: data/processed/technique_map.csv
+    description: 858 ATT&CK Enterprise technique rows. cwe_ids is empty for every row (documented gap, see src/ingestion/technique_map.py).
+  - path: data/synthetic/nodes_topology.csv
+    description: 80 synthetic AzureHound-shaped nodes (User/Group/Computer/Application/Device).
+  - path: data/synthetic/edges_topology.csv
+    description: 79 synthetic relationships (RUNS/CONNECTS_TO/MEMBER_OF/HAS_SESSION/CONTROLS).
+
+outputs:
+  - path: (Neo4j graph, not a file — see contract 03 for connection details)
+    description: CVE/Technique/Asset nodes and topology/AFFECTS/MAPS_TO relationships loaded via scripts/build_graph.py.
+
+consumer_must_validate:
+  - Every required field in schemas/data_schema.yaml -> microsoft_cve_master is non-null on every row (already enforced by src/ingestion/validate.py at Agent 2's handoff; re-verified post-import by src/graph/validate.py since Neo4j Community Edition has no existence constraints).
+  - Every edges_topology.csv source_id/target_id resolves to a node_id present in nodes_topology.csv (already enforced by src/ingestion/validate.py; re-verified post-import as a relationship-count match in src/graph/validate.py).
+  - installed_software values only ever reference products present in microsoft_cve_master.product (Agent 2's FR3 guarantee) — verified post-import as the AFFECTS coverage check in src/graph/validate.py.
+
+handoff_status: ready

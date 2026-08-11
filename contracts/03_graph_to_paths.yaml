@@ -1,0 +1,35 @@
+contract: 03_graph_to_paths
+producer: graph_architect
+consumer: path_engine
+
+inputs:
+  - path: contracts/02_data_to_graph.yaml
+    description: The CSVs this phase imports.
+
+outputs:
+  - path: Neo4j graph database (bolt://$NEO4J_URI, credentials in .env, see .env.example)
+    description: >
+      Loaded via scripts/build_graph.py. Node labels: (:CVE {cve_id, vendor,
+      product, description, cwe_id, base_severity, base_score, attack_vector,
+      epss_score, epss_percentile, kev_flag, kev_date_added, ransomware_used,
+      published_date}), (:Technique {technique_id, technique_name,
+      tactic: list[string], cwe_ids: list[string]}), (:Asset:<node_type>
+      {node_id, display_name, criticality_tier, installed_software: list[string],
+      management_group}) where <node_type> is one of User/Group/Computer/
+      Application/Device. Relationship types: topology edges
+      (RUNS/CONNECTS_TO/MEMBER_OF/HAS_SESSION/CONTROLS) between (:Asset) nodes
+      with an optional properties map; (:CVE)-[:AFFECTS]->(:Asset) derived from
+      installed_software matching CVE.product; (:CVE)-[:MAPS_TO]->(:Technique)
+      derived from cwe_id matching Technique.cwe_ids (currently always empty
+      upstream — see contract 02 — so this relationship type exists in the
+      import code but has 0 edges until Agent 2's technique_map.cwe_ids gap
+      closes).
+  - path: schemas/data_schema.yaml (unchanged)
+    description: Still the source of truth for property names/types on every node.
+
+consumer_must_validate:
+  - src/graph/validate.py's checklist passes (node/edge counts match source CSVs, no CVE node missing a required field, every Asset with installed_software has >=1 AFFECTS relationship).
+  - Uniqueness constraints from src/graph/schema.py exist on (:CVE.cve_id), (:Technique.technique_id), (:Asset.node_id) — `SHOW CONSTRAINTS` before running path queries.
+  - CVSS x EPSS x criticality scoring (requirements.md FR6) reads base_score and epss_score from (:CVE) and criticality_tier from (:Asset) — both are guaranteed non-null by the validation above.
+
+handoff_status: ready
