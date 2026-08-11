@@ -48,6 +48,17 @@ def test_write_asset_metrics_sets_blast_radius_and_choke_point_count():
     assert any("a.choke_point_count = row.choke_point_count" in q for q in queries)
 
 
+def test_write_asset_metrics_writes_only_choke_points_when_blast_radius_empty():
+    session = MagicMock()
+
+    write_asset_metrics(session, {}, {"computer-0018": 2})
+
+    assert session.run.call_count == 1
+    query = session.run.call_args[0][0]
+    assert "a.choke_point_count = row.choke_point_count" in query
+    assert "a.blast_radius" not in query
+
+
 def test_write_asset_metrics_skips_run_when_both_mappings_empty():
     session = MagicMock()
 
