@@ -8,7 +8,7 @@ consumer: graph_architect
 
 inputs:
   - path: data/processed/microsoft_cve_master.csv
-    description: 29205 in-scope CVE rows, columns per schemas/data_schema.yaml -> microsoft_cve_master.
+    description: 26285 in-scope CVE rows, columns per schemas/data_schema.yaml -> microsoft_cve_master.
   - path: data/processed/technique_map.csv
     description: >
       858 ATT&CK Enterprise technique rows. cwe_ids is populated for 110 of
