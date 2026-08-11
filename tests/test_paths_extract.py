@@ -1,0 +1,79 @@
+from unittest.mock import MagicMock
+
+from src.paths.extract import PATH_QUERY, dedupe_and_rank, extract_candidate_paths
+from src.paths.score import score_path
+
+
+def _candidate(cve_id, base_score, epss_score, start_id, target_id, node_ids, hop_count):
+    return {
+        "cve_id": cve_id, "base_score": base_score, "epss_score": epss_score,
+        "start_id": start_id, "target_id": target_id, "target_criticality": "Crown Jewel",
+        "node_ids": node_ids, "hop_count": hop_count,
+    }
+
+
+def test_path_query_uses_hop_cap_edge_types_and_crown_jewel_target():
+    assert "allShortestPaths" in PATH_QUERY
+    assert "AFFECTS" in PATH_QUERY
+    assert "*0..6" in PATH_QUERY
+    assert "RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS" in PATH_QUERY
+    assert "Crown Jewel" in PATH_QUERY
+
+
+def test_extract_candidate_paths_runs_query_and_returns_rows():
+    session = MagicMock()
+    rows = [_candidate("CVE-1", 8.8, 0.5, "computer-0001", "group-0033",
+                        ["computer-0001", "computer-0018", "group-0033"], 2)]
+    session.run.return_value = rows
+
+    result = extract_candidate_paths(session)
+
+    assert result == rows
+    session.run.assert_called_once_with(PATH_QUERY)
+
+
+def test_dedupe_and_rank_keeps_max_scoring_cve_per_physical_route():
+    candidates = [
+        _candidate("CVE-LOW", 2.0, 0.1, "computer-0001", "group-0033",
+                   ["computer-0001", "computer-0018", "group-0033"], 2),
+        _candidate("CVE-HIGH", 9.8, 0.9, "computer-0001", "group-0033",
+                   ["computer-0001", "computer-0018", "group-0033"], 2),
+    ]
+
+    routes = dedupe_and_rank(candidates, top_n=50)
+
+    assert len(routes) == 1
+    assert routes[0]["source_cve"] == "CVE-HIGH"
+    assert routes[0]["score"] == score_path(9.8, 0.9, "Crown Jewel")
+    assert routes[0]["rank"] == 1
+    assert routes[0]["node_ids"] == ["computer-0001", "computer-0018", "group-0033"]
+
+
+def test_dedupe_and_rank_treats_different_hop_sequences_as_distinct_routes():
+    candidates = [
+        _candidate("CVE-A", 5.0, 0.5, "computer-0001", "group-0033",
+                   ["computer-0001", "computer-0018", "group-0033"], 2),
+        _candidate("CVE-B", 5.0, 0.5, "computer-0001", "group-0033",
+                   ["computer-0001", "computer-0099", "group-0033"], 2),
+    ]
+
+    routes = dedupe_and_rank(candidates, top_n=50)
+
+    assert len(routes) == 2
+
+
+def test_dedupe_and_rank_caps_to_top_n_by_score_descending():
+    candidates = [
+        _candidate(f"CVE-{i}", float(i), 1.0, f"asset-{i}", "group-0033",
+                   [f"asset-{i}", "group-0033"], 1)
+        for i in range(1, 6)
+    ]
+
+    routes = dedupe_and_rank(candidates, top_n=3)
+
+    assert [r["source_cve"] for r in routes] == ["CVE-5", "CVE-4", "CVE-3"]
+    assert [r["rank"] for r in routes] == [1, 2, 3]
+
+
+def test_dedupe_and_rank_empty_input_returns_empty_list():
+    assert dedupe_and_rank([], top_n=50) == []
