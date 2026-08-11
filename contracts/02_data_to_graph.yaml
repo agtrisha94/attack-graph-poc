@@ -10,7 +10,13 @@ inputs:
   - path: data/processed/microsoft_cve_master.csv
     description: 29205 in-scope CVE rows, columns per schemas/data_schema.yaml -> microsoft_cve_master.
   - path: data/processed/technique_map.csv
-    description: 858 ATT&CK Enterprise technique rows. cwe_ids is empty for every row (documented gap, see src/ingestion/technique_map.py).
+    description: >
+      858 ATT&CK Enterprise technique rows. cwe_ids is populated for 110 of
+      858 rows via a real CWE<->CAPEC<->ATT&CK bridge (CAPEC attack-pattern
+      entries in data/raw/mitre-cti/capec/2.1/stix-capec.json that carry both
+      a `cwe` and an `ATTACK` external_reference); the remaining rows have no
+      such CAPEC cross-reference and are left empty rather than fabricated,
+      per requirements.md NFR2. See src/ingestion/technique_map.py.
   - path: data/synthetic/nodes_topology.csv
     description: 80 synthetic AzureHound-shaped nodes (User/Group/Computer/Application/Device).
   - path: data/synthetic/edges_topology.csv

@@ -20,10 +20,10 @@ outputs:
       (RUNS/CONNECTS_TO/MEMBER_OF/HAS_SESSION/CONTROLS) between (:Asset) nodes
       with an optional properties map; (:CVE)-[:AFFECTS]->(:Asset) derived from
       installed_software matching CVE.product; (:CVE)-[:MAPS_TO]->(:Technique)
-      derived from cwe_id matching Technique.cwe_ids (currently always empty
-      upstream — see contract 02 — so this relationship type exists in the
-      import code but has 0 edges until Agent 2's technique_map.cwe_ids gap
-      closes).
+      derived from cwe_id matching Technique.cwe_ids — populated for CVEs whose
+      cwe_id falls within the 110/858 techniques that have a real CAPEC-derived
+      cwe_ids mapping (see contract 02); CVEs/techniques outside that bridge
+      produce no MAPS_TO edge rather than a fabricated one.
   - path: schemas/data_schema.yaml (unchanged)
     description: Still the source of truth for property names/types on every node.
 
