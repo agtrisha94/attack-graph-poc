@@ -14,7 +14,7 @@ outputs:
       epss_score, epss_percentile, kev_flag, kev_date_added, ransomware_used,
       published_date}), (:Technique {technique_id, technique_name,
       tactic: list[string], cwe_ids: list[string]}), (:Asset:<node_type>
-      {node_id, display_name, criticality_tier, installed_software: list[string],
+      {node_id, node_type, display_name, criticality_tier, installed_software: list[string],
       management_group}) where <node_type> is one of User/Group/Computer/
       Application/Device. Relationship types: topology edges
       (RUNS/CONNECTS_TO/MEMBER_OF/HAS_SESSION/CONTROLS) between (:Asset) nodes
