@@ -36,8 +36,12 @@ to others, not just querying via `cypher-shell`.
 ```
 dashboard/
   app.py            # Overview page (Streamlit's default landing page)
-  db.py             # get_session() -- same NEO4J_URI/USER/PASSWORD env
-                     # pattern as scripts/find_paths.py, context-managed
+  db.py             # get_driver() -- same NEO4J_URI/USER/PASSWORD env
+                     # pattern as scripts/find_paths.py; wrapped in
+                     # st.cache_resource so Streamlit reuses one driver
+                     # across reruns instead of opening a new connection
+                     # on every widget interaction. Pages call
+                     # get_driver().session() themselves, context-managed.
   pages/
     1_Attack_Paths.py
     2_Graph_Explorer.py
@@ -55,7 +59,10 @@ justify one.
 
 Risk-focused stat tiles, each a single Cypher aggregate:
 - Total `:AttackPath` count.
-- Count of distinct Crown Jewel target assets reachable by a path.
+- Count of distinct `target_asset_id` values among `:AttackPath` nodes
+  whose `target_criticality_tier` is `"Crown Jewel"` (i.e. Crown Jewel
+  assets actually targeted by a found path, not general graph
+  reachability).
 - Top 5 assets by `choke_point_count`.
 - Top 5 assets by `blast_radius`.
 - Bar chart: path count grouped by `target_criticality_tier`.
