@@ -81,3 +81,62 @@ def maps_to_params(cve_df: pd.DataFrame, technique_df: pd.DataFrame) -> list[dic
         for technique_id in cwe_to_techniques.get(cwe_id, []):
             pairs.append({"cve_id": r["cve_id"], "technique_id": technique_id})
     return pairs
+
+
+def _merge_nodes(session, label: str, key: str, params: list[dict]) -> int:
+    if not params:
+        return 0
+    var = label[0].lower()
+    session.run(
+        f"UNWIND $rows AS row MERGE ({var}:{label} {{{key}: row.{key}}}) SET {var} += row",
+        rows=params,
+    )
+    return len(params)
+
+
+def import_graph(session, processed_dir: pathlib.Path, synthetic_dir: pathlib.Path) -> dict[str, int]:
+    cve_df = pd.read_csv(processed_dir / "microsoft_cve_master.csv")
+    technique_df = pd.read_csv(processed_dir / "technique_map.csv")
+    nodes_df = pd.read_csv(synthetic_dir / "nodes_topology.csv")
+    edges_df = pd.read_csv(synthetic_dir / "edges_topology.csv")
+
+    counts = {
+        "CVE": _merge_nodes(session, "CVE", "cve_id", cve_params(cve_df)),
+        "Technique": _merge_nodes(session, "Technique", "technique_id", technique_params(technique_df)),
+        "Asset": _merge_nodes(session, "Asset", "node_id", asset_params(nodes_df)),
+    }
+    for a in asset_params(nodes_df):
+        session.run(f"MATCH (a:Asset {{node_id: $node_id}}) SET a:{a['node_type']}", node_id=a["node_id"])
+
+    edge_total = 0
+    for edge_type, rows in topology_edge_params(edges_df).items():
+        session.run(
+            f"UNWIND $rows AS row "
+            f"MATCH (s:Asset {{node_id: row.source_id}}), (t:Asset {{node_id: row.target_id}}) "
+            f"MERGE (s)-[r:{edge_type}]->(t) SET r += row.properties",
+            rows=rows,
+        )
+        edge_total += len(rows)
+    counts["topology_edges"] = edge_total
+
+    affects = affects_params(cve_df, nodes_df)
+    if affects:
+        session.run(
+            "UNWIND $rows AS row "
+            "MATCH (c:CVE {cve_id: row.cve_id}), (a:Asset {node_id: row.node_id}) "
+            "MERGE (c)-[:AFFECTS]->(a)",
+            rows=affects,
+        )
+    counts["AFFECTS"] = len(affects)
+
+    maps_to = maps_to_params(cve_df, technique_df)
+    if maps_to:
+        session.run(
+            "UNWIND $rows AS row "
+            "MATCH (c:CVE {cve_id: row.cve_id}), (t:Technique {technique_id: row.technique_id}) "
+            "MERGE (c)-[:MAPS_TO]->(t)",
+            rows=maps_to,
+        )
+    counts["MAPS_TO"] = len(maps_to)
+
+    return counts

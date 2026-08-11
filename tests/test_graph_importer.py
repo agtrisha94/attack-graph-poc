@@ -1,8 +1,9 @@
+from unittest.mock import MagicMock
 import pandas as pd
 
 from src.graph.importer import (
     cve_params, technique_params, asset_params,
-    topology_edge_params, affects_params, maps_to_params,
+    topology_edge_params, affects_params, maps_to_params, import_graph,
 )
 
 
@@ -86,3 +87,42 @@ def test_maps_to_params_matches_cwe_id_to_cwe_ids_list():
     ])
     pairs = maps_to_params(cve_df, technique_df)
     assert pairs == [{"cve_id": "CVE-1", "technique_id": "T1190"}]
+
+
+def _write(dir_, name, df):
+    dir_.mkdir(parents=True, exist_ok=True)
+    df.to_csv(dir_ / name, index=False)
+
+
+def test_import_graph_merges_nodes_and_relationships(tmp_path):
+    processed = tmp_path / "processed"
+    synthetic = tmp_path / "synthetic"
+    _write(processed, "microsoft_cve_master.csv", pd.DataFrame([
+        {"cve_id": "CVE-1", "vendor": "microsoft", "product": "exchange server",
+         "description": "RCE", "cwe_id": "CWE-79", "base_severity": "HIGH", "base_score": 8.8,
+         "attack_vector": "NETWORK", "epss_score": 0.5, "epss_percentile": 0.9,
+         "kev_flag": True, "kev_date_added": "2026-01-05", "ransomware_used": "Known",
+         "published_date": "2026-01-01"},
+    ]))
+    _write(processed, "technique_map.csv", pd.DataFrame([
+        {"technique_id": "T1190", "technique_name": "x", "tactic": "initial-access", "cwe_ids": "CWE-79"},
+    ]))
+    _write(synthetic, "nodes_topology.csv", pd.DataFrame([
+        {"node_id": "computer-0001", "node_type": "Computer", "display_name": "Host",
+         "criticality_tier": "High", "installed_software": "exchange server", "management_group": "Platform/Management"},
+    ]))
+    _write(synthetic, "edges_topology.csv", pd.DataFrame([
+        {"source_id": "computer-0001", "target_id": "computer-0001", "edge_type": "CONNECTS_TO", "properties": ""},
+    ]))
+
+    session = MagicMock()
+    counts = import_graph(session, processed, synthetic)
+
+    assert counts == {"CVE": 1, "Technique": 1, "Asset": 1, "topology_edges": 1, "AFFECTS": 1, "MAPS_TO": 1}
+    queries = [call.args[0] for call in session.run.call_args_list]
+    assert any("MERGE (c:CVE" in q for q in queries)
+    assert any("MERGE (t:Technique" in q for q in queries)
+    assert any("MERGE (a:Asset" in q for q in queries)
+    assert any(":CONNECTS_TO]" in q for q in queries)
+    assert any("MERGE (c)-[:AFFECTS]->(a)" in q for q in queries)
+    assert any("MERGE (c)-[:MAPS_TO]->(t)" in q for q in queries)
