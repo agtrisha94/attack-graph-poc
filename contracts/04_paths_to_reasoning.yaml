@@ -1,0 +1,38 @@
+contract: 04_paths_to_reasoning
+producer: path_engine
+consumer: reasoning_agent
+
+inputs:
+  - path: contracts/03_graph_to_paths.yaml
+    description: The Neo4j graph this phase queries and annotates.
+
+outputs:
+  - path: Neo4j graph database (bolt://$NEO4J_URI, credentials in .env, see .env.example)
+    description: >
+      Annotated in place by scripts/find_paths.py. New node label:
+      (:AttackPath {path_id, score, hop_count, source_cve, source_asset_id,
+      target_asset_id, node_ids: list[string], rank}) -- one node per
+      deduplicated route from a CVE-exploitable :Asset to a Crown Jewel
+      :Asset, top 50 by score, rank 1..50 (dense, no gaps). node_ids is the
+      ordered hop sequence; resolve each entry against :Asset.node_id to get
+      the actual asset chain (modeled as a property array rather than
+      relationships -- see docs/superpowers/specs/2026-08-11-path-engine-design.md,
+      Write-back model, for why). New :Asset properties: blast_radius (int,
+      count of distinct assets reachable from this asset via topology edges,
+      hop-capped at 6; present only on assets with >=1 exploitable CVE and
+      >=1 reachable neighbor) and choke_point_count (int, number of top-50
+      routes this asset appears on as an intermediate hop; present only when
+      greater than 1).
+  - path: src/paths/{score,extract,analysis,writeback}.py
+    description: >
+      Query module the Reasoning Agent can import directly instead of
+      writing its own Cypher: score_path, extract_candidate_paths,
+      dedupe_and_rank, extract_blast_radius, choke_point_counts.
+
+consumer_must_validate:
+  - "Every (:AttackPath).node_ids entry resolves to an existing (:Asset {node_id})."
+  - "(:AttackPath).score is non-null and reproducible as base_score * epss_score * criticality_weight (Crown Jewel=4, High=3, Medium=2, Low=1), reading base_score/epss_score from the (:CVE {cve_id: source_cve}) and criticality_tier from the (:Asset {node_id: target_asset_id})."
+  - "(:AttackPath).rank is a dense 1..N ordering by score descending within the top-50 set."
+  - "(:Asset).blast_radius and (:Asset).choke_point_count, where present, are non-negative integers."
+
+handoff_status: ready
