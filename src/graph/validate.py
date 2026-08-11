@@ -7,6 +7,8 @@ import pathlib
 
 import pandas as pd
 
+from src.graph.importer import TOPOLOGY_EDGE_TYPES, affects_params, maps_to_params
+
 REQUIRED_CVE_FIELDS = [
     "vendor", "product", "description", "base_severity", "base_score",
     "epss_score", "epss_percentile", "kev_flag", "published_date",
@@ -20,10 +22,17 @@ def _count(session, query: str, **params) -> int:
 def validate_graph(session, processed_dir: pathlib.Path, synthetic_dir: pathlib.Path) -> list[str]:
     violations: list[str] = []
 
-    expected_cve = len(pd.read_csv(processed_dir / "microsoft_cve_master.csv"))
-    expected_technique = len(pd.read_csv(processed_dir / "technique_map.csv"))
-    expected_asset = len(pd.read_csv(synthetic_dir / "nodes_topology.csv"))
-    expected_edges = len(pd.read_csv(synthetic_dir / "edges_topology.csv"))
+    cve_df = pd.read_csv(processed_dir / "microsoft_cve_master.csv")
+    technique_df = pd.read_csv(processed_dir / "technique_map.csv")
+    nodes_df = pd.read_csv(synthetic_dir / "nodes_topology.csv")
+    edges_df = pd.read_csv(synthetic_dir / "edges_topology.csv")
+
+    expected_cve = len(cve_df)
+    expected_technique = len(technique_df)
+    expected_asset = len(nodes_df)
+    expected_edges = len(edges_df)
+    expected_affects = len(affects_params(cve_df, nodes_df))
+    expected_maps_to = len(maps_to_params(cve_df, technique_df))
 
     actual_cve = _count(session, "MATCH (c:CVE) RETURN count(c) AS n")
     if actual_cve != expected_cve:
@@ -37,10 +46,25 @@ def validate_graph(session, processed_dir: pathlib.Path, synthetic_dir: pathlib.
     if actual_asset != expected_asset:
         violations.append(f"Asset node count {actual_asset} != nodes_topology.csv rows {expected_asset}")
 
-    actual_edges = _count(session, "MATCH ()-[r]->() WHERE type(r) IN "
-                           "['RUNS','CONNECTS_TO','MEMBER_OF','HAS_SESSION','CONTROLS'] RETURN count(r) AS n")
+    edge_type_list = ", ".join(f"'{t}'" for t in TOPOLOGY_EDGE_TYPES)
+    actual_edges = _count(session, f"MATCH ()-[r]->() WHERE type(r) IN "
+                           f"[{edge_type_list}] RETURN count(r) AS n")
     if actual_edges != expected_edges:
         violations.append(f"topology relationship count {actual_edges} != edges_topology.csv rows {expected_edges}")
+
+    actual_affects = _count(session, "MATCH ()-[r:AFFECTS]->() RETURN count(r) AS n")
+    if actual_affects != expected_affects:
+        violations.append(
+            f"AFFECTS relationship count {actual_affects} != expected {expected_affects} "
+            "(from installed_software/product matching)"
+        )
+
+    actual_maps_to = _count(session, "MATCH ()-[r:MAPS_TO]->() RETURN count(r) AS n")
+    if actual_maps_to != expected_maps_to:
+        violations.append(
+            f"MAPS_TO relationship count {actual_maps_to} != expected {expected_maps_to} "
+            "(from cwe_id/technique cwe_ids matching)"
+        )
 
     null_field_clause = " OR ".join(f"c.{f} IS NULL" for f in REQUIRED_CVE_FIELDS)
     missing_required = _count(session, f"MATCH (c:CVE) WHERE {null_field_clause} RETURN count(c) AS n")

@@ -9,6 +9,11 @@ TECHNIQUE_MAP = pathlib.Path("data/processed/technique_map.csv")
 NODES = pathlib.Path("data/synthetic/nodes_topology.csv")
 EDGES = pathlib.Path("data/synthetic/edges_topology.csv")
 
+# Cypher label/relationship-type names can't be parameterized, so these enums
+# are enforced in Python before being interpolated into query strings below.
+TOPOLOGY_EDGE_TYPES = ("RUNS", "CONNECTS_TO", "MEMBER_OF", "HAS_SESSION", "CONTROLS")
+ASSET_NODE_TYPES = ("User", "Group", "Computer", "Application", "Device")
+
 
 def _split(value: str, sep: str) -> list[str]:
     if not value or (isinstance(value, float) and pd.isna(value)):
@@ -106,10 +111,15 @@ def import_graph(session, processed_dir: pathlib.Path, synthetic_dir: pathlib.Pa
         "Asset": _merge_nodes(session, "Asset", "node_id", asset_params(nodes_df)),
     }
     for a in asset_params(nodes_df):
-        session.run(f"MATCH (a:Asset {{node_id: $node_id}}) SET a:{a['node_type']}", node_id=a["node_id"])
+        node_type = a["node_type"]
+        if node_type not in ASSET_NODE_TYPES:
+            raise ValueError(f"unknown node_type: {node_type!r}")
+        session.run(f"MATCH (a:Asset {{node_id: $node_id}}) SET a:{node_type}", node_id=a["node_id"])
 
     edge_total = 0
     for edge_type, rows in topology_edge_params(edges_df).items():
+        if edge_type not in TOPOLOGY_EDGE_TYPES:
+            raise ValueError(f"unknown edge_type: {edge_type!r}")
         session.run(
             f"UNWIND $rows AS row "
             f"MATCH (s:Asset {{node_id: row.source_id}}), (t:Asset {{node_id: row.target_id}}) "

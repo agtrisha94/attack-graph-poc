@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock
 import pandas as pd
+import pytest
 
 from src.graph.importer import (
     cve_params, technique_params, asset_params,
@@ -126,3 +127,56 @@ def test_import_graph_merges_nodes_and_relationships(tmp_path):
     assert any(":CONNECTS_TO]" in q for q in queries)
     assert any("MERGE (c)-[:AFFECTS]->(a)" in q for q in queries)
     assert any("MERGE (c)-[:MAPS_TO]->(t)" in q for q in queries)
+    assert any("SET a:Computer" in q for q in queries)
+
+
+def test_import_graph_rejects_unknown_edge_type(tmp_path):
+    processed = tmp_path / "processed"
+    synthetic = tmp_path / "synthetic"
+    _write(processed, "microsoft_cve_master.csv", pd.DataFrame([
+        {"cve_id": "CVE-1", "vendor": "microsoft", "product": "exchange server",
+         "description": "RCE", "cwe_id": "CWE-79", "base_severity": "HIGH", "base_score": 8.8,
+         "attack_vector": "NETWORK", "epss_score": 0.5, "epss_percentile": 0.9,
+         "kev_flag": True, "kev_date_added": "2026-01-05", "ransomware_used": "Known",
+         "published_date": "2026-01-01"},
+    ]))
+    _write(processed, "technique_map.csv", pd.DataFrame([
+        {"technique_id": "T1190", "technique_name": "x", "tactic": "initial-access", "cwe_ids": "CWE-79"},
+    ]))
+    _write(synthetic, "nodes_topology.csv", pd.DataFrame([
+        {"node_id": "computer-0001", "node_type": "Computer", "display_name": "Host",
+         "criticality_tier": "High", "installed_software": "exchange server", "management_group": "Platform/Management"},
+    ]))
+    _write(synthetic, "edges_topology.csv", pd.DataFrame([
+        {"source_id": "computer-0001", "target_id": "computer-0001", "edge_type": "DROP_TABLES", "properties": ""},
+    ]))
+
+    session = MagicMock()
+    with pytest.raises(ValueError, match="unknown edge_type"):
+        import_graph(session, processed, synthetic)
+
+
+def test_import_graph_rejects_unknown_node_type(tmp_path):
+    processed = tmp_path / "processed"
+    synthetic = tmp_path / "synthetic"
+    _write(processed, "microsoft_cve_master.csv", pd.DataFrame([
+        {"cve_id": "CVE-1", "vendor": "microsoft", "product": "exchange server",
+         "description": "RCE", "cwe_id": "CWE-79", "base_severity": "HIGH", "base_score": 8.8,
+         "attack_vector": "NETWORK", "epss_score": 0.5, "epss_percentile": 0.9,
+         "kev_flag": True, "kev_date_added": "2026-01-05", "ransomware_used": "Known",
+         "published_date": "2026-01-01"},
+    ]))
+    _write(processed, "technique_map.csv", pd.DataFrame([
+        {"technique_id": "T1190", "technique_name": "x", "tactic": "initial-access", "cwe_ids": "CWE-79"},
+    ]))
+    _write(synthetic, "nodes_topology.csv", pd.DataFrame([
+        {"node_id": "computer-0001", "node_type": "Robot", "display_name": "Host",
+         "criticality_tier": "High", "installed_software": "exchange server", "management_group": "Platform/Management"},
+    ]))
+    _write(synthetic, "edges_topology.csv", pd.DataFrame([
+        {"source_id": "computer-0001", "target_id": "computer-0001", "edge_type": "CONNECTS_TO", "properties": ""},
+    ]))
+
+    session = MagicMock()
+    with pytest.raises(ValueError, match="unknown node_type"):
+        import_graph(session, processed, synthetic)
