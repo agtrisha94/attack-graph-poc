@@ -1,0 +1,40 @@
+contract: 05_baseline_to_watchdog
+producer: reasoning_agent
+consumer: watchdog
+
+inputs:
+  - path: contracts/04_paths_to_reasoning.yaml
+    description: The Neo4j graph and AttackPath set this phase reads and annotates.
+
+outputs:
+  - path: Neo4j graph database (bolt://$NEO4J_URI, credentials in .env, see .env.example)
+    description: >
+      Annotated in place by scripts/reason_paths.py. New node label:
+      (:Reasoning {path_id, explanation, technique_ids: list[string],
+      threat_actors: list[string], mitigations: list[string]}) -- one node
+      per (:AttackPath), linked (:AttackPath)-[:EXPLAINED_BY]->(:Reasoning).
+      explanation is a deterministic, template-generated narrative grounded
+      in the path's CVE/asset facts and (where resolvable) its ATT&CK
+      technique's real threat-actor and mitigation data from the MITRE CTI
+      STIX bundle -- not a live LLM call (see
+      docs/superpowers/specs/2026-08-11-reasoning-agent-design.md, LLM
+      deviation, for why and the upgrade path). technique_ids/threat_actors/
+      mitigations are empty lists, never null, when no MAPS_TO Technique
+      edge or no matching MITRE relationship exists for this path's CVE.
+      The "baseline" for Watchdog is this graph state as it exists at
+      handoff time -- the current top-50 :AttackPath set plus their
+      :Reasoning annotations; Watchdog's own re-scoring/diffing logic
+      against future graph changes is that agent's own phase, not
+      addressed here.
+  - path: src/reasoning/{mitre_lookup,read_paths,explain,writeback}.py
+    description: >
+      Query module Watchdog can import directly instead of writing its own
+      Cypher/STIX-parsing logic: build_technique_facts,
+      resolve_facts_for_techniques, read_attack_paths, build_explanation.
+
+consumer_must_validate:
+  - "Every (:Reasoning).path_id matches an existing (:AttackPath {path_id})."
+  - "(:Reasoning).threat_actors and (:Reasoning).mitigations are lists (possibly empty) of real MITRE ATT&CK names -- never null, never fabricated."
+  - "(:Reasoning).explanation is non-empty."
+
+handoff_status: ready
