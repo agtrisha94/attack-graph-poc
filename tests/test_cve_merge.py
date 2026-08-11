@@ -148,3 +148,45 @@ def test_cwe_fallback_to_kev_when_corpus_empty(tmp_path):
     assert result.iloc[0]["cwe_id"] == "CWE-269", "Should fall back to KEV cwes when corpus cwe_data is empty"
     # Multi-CWE comma-separated fallback - should return first CWE
     assert result.iloc[1]["cwe_id"] == "CWE-269", "Should extract first CWE from comma-separated list"
+
+
+def test_scope_filter_excludes_non_microsoft_kev_vendors(tmp_path):
+    """Verify non-Microsoft vendors in KEV catalog are excluded (scope filter regression test)."""
+    kaggle_dir = tmp_path / "kaggle merged dataset"
+    kaggle_dir.mkdir()
+    (kaggle_dir / "cve_cisa_epss_enriched_dataset.csv").write_text(
+        "cve_id,base_severity,base_score,epss_score,epss_perc,cisa_kev,"
+        "attack_vector,published_date\n"
+        "CVE-2026-0005,HIGH,8.0,0.2,0.7,False,NETWORK,2026-01-01\n"
+        "CVE-2026-0006,HIGH,8.5,0.25,0.75,False,NETWORK,2026-01-01\n"
+    )
+    (kaggle_dir / "cve_corpus.csv").write_text(
+        "cve_id,description_data,cwe_data,cpe_data\n"
+        'CVE-2026-0005,["RCE in IOS XE"],["CWE-78"],'
+        '["cpe:2.3:o:cisco:ios_xe:17.0:*:*:*:*:*:*:*"]\n'
+        'CVE-2026-0006,["Buffer overflow in Apache HTTP"],["CWE-120"],'
+        '["cpe:2.3:a:apache:http_server:2.4:*:*:*:*:*:*:*"]\n'
+    )
+    kev_path = tmp_path / "kev_catalog.csv"
+    kev_path.write_text(
+        "cveID,vendorProject,product,dateAdded,knownRansomwareCampaignUse,cwes\n"
+        "CVE-2026-0005,Cisco,IOS XE,2026-01-05,Known,CWE-78\n"
+        "CVE-2026-0006,Apache Software Foundation,HTTP Server,2026-01-05,Known,CWE-120\n"
+    )
+    epss_dir = tmp_path / "epss"
+    epss_dir.mkdir()
+    epss_path = epss_dir / "epss_scores-2026-08-10.csv.gz"
+    epss_path.write_bytes(
+        pd.DataFrame(
+            [
+                {"cve": "CVE-2026-0005", "epss": 0.6, "percentile": 0.88},
+                {"cve": "CVE-2026-0006", "epss": 0.65, "percentile": 0.92},
+            ]
+        ).to_csv(index=False).encode()
+    )
+
+    result = build_microsoft_cve_master(kaggle_dir, kev_path, str(epss_dir / "epss_scores-*.csv.gz"))
+
+    # Both CVEs are in KEV catalog but neither is Microsoft-scoped
+    # Regression: previously both were included due to kev_flag=True; they should now be excluded
+    assert len(result) == 0, "Non-Microsoft KEV vendors (Cisco, Apache) should be excluded from scope"

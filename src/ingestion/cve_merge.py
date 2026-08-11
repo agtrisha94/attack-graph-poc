@@ -104,9 +104,10 @@ def build_microsoft_cve_master(kaggle_dir: pathlib.Path, kev_path: pathlib.Path,
 
     merged["cwe_id"] = merged.apply(extract_cwe_fallback, axis=1)
 
-    # Apply scope filter based only on vendor/product (not description)
+    # Apply scope filter: vendor/product must match Microsoft alias (regardless of source: KEV or CPE)
+    # KEV membership alone is NOT sufficient — the resulting vendor must match the alias list
     scope_mask = merged.apply(
-        lambda r: r["kev_flag"] or is_microsoft_scope([r["vendor"], r["product"]]),
+        lambda r: is_microsoft_scope([r["vendor"], r["product"]]),
         axis=1,
     )
     merged = merged[scope_mask].copy()
