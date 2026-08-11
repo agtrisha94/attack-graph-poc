@@ -30,6 +30,14 @@ def main() -> None:
         clear_previous_results(session)
         paths = read_attack_paths(session)
 
+        total_paths = session.run("MATCH (p:AttackPath) RETURN count(p) AS n").single()["n"]
+        if total_paths != len(paths):
+            print(
+                f"WARNING: {total_paths} AttackPath node(s) in graph but only "
+                f"{len(paths)} were read (missing CVE/Asset match) -- "
+                f"{total_paths - len(paths)} dropped, no Reasoning node(s) will be written for them"
+            )
+
         rows = []
         for path in paths:
             resolved = resolve_facts_for_techniques(path["technique_ids"], technique_facts)

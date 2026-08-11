@@ -30,11 +30,24 @@ outputs:
     description: >
       Query module Watchdog can import directly instead of writing its own
       Cypher/STIX-parsing logic: build_technique_facts,
-      resolve_facts_for_techniques, read_attack_paths, build_explanation.
+      resolve_facts_for_techniques, read_attack_paths, build_explanation,
+      clear_previous_results, write_reasoning.
 
 consumer_must_validate:
   - "Every (:Reasoning).path_id matches an existing (:AttackPath {path_id})."
   - "(:Reasoning).threat_actors and (:Reasoning).mitigations are lists (possibly empty) of real MITRE ATT&CK names -- never null, never fabricated."
   - "(:Reasoning).explanation is non-empty."
+
+known_limitations:
+  - >
+    As of this handoff, all 50 baseline (:Reasoning) nodes have empty
+    technique_ids/threat_actors/mitigations. Root cause: the top-50
+    :AttackPath set's source CVEs (7 distinct, mostly 2006-2009 NVD records)
+    do not intersect with the MAPS_TO-mapped CVE set (33063 CVEs, 2024+),
+    because those old CVEs lack a cwe_id and so never get a CVE->Technique
+    MAPS_TO edge (see src/graph/importer.py, src/ingestion/technique_map.py).
+    This is a data-shape gap between Agent 4's path scoring and Agent 2/3's
+    technique mapping, not a bug in Agent 5's grounding logic -- Watchdog
+    should not treat empty lists here as a sign Agent 5 is broken.
 
 handoff_status: ready
