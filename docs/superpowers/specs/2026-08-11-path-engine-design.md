@@ -72,9 +72,25 @@ MATCH p = allShortestPaths(
 RETURN cve, start, target, p
 ```
 
-`*0..6` covers the case where `start` is itself a Crown Jewel (0-hop path).
-Results are capped to the top 50 by score before write-back, so the graph
-isn't flooded with low-value paths.
+`*0..6` covers the case where `start` is itself a Crown Jewel (0-hop path) —
+verified directly against the running local Neo4j (`docker ps` shows it up)
+that `allShortestPaths` accepts a zero lower bound; it is not rejected.
+
+**Deduplication by physical route.** Querying the real synthetic data shows
+this MATCH returns 3396 `(cve, start, target)` rows but only 101 distinct
+`(start, target)` pairs — `computer-0002` alone carries 140 exploitable
+CVEs, all producing the identical hop sequence to whatever Crown Jewel it
+reaches. Before ranking, group candidate paths by `(start.node_id,
+target.node_id, node_ids)` — the physical route — and collapse each group to
+one record, keeping the CVE with the highest `score` as that route's
+`source_cve` (this is what "the path's score is the max across them" in
+Scoring, below, actually means: max is taken *within* a route's group of
+candidate CVEs, not across otherwise-unrelated routes). Rank and cap to the
+top 50 *routes*, not top 50 raw candidate rows — otherwise the result is
+dominated by whichever one or two assets have the most/worst CVEs, repeating
+nearly the same route dozens of times, which would also make choke-point
+detection (a frequency count over the top-50 set) meaningless since there'd
+be almost no route diversity left to count over.
 
 ## Scoring
 
@@ -106,11 +122,12 @@ One node per top-50 path:
 
 ```
 (:AttackPath {
-  path_id: string,       # deterministic, hash(cve_id, node_ids joined) — not
-                          # just (cve_id, start, target), since
-                          # allShortestPaths can return multiple tied-length
-                          # paths between the same start/target and each
-                          # distinct hop sequence must get its own node
+  path_id: string,       # deterministic, hash(node_ids joined) — identifies
+                          # the physical route (post-dedup, see Path
+                          # extraction), not the CVE. allShortestPaths can
+                          # also return multiple tied-length paths between
+                          # the same start/target, so keying on the full hop
+                          # sequence (not just start+target) still matters
   score: float,
   hop_count: int,
   source_cve: string,    # cve_id
