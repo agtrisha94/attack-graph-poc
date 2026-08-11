@@ -10,7 +10,11 @@ from neo4j import GraphDatabase  # noqa: E402
 
 from src.paths.analysis import choke_point_counts, extract_blast_radius  # noqa: E402
 from src.paths.extract import dedupe_and_rank, extract_candidate_paths  # noqa: E402
-from src.paths.writeback import write_asset_metrics, write_attack_paths  # noqa: E402
+from src.paths.writeback import (  # noqa: E402
+    clear_previous_results,
+    write_asset_metrics,
+    write_attack_paths,
+)
 
 TOP_N = 50
 
@@ -22,6 +26,7 @@ def main() -> None:
 
     driver = GraphDatabase.driver(uri, auth=(user, password))
     with driver.session() as session:
+        clear_previous_results(session)
         candidates = extract_candidate_paths(session)
         routes = dedupe_and_rank(candidates, top_n=TOP_N)
         blast_radius = extract_blast_radius(session)

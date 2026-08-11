@@ -12,6 +12,7 @@ def test_main_extracts_dedupes_analyzes_and_writes_back(monkeypatch, capsys):
     routes = [{"node_ids": ["a", "b"], "score": 10.0, "rank": 1}]
 
     with patch("scripts.find_paths.GraphDatabase") as fake_gdb, \
+         patch("scripts.find_paths.clear_previous_results") as fake_clear, \
          patch("scripts.find_paths.extract_candidate_paths", return_value=candidates) as fake_extract, \
          patch("scripts.find_paths.dedupe_and_rank", return_value=routes) as fake_dedupe, \
          patch("scripts.find_paths.extract_blast_radius", return_value={"a": 5}) as fake_blast, \
@@ -23,6 +24,7 @@ def test_main_extracts_dedupes_analyzes_and_writes_back(monkeypatch, capsys):
         from scripts.find_paths import main
         main()
 
+        fake_clear.assert_called_once_with(fake_session)
         fake_extract.assert_called_once_with(fake_session)
         fake_dedupe.assert_called_once_with(candidates, top_n=50)
         fake_blast.assert_called_once_with(fake_session)

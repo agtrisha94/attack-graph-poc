@@ -10,6 +10,19 @@ def path_id_for(node_ids: list[str]) -> str:
     return hashlib.sha256("|".join(node_ids).encode()).hexdigest()[:16]
 
 
+def clear_previous_results(session) -> None:
+    """Deletes prior :AttackPath nodes and blast_radius/choke_point_count
+    :Asset properties before a re-run writes fresh ones -- otherwise a
+    re-run whose top-50 cut lands differently (e.g. a different subset of a
+    tie group) leaves stale nodes/properties behind instead of replacing
+    them, since MERGE only ever adds or updates."""
+    session.run("MATCH (p:AttackPath) DETACH DELETE p")
+    session.run(
+        "MATCH (a:Asset) WHERE a.blast_radius IS NOT NULL OR a.choke_point_count IS NOT NULL "
+        "REMOVE a.blast_radius, a.choke_point_count"
+    )
+
+
 def write_attack_paths(session, routes: list[dict]) -> int:
     if not routes:
         return 0

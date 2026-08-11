@@ -1,6 +1,11 @@
 from unittest.mock import MagicMock
 
-from src.paths.writeback import path_id_for, write_asset_metrics, write_attack_paths
+from src.paths.writeback import (
+    clear_previous_results,
+    path_id_for,
+    write_asset_metrics,
+    write_attack_paths,
+)
 
 
 def test_path_id_for_is_deterministic_and_order_sensitive():
@@ -65,3 +70,14 @@ def test_write_asset_metrics_skips_run_when_both_mappings_empty():
     write_asset_metrics(session, {}, {})
 
     session.run.assert_not_called()
+
+
+def test_clear_previous_results_deletes_attack_paths_and_removes_asset_metrics():
+    session = MagicMock()
+
+    clear_previous_results(session)
+
+    assert session.run.call_count == 2
+    queries = [call.args[0] for call in session.run.call_args_list]
+    assert any("MATCH (p:AttackPath) DETACH DELETE p" in q for q in queries)
+    assert any("REMOVE a.blast_radius, a.choke_point_count" in q for q in queries)

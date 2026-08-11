@@ -1,3 +1,4 @@
+import random
 from unittest.mock import MagicMock
 
 from src.paths.extract import PATH_QUERY, dedupe_and_rank, extract_candidate_paths
@@ -77,3 +78,40 @@ def test_dedupe_and_rank_caps_to_top_n_by_score_descending():
 
 def test_dedupe_and_rank_empty_input_returns_empty_list():
     assert dedupe_and_rank([], top_n=50) == []
+
+
+def test_dedupe_and_rank_is_deterministic_on_score_ties():
+    # Same base_score/epss_score/target_criticality -> identical score for
+    # every candidate here, so ordering must come entirely from the
+    # tiebreak (hop_count ascending, then node_ids lexicographically),
+    # regardless of input order.
+    candidates = [
+        _candidate("CVE-A", 7.0, 0.5, "computer-0001", "group-0033",
+                   ["computer-0001", "computer-0018", "group-0033"], 2),
+        _candidate("CVE-B", 7.0, 0.5, "computer-0002", "group-0033",
+                   ["computer-0002", "group-0033"], 1),
+        _candidate("CVE-C", 7.0, 0.5, "computer-0003", "group-0033",
+                   ["computer-0003", "computer-0099", "group-0033"], 2),
+        _candidate("CVE-D", 7.0, 0.5, "computer-0004", "group-0033",
+                   ["computer-0004", "group-0033"], 1),
+    ]
+
+    routes_in_order = dedupe_and_rank(candidates, top_n=50)
+
+    shuffled = list(candidates)
+    random.Random(42).shuffle(shuffled)
+    routes_shuffled = dedupe_and_rank(shuffled, top_n=50)
+
+    node_ids_in_order = [r["node_ids"] for r in routes_in_order]
+    node_ids_shuffled = [r["node_ids"] for r in routes_shuffled]
+    assert node_ids_in_order == node_ids_shuffled
+
+    # All candidates score identically, so the 1-hop routes (CVE-B, CVE-D)
+    # must rank ahead of the 2-hop routes (CVE-A, CVE-C); within each hop
+    # count, node_ids break the tie lexicographically.
+    assert node_ids_in_order == [
+        ["computer-0002", "group-0033"],
+        ["computer-0004", "group-0033"],
+        ["computer-0001", "computer-0018", "group-0033"],
+        ["computer-0003", "computer-0099", "group-0033"],
+    ]

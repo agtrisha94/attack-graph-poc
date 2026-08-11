@@ -12,7 +12,7 @@
 
 - **No new dependencies.** Path-finding uses Neo4j's native `allShortestPaths` variable-length traversal, not a Python-side graph library. Choke points are a plain frequency count, not APOC betweenness centrality (the local `neo4j:5-community` image doesn't have APOC installed).
 - **Hop cap: 6.** Used identically in the path-extraction query and the blast-radius query (`*0..6`), verified directly against the live local Neo4j to accept a zero lower bound (covers an asset that is itself a Crown Jewel).
-- **Deduplicate by physical route before ranking.** Group candidate `(cve, start, target)` rows by `(start_id, target_id, node_ids)` and collapse each group to one record, keeping the highest-scoring CVE as `source_cve`. Verified against the live synthetic data: the raw query returns 3396 candidate rows but only 101 distinct routes (one asset alone carries 140 exploitable CVEs) — without this, the top-50 set would be dominated by repeats of a couple of routes instead of showing route diversity.
+- **Deduplicate by physical route before ranking.** Group candidate `(cve, start, target)` rows by `(start_id, target_id, node_ids)` and collapse each group to one record, keeping the highest-scoring CVE as `source_cve`. Verified against the live synthetic data: the raw query returns 3396 candidate rows but only 143 distinct routes — 101 distinct start/target pairs, since some pairs have multiple tied-length shortest routes (one asset alone carries 140 exploitable CVEs) — without this, the top-50 set would be dominated by repeats of a couple of routes instead of showing route diversity.
 - **Scoring:** `score = base_score * epss_score * CRITICALITY_WEIGHT[criticality_tier]`, where `CRITICALITY_WEIGHT = {"Crown Jewel": 4, "High": 3, "Medium": 2, "Low": 1}`.
 - **Top 50.** Rank deduplicated routes by score descending and cap write-back to the top 50 (`rank` 1..50, dense, no gaps).
 - **Idempotent writes.** Every write uses `MERGE`, never `CREATE` — `path_id` is a deterministic hash of a route's `node_ids` (not `cve_id`, since dedup already happened; not just `start_id`/`target_id`, since `allShortestPaths` can return multiple tied-length routes between the same pair).
@@ -731,7 +731,8 @@ the results back into the graph for the Reasoning Agent to consume.
   `node_ids`) before ranking, keeping the highest-scoring CVE as
   `source_cve` -- a single highly-vulnerable asset must not crowd out route
   diversity in the top-50 set (measured on the live data: 3396 candidate
-  rows collapse to 101 distinct routes).
+  rows collapse to 143 distinct routes -- 101 distinct start/target pairs,
+  since some pairs have multiple tied-length shortest routes).
 - Writes are idempotent (`MERGE` on `path_id`, a hash of the route's
   `node_ids`), consistent with Agent 3's import pattern.
 

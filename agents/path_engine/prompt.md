@@ -30,7 +30,8 @@ the results back into the graph for the Reasoning Agent to consume.
   `node_ids`) before ranking, keeping the highest-scoring CVE as
   `source_cve` -- a single highly-vulnerable asset must not crowd out route
   diversity in the top-50 set (measured on the live data: 3396 candidate
-  rows collapse to 101 distinct routes).
+  rows collapse to 143 distinct routes -- 101 distinct start/target pairs,
+  since some pairs have multiple tied-length shortest routes).
 - Writes are idempotent (`MERGE` on `path_id`, a hash of the route's
   `node_ids`), consistent with Agent 3's import pattern.
 

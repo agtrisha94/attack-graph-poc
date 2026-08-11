@@ -38,7 +38,10 @@ def dedupe_and_rank(candidates: list[dict], top_n: int = 50) -> list[dict]:
                 "node_ids": c["node_ids"],
             }
 
-    ranked = sorted(best_by_route.values(), key=lambda r: r["score"], reverse=True)[:top_n]
+    ranked = sorted(
+        best_by_route.values(),
+        key=lambda r: (-r["score"], r["hop_count"], tuple(r["node_ids"])),
+    )[:top_n]
     for i, route in enumerate(ranked, start=1):
         route["rank"] = i
     return ranked
