@@ -58,7 +58,7 @@ def build_microsoft_cve_master(kaggle_dir: pathlib.Path, kev_path: pathlib.Path,
     merged["description"] = merged["description_data"].apply(
         lambda v: (parse_list_field(v) or [""])[0]
     )
-    merged["cwe_id"] = merged["cwe_data"].apply(
+    merged["cwe_id_from_corpus"] = merged["cwe_data"].apply(
         lambda v: next((c for c in parse_list_field(v) if c.startswith("CWE-")), None)
     )
     cpe_vp = merged["cpe_data"].apply(
@@ -68,23 +68,41 @@ def build_microsoft_cve_master(kaggle_dir: pathlib.Path, kev_path: pathlib.Path,
     merged["cpe_product"] = cpe_vp.apply(lambda t: t[1])
 
     kev = pd.read_csv(kev_path).rename(columns={"cveID": "cve_id"})
-    kev_cols = ["cve_id", "vendorProject", "product", "dateAdded", "knownRansomwareCampaignUse"]
+    kev_cols = ["cve_id", "vendorProject", "product", "dateAdded", "knownRansomwareCampaignUse", "cwes"]
     merged = merged.merge(kev[kev_cols], on="cve_id", how="left")
 
     merged["kev_flag"] = merged["vendorProject"].notna()
     merged["vendor"] = merged["vendorProject"].fillna(merged["cpe_vendor"])
     merged["product"] = merged["product"].fillna(merged["cpe_product"])
 
-    scope_mask = merged.apply(
-        lambda r: r["kev_flag"] or is_microsoft_scope([r["vendor"], r["product"], r["description"]]),
-        axis=1,
-    )
-    merged = merged[scope_mask].copy()
-
+    # Merge EPSS before scope filter (per requirements)
     epss = load_epss_snapshot(epss_glob)
     merged = merged.merge(epss, on="cve_id", how="left", suffixes=("_old", ""))
     merged["epss_score"] = merged["epss_score"].fillna(merged["epss_score_old"])
     merged["epss_percentile"] = merged["epss_percentile"].fillna(merged["epss_perc"])
+
+    # CWE fallback: use KEV cwes if corpus cwe_data is empty
+    def extract_cwe_fallback(row):
+        if row["cwe_id_from_corpus"]:
+            return row["cwe_id_from_corpus"]
+        if pd.notna(row["cwes"]):
+            # cwes might be a list string or a single CWE code
+            parsed = parse_list_field(row["cwes"])
+            if parsed:
+                return next((c for c in parsed if c.startswith("CWE-")), None)
+            # If not a list string, try as a single code
+            if str(row["cwes"]).strip().startswith("CWE-"):
+                return str(row["cwes"]).strip()
+        return None
+
+    merged["cwe_id"] = merged.apply(extract_cwe_fallback, axis=1)
+
+    # Apply scope filter based only on vendor/product (not description)
+    scope_mask = merged.apply(
+        lambda r: r["kev_flag"] or is_microsoft_scope([r["vendor"], r["product"]]),
+        axis=1,
+    )
+    merged = merged[scope_mask].copy()
 
     merged = merged.rename(columns={
         "dateAdded": "kev_date_added",
