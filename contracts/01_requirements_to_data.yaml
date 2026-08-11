@@ -1,0 +1,23 @@
+contract: 01_requirements_to_data
+producer: requirements_architect
+consumer: data_engineer
+
+inputs: []  # root of the pipeline — no upstream contract
+
+outputs:
+  - path: schemas/data_schema.yaml
+    description: Field-level schema for microsoft_cve_master, technique_map, topology_nodes, topology_edges.
+  - path: requirements.md
+    description: Project overview, pipeline requirements, Microsoft-scope definition, acceptance criteria.
+
+consumer_must_validate:
+  - Every output CSV has all required columns listed in its schemas/data_schema.yaml schema.
+  - cve_id and epss_score are non-null in every microsoft_cve_master.csv row.
+  - epss_score and epss_percentile are within [0, 1].
+  - base_score is within [0, 10].
+  - kev_flag is boolean and kev_date_added/ransomware_used are null exactly when kev_flag is false.
+  - Microsoft-scope filter applied: 0 rows in microsoft_cve_master.csv fail the vendor_aliases match in data_schema.yaml.
+  - Row count > 0 for each of microsoft_cve_master.csv, technique_map.csv, nodes_*.csv, edges_*.csv.
+  - Every topology_edges row references node_ids that exist in topology_nodes.
+
+handoff_status: ready

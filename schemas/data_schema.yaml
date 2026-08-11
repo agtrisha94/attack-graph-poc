@@ -1,0 +1,195 @@
+yaml_version: 1
+description: >
+  Conceptual data model for the Attack Graph POC pipeline. Defines the CSV-level
+  field contracts the Data Engineer (Agent 2) must produce from the raw sources
+  in data/raw/. Neo4j-specific node/edge/constraint syntax is out of scope here
+  and is owned by the Graph Architect (Agent 3, contract 02).
+
+microsoft_scope_filter:
+  description: >
+    Rule applied by Agent 2 to restrict cve_master rows to Microsoft-ecosystem
+    products before any other processing. A row is in-scope if KEV vendorProject
+    or a CPE vendor token in cve_corpus.cpe_data matches one of these aliases
+    (case-insensitive substring match).
+  vendor_aliases:
+    - microsoft
+    - windows
+    - azure
+    - office
+    - exchange
+    - sql server
+    - .net
+    - edge
+    - sharepoint
+    - active directory
+
+schemas:
+  microsoft_cve_master:
+    description: >
+      One row per in-scope CVE. Produced by joining
+      data/raw/kaggle merged dataset/cve_cisa_epss_enriched_dataset.csv and
+      cve_corpus.csv on cve_id, enriching with data/raw/kev_catalog.csv (KEV
+      flag/date/ransomware use) and a fresh EPSS pull, then applying
+      microsoft_scope_filter.
+    output_file: data/processed/microsoft_cve_master.csv
+    sources:
+      - data/raw/kaggle merged dataset/cve_cisa_epss_enriched_dataset.csv
+      - data/raw/kaggle merged dataset/cve_corpus.csv
+      - data/raw/kev_catalog.csv
+      - data/raw/epss_scores-*.csv.gz (refresh at ingest time)
+    fields:
+      - name: cve_id
+        type: string
+        required: true
+        description: CVE identifier, e.g. CVE-2026-8037. Primary key.
+      - name: vendor
+        type: string
+        required: true
+        description: Vendor token that matched microsoft_scope_filter (from KEV vendorProject or parsed cpe_data).
+      - name: product
+        type: string
+        required: true
+        description: Affected product name (KEV product, or parsed from cpe_data when KEV entry absent).
+      - name: description
+        type: string
+        required: true
+        description: Vulnerability description (from cve_corpus.description_data).
+      - name: cwe_id
+        type: string
+        required: false
+        description: Primary CWE identifier (from cve_corpus.cwe_data or kev_catalog.cwes).
+      - name: base_severity
+        type: string
+        required: true
+        enum: [LOW, MEDIUM, HIGH, CRITICAL]
+        description: CVSS base severity (from cve_cisa_epss_enriched_dataset.base_severity).
+      - name: base_score
+        type: float
+        required: true
+        range: [0, 10]
+        description: CVSS base score (base_score).
+      - name: attack_vector
+        type: string
+        required: false
+        description: CVSS attack vector, e.g. NETWORK/ADJACENT_NETWORK/LOCAL/PHYSICAL (attack_vector).
+      - name: epss_score
+        type: float
+        required: true
+        range: [0, 1]
+        description: EPSS exploitation probability (epss_score, refreshed from epss_scores-*.csv.gz at ingest).
+      - name: epss_percentile
+        type: float
+        required: true
+        range: [0, 1]
+        description: EPSS percentile rank (epss_perc / percentile).
+      - name: kev_flag
+        type: boolean
+        required: true
+        description: True if cve_id appears in data/raw/kev_catalog.csv (cisa_kev / KEV join).
+      - name: kev_date_added
+        type: date
+        required: false
+        description: KEV dateAdded, null when kev_flag is false.
+      - name: ransomware_used
+        type: string
+        required: false
+        description: KEV knownRansomwareCampaignUse value (Known/Unknown), null when kev_flag is false.
+      - name: published_date
+        type: date
+        required: true
+        description: CVE publication date (published_date).
+
+  technique_map:
+    description: >
+      CWE -> MITRE ATT&CK Enterprise technique mapping, extracted from the STIX
+      bundle so downstream phases can tag each CVE with likely attacker
+      techniques via its cwe_id.
+    output_file: data/processed/technique_map.csv
+    sources:
+      - data/raw/mitre-cti/enterprise-attack/enterprise-attack.json
+    fields:
+      - name: technique_id
+        type: string
+        required: true
+        description: ATT&CK technique ID, e.g. T1190 (from attack-pattern external_references, source_name=mitre-attack).
+      - name: technique_name
+        type: string
+        required: true
+        description: Technique display name (attack-pattern.name).
+      - name: tactic
+        type: string
+        required: true
+        description: Kill-chain phase name(s) the technique belongs to (attack-pattern.kill_chain_phases[].phase_name).
+      - name: cwe_ids
+        type: list[string]
+        required: false
+        description: >
+          CWE identifiers associated with this technique, used to join against
+          microsoft_cve_master.cwe_id. Sourced from a maintained CWE<->technique
+          cross-reference (ATT&CK does not embed CWEs directly on all
+          attack-pattern objects); Agent 2 documents the exact reference list
+          used at ingest time.
+
+  topology_nodes:
+    description: >
+      Synthetic enterprise inventory, shaped after AzureHound's object model
+      (User/Group/Computer/Application/Device + relationships) since no live
+      AzureHound export exists in this repo. Populated using
+      data/raw/azure-enterprise-scale/docs/reference as the management-group /
+      subscription topology template, then each node is tagged with plausible
+      installed_software drawn from microsoft_cve_master.product.
+    output_file: data/synthetic/nodes_<type>.csv
+    sources:
+      - data/raw/azure-enterprise-scale/docs/reference (topology template)
+      - AzureHound object model (schema reference only, no live export present)
+    fields:
+      - name: node_id
+        type: string
+        required: true
+        description: Synthetic unique identifier for the node. Primary key.
+      - name: node_type
+        type: string
+        required: true
+        enum: [User, Group, Computer, Application, Device]
+        description: AzureHound-style object type.
+      - name: display_name
+        type: string
+        required: true
+        description: Human-readable synthetic name.
+      - name: criticality_tier
+        type: string
+        required: true
+        enum: ["Crown Jewel", High, Medium, Low]
+        description: Business criticality used later for blast-radius scoring.
+      - name: installed_software
+        type: list[string]
+        required: false
+        description: Product names (matching microsoft_cve_master.product) installed on this node, applicable to Computer/Device nodes.
+      - name: management_group
+        type: string
+        required: false
+        description: Azure management group / subscription the node belongs to, per the Enterprise-Scale reference topology.
+
+  topology_edges:
+    description: Relationships between topology_nodes entries.
+    output_file: data/synthetic/edges_<type>.csv
+    sources:
+      - AzureHound object model (schema reference only, no live export present)
+    fields:
+      - name: source_id
+        type: string
+        required: true
+        description: topology_nodes.node_id of the edge origin.
+      - name: target_id
+        type: string
+        required: true
+        description: topology_nodes.node_id of the edge destination.
+      - name: edge_type
+        type: string
+        required: true
+        enum: [RUNS, CONNECTS_TO, MEMBER_OF, HAS_SESSION, CONTROLS]
+        description: AzureHound-style relationship type.
+      - name: properties
+        type: map
+        required: false
+        description: Optional edge-specific key/value metadata (e.g. session freshness, permission level).
