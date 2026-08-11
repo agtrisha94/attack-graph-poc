@@ -1,81 +1,81 @@
 node_id,node_type,display_name,criticality_tier,installed_software,management_group
 group-0001,Group,Management-Admins,High,,Platform/Management
-computer-0002,Computer,Management-Host-computer-0002,High,crypto and defi widgets;immediacy .net cms,Platform/Management
-app-0003,Application,crypto and defi widgets,High,,Platform/Management
-app-0004,Application,immediacy .net cms,High,,Platform/Management
-computer-0005,Computer,Management-Host-computer-0005,High,word;edge,Platform/Management
-app-0006,Application,word,High,,Platform/Management
-app-0007,Application,edge,High,,Platform/Management
-computer-0008,Computer,Management-Host-computer-0008,High,malware protection engine;megalith,Platform/Management
-app-0009,Application,malware protection engine,High,,Platform/Management
-app-0010,Application,megalith,High,,Platform/Management
-computer-0011,Computer,Management-Host-computer-0011,High,register server;zoho virtual office,Platform/Management
-app-0012,Application,register server,High,,Platform/Management
-app-0013,Application,zoho virtual office,High,,Platform/Management
+computer-0002,Computer,Management-Host-computer-0002,High,activesync;windows xp,Platform/Management
+app-0003,Application,activesync,High,,Platform/Management
+app-0004,Application,windows xp,High,,Platform/Management
+computer-0005,Computer,Management-Host-computer-0005,High,ledger live;dynamics 365,Platform/Management
+app-0006,Application,ledger live,High,,Platform/Management
+app-0007,Application,dynamics 365,High,,Platform/Management
+computer-0008,Computer,Management-Host-computer-0008,High,windows-build-tools;office powerpoint,Platform/Management
+app-0009,Application,windows-build-tools,High,,Platform/Management
+app-0010,Application,office powerpoint,High,,Platform/Management
+computer-0011,Computer,Management-Host-computer-0011,High,minna de office;windows nt helper components,Platform/Management
+app-0012,Application,minna de office,High,,Platform/Management
+app-0013,Application,windows nt helper components,High,,Platform/Management
 user-0014,User,Management-User-user-0014,High,,Platform/Management
 user-0015,User,Management-User-user-0015,High,,Platform/Management
 user-0016,User,Management-User-user-0016,High,,Platform/Management
 group-0017,Group,Connectivity-Admins,High,,Platform/Connectivity
-computer-0018,Computer,Connectivity-Host-computer-0018,High,knowledgetree;windows xp media center,Platform/Connectivity
-app-0019,Application,knowledgetree,High,,Platform/Connectivity
-app-0020,Application,windows xp media center,High,,Platform/Connectivity
-computer-0021,Computer,Connectivity-Host-computer-0021,High,ip office customer call reporter;sicam gridedge essential,Platform/Connectivity
-app-0022,Application,ip office customer call reporter,High,,Platform/Connectivity
-app-0023,Application,sicam gridedge essential,High,,Platform/Connectivity
-computer-0024,Computer,Connectivity-Host-computer-0024,High,xbox gaming services;frontpage server extensions,Platform/Connectivity
-app-0025,Application,xbox gaming services,High,,Platform/Connectivity
-app-0026,Application,frontpage server extensions,High,,Platform/Connectivity
-computer-0027,Computer,Connectivity-Host-computer-0027,High,Outlook;windows 7,Platform/Connectivity
-app-0028,Application,Outlook,High,,Platform/Connectivity
-app-0029,Application,windows 7,High,,Platform/Connectivity
+computer-0018,Computer,Connectivity-Host-computer-0018,High,ledger;objecttoken,Platform/Connectivity
+app-0019,Application,ledger,High,,Platform/Connectivity
+app-0020,Application,objecttoken,High,,Platform/Connectivity
+computer-0021,Computer,Connectivity-Host-computer-0021,High,commerce server;drupal 7 driver for sql server and sql azure,Platform/Connectivity
+app-0022,Application,commerce server,High,,Platform/Connectivity
+app-0023,Application,drupal 7 driver for sql server and sql azure,High,,Platform/Connectivity
+computer-0024,Computer,Connectivity-Host-computer-0024,High,dataverse;office online server,Platform/Connectivity
+app-0025,Application,dataverse,High,,Platform/Connectivity
+app-0026,Application,office online server,High,,Platform/Connectivity
+computer-0027,Computer,Connectivity-Host-computer-0027,High,azure playfab;collabora online development edition,Platform/Connectivity
+app-0028,Application,azure playfab,High,,Platform/Connectivity
+app-0029,Application,collabora online development edition,High,,Platform/Connectivity
 user-0030,User,Connectivity-User-user-0030,High,,Platform/Connectivity
 user-0031,User,Connectivity-User-user-0031,High,,Platform/Connectivity
 user-0032,User,Connectivity-User-user-0032,High,,Platform/Connectivity
 group-0033,Group,Identity-Admins,Crown Jewel,,Platform/Identity
-computer-0034,Computer,Identity-Host-computer-0034,Crown Jewel,terminal server;project,Platform/Identity
-app-0035,Application,terminal server,Crown Jewel,,Platform/Identity
-app-0036,Application,project,Crown Jewel,,Platform/Identity
-computer-0037,Computer,Identity-Host-computer-0037,Crown Jewel,payment orchestrator service;azure functions,Platform/Identity
-app-0038,Application,payment orchestrator service,Crown Jewel,,Platform/Identity
-app-0039,Application,azure functions,Crown Jewel,,Platform/Identity
-computer-0040,Computer,Identity-Host-computer-0040,Crown Jewel,visual studio code;auto-exchanger,Platform/Identity
-app-0041,Application,visual studio code,Crown Jewel,,Platform/Identity
-app-0042,Application,auto-exchanger,Crown Jewel,,Platform/Identity
-computer-0043,Computer,Identity-Host-computer-0043,Crown Jewel,sendfile.net;one office e-notetaker,Platform/Identity
-app-0044,Application,sendfile.net,Crown Jewel,,Platform/Identity
-app-0045,Application,one office e-notetaker,Crown Jewel,,Platform/Identity
+computer-0034,Computer,Identity-Host-computer-0034,Crown Jewel,collabora online development edition;office 2010,Platform/Identity
+app-0035,Application,collabora online development edition,Crown Jewel,,Platform/Identity
+app-0036,Application,office 2010,Crown Jewel,,Platform/Identity
+computer-0037,Computer,Identity-Host-computer-0037,Crown Jewel,cs-cart japanese edition;open management infrastructure,Platform/Identity
+app-0038,Application,cs-cart japanese edition,Crown Jewel,,Platform/Identity
+app-0039,Application,open management infrastructure,Crown Jewel,,Platform/Identity
+computer-0040,Computer,Identity-Host-computer-0040,Crown Jewel,minna de office;dynamics gp,Platform/Identity
+app-0041,Application,minna de office,Crown Jewel,,Platform/Identity
+app-0042,Application,dynamics gp,Crown Jewel,,Platform/Identity
+computer-0043,Computer,Identity-Host-computer-0043,Crown Jewel,azure rtos netx duo;html help workshop,Platform/Identity
+app-0044,Application,azure rtos netx duo,Crown Jewel,,Platform/Identity
+app-0045,Application,html help workshop,Crown Jewel,,Platform/Identity
 user-0046,User,Identity-User-user-0046,Crown Jewel,,Platform/Identity
 user-0047,User,Identity-User-user-0047,Crown Jewel,,Platform/Identity
 user-0048,User,Identity-User-user-0048,Crown Jewel,,Platform/Identity
 group-0049,Group,Corp-Admins,Medium,,LandingZones/Corp
-computer-0050,Computer,Corp-Host-computer-0050,Medium,captcha asp.net;azure app service on azure stack,LandingZones/Corp
-app-0051,Application,captcha asp.net,Medium,,LandingZones/Corp
-app-0052,Application,azure app service on azure stack,Medium,,LandingZones/Corp
-computer-0053,Computer,Corp-Host-computer-0053,Medium,wireless display adapter firmware;azure compute gallery,LandingZones/Corp
-app-0054,Application,wireless display adapter firmware,Medium,,LandingZones/Corp
-app-0055,Application,azure compute gallery,Medium,,LandingZones/Corp
-computer-0056,Computer,Corp-Host-computer-0056,Medium,bbc knowledge magazine;java virtual machine,LandingZones/Corp
-app-0057,Application,bbc knowledge magazine,Medium,,LandingZones/Corp
-app-0058,Application,java virtual machine,Medium,,LandingZones/Corp
-computer-0059,Computer,Corp-Host-computer-0059,Medium,peoplesoft enterprise fin staffing front office brazil;kubernetes tools,LandingZones/Corp
-app-0060,Application,peoplesoft enterprise fin staffing front office brazil,Medium,,LandingZones/Corp
-app-0061,Application,kubernetes tools,Medium,,LandingZones/Corp
+computer-0050,Computer,Corp-Host-computer-0050,Medium,azure language;hedgehog-cms,LandingZones/Corp
+app-0051,Application,azure language,Medium,,LandingZones/Corp
+app-0052,Application,hedgehog-cms,Medium,,LandingZones/Corp
+computer-0053,Computer,Corp-Host-computer-0053,Medium,slide anything-responsive content\/html slider and carousel;windows live messenger,LandingZones/Corp
+app-0054,Application,slide anything-responsive content\/html slider and carousel,Medium,,LandingZones/Corp
+app-0055,Application,windows live messenger,Medium,,LandingZones/Corp
+computer-0056,Computer,Corp-Host-computer-0056,Medium,azure kubernetes service;malware protection platform,LandingZones/Corp
+app-0057,Application,azure kubernetes service,Medium,,LandingZones/Corp
+app-0058,Application,malware protection platform,Medium,,LandingZones/Corp
+computer-0059,Computer,Corp-Host-computer-0059,Medium,Kerberos Key Distribution Center (KDC);zbattle client,LandingZones/Corp
+app-0060,Application,Kerberos Key Distribution Center (KDC),Medium,,LandingZones/Corp
+app-0061,Application,zbattle client,Medium,,LandingZones/Corp
 user-0062,User,Corp-User-user-0062,Medium,,LandingZones/Corp
 user-0063,User,Corp-User-user-0063,Medium,,LandingZones/Corp
 user-0064,User,Corp-User-user-0064,Medium,,LandingZones/Corp
 group-0065,Group,Online-Admins,Medium,,LandingZones/Online
-computer-0066,Computer,Online-Host-computer-0066,Medium,power automate;fabedge,LandingZones/Online
-app-0067,Application,power automate,Medium,,LandingZones/Online
-app-0068,Application,fabedge,Medium,,LandingZones/Online
-computer-0069,Computer,Online-Host-computer-0069,Medium,windows azure pack rollup;azure rtos threadx,LandingZones/Online
-app-0070,Application,windows azure pack rollup,Medium,,LandingZones/Online
-app-0071,Application,azure rtos threadx,Medium,,LandingZones/Online
-computer-0072,Computer,Online-Host-computer-0072,Medium,office message system;azure custom locations resource provider,LandingZones/Online
-app-0073,Application,office message system,Medium,,LandingZones/Online
-app-0074,Application,azure custom locations resource provider,Medium,,LandingZones/Online
-computer-0075,Computer,Online-Host-computer-0075,Medium,trac;ftgateoffice,LandingZones/Online
-app-0076,Application,trac,Medium,,LandingZones/Online
-app-0077,Application,ftgateoffice,Medium,,LandingZones/Online
+computer-0066,Computer,Online-Host-computer-0066,Medium,objecttoken;publisher,LandingZones/Online
+app-0067,Application,objecttoken,Medium,,LandingZones/Online
+app-0068,Application,publisher,Medium,,LandingZones/Online
+computer-0069,Computer,Online-Host-computer-0069,Medium,azure rtos netx duo;collabora online development edition,LandingZones/Online
+app-0070,Application,azure rtos netx duo,Medium,,LandingZones/Online
+app-0071,Application,collabora online development edition,Medium,,LandingZones/Online
+computer-0072,Computer,Online-Host-computer-0072,Medium,azure compute resource provider;pythagorean oa office system,LandingZones/Online
+app-0073,Application,azure compute resource provider,Medium,,LandingZones/Online
+app-0074,Application,pythagorean oa office system,Medium,,LandingZones/Online
+computer-0075,Computer,Online-Host-computer-0075,Medium,Ancillary Function Driver (afd.sys);mono,LandingZones/Online
+app-0076,Application,Ancillary Function Driver (afd.sys),Medium,,LandingZones/Online
+app-0077,Application,mono,Medium,,LandingZones/Online
 user-0078,User,Online-User-user-0078,Medium,,LandingZones/Online
 user-0079,User,Online-User-user-0079,Medium,,LandingZones/Online
 user-0080,User,Online-User-user-0080,Medium,,LandingZones/Online

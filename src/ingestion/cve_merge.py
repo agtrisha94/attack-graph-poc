@@ -31,6 +31,20 @@ def cpe_vendor_product(cpe_uri: str) -> tuple[str, str]:
     return vendor, product
 
 
+def first_microsoft_cpe_vendor_product(cpe_uris: list[str]) -> tuple[str, str]:
+    """Scan all CPEs (schema rule: "a CPE vendor token" — any, not just index 0)
+    and return the first whose vendor matches a Microsoft alias. Falls back to
+    the first CPE's vendor/product if none match, preserving prior behavior
+    for out-of-scope rows."""
+    if not cpe_uris:
+        return "", ""
+    parsed = [cpe_vendor_product(uri) for uri in cpe_uris]
+    for vendor, product in parsed:
+        if is_microsoft_scope([vendor]):
+            return vendor, product
+    return parsed[0]
+
+
 def is_microsoft_scope(fields: list[str]) -> bool:
     haystack = " ".join(f.lower() for f in fields if f)
     return any(alias in haystack for alias in MICROSOFT_ALIASES)
@@ -62,7 +76,7 @@ def build_microsoft_cve_master(kaggle_dir: pathlib.Path, kev_path: pathlib.Path,
         lambda v: next((c for c in parse_list_field(v) if c.startswith("CWE-")), None)
     )
     cpe_vp = merged["cpe_data"].apply(
-        lambda v: cpe_vendor_product(parse_list_field(v)[0]) if parse_list_field(v) else ("", "")
+        lambda v: first_microsoft_cpe_vendor_product(parse_list_field(v))
     )
     merged["cpe_vendor"] = cpe_vp.apply(lambda t: t[0])
     merged["cpe_product"] = cpe_vp.apply(lambda t: t[1])
@@ -72,7 +86,7 @@ def build_microsoft_cve_master(kaggle_dir: pathlib.Path, kev_path: pathlib.Path,
     merged = merged.merge(kev[kev_cols], on="cve_id", how="left")
 
     merged["kev_flag"] = merged["vendorProject"].notna()
-    merged["vendor"] = merged["vendorProject"].fillna(merged["cpe_vendor"])
+    merged["vendor"] = merged["vendorProject"].fillna(merged["cpe_vendor"]).str.lower()
     merged["product"] = merged["product"].fillna(merged["cpe_product"])
 
     # Merge EPSS before scope filter (per requirements)
@@ -104,10 +118,13 @@ def build_microsoft_cve_master(kaggle_dir: pathlib.Path, kev_path: pathlib.Path,
 
     merged["cwe_id"] = merged.apply(extract_cwe_fallback, axis=1)
 
-    # Apply scope filter: vendor/product must match Microsoft alias (regardless of source: KEV or CPE)
-    # KEV membership alone is NOT sufficient — the resulting vendor must match the alias list
+    # Apply scope filter: vendor alone must match a Microsoft alias (regardless of source: KEV or CPE).
+    # KEV membership alone is NOT sufficient, and product must NOT be checked — schema's rule is
+    # "KEV vendorProject or a CPE vendor token matches", not product. Matching on product too
+    # previously let in out-of-scope vendors whose product name happened to contain an alias
+    # substring (e.g. Oracle "MySQL Server" matching "sql server").
     scope_mask = merged.apply(
-        lambda r: is_microsoft_scope([r["vendor"], r["product"]]),
+        lambda r: is_microsoft_scope([r["vendor"]]),
         axis=1,
     )
     merged = merged[scope_mask].copy()

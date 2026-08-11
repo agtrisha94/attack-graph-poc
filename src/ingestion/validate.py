@@ -70,6 +70,8 @@ def validate_outputs(processed_dir: pathlib.Path, synthetic_dir: pathlib.Path) -
         violations.append("microsoft_cve_master.csv has epss_percentile outside [0, 1]")
     if not cve_master["base_score"].between(0, 10).all():
         violations.append("microsoft_cve_master.csv has base_score outside [0, 10]")
+    if cve_master["kev_flag"].dtype != bool:
+        violations.append("microsoft_cve_master.csv kev_flag column is not boolean dtype")
     kev_rows = cve_master[cve_master["kev_flag"] == True]  # noqa: E712
     non_kev_rows = cve_master[cve_master["kev_flag"] == False]  # noqa: E712
     for col in ("kev_date_added", "ransomware_used"):
@@ -77,8 +79,11 @@ def validate_outputs(processed_dir: pathlib.Path, synthetic_dir: pathlib.Path) -
             violations.append(f"microsoft_cve_master.csv has kev_flag=True with null {col}")
         if non_kev_rows[col].notna().any():
             violations.append(f"microsoft_cve_master.csv has kev_flag=False with non-null {col}")
+    # Scope filter checks vendor only (schema rule: "KEV vendorProject or a CPE vendor token
+    # matches" — product is not part of the rule; matching on product too would only ever
+    # admit rows whose vendor already failed the check).
     out_of_scope = cve_master[~cve_master.apply(
-        lambda r: is_microsoft_scope([str(r["vendor"]), str(r["product"])]),
+        lambda r: is_microsoft_scope([str(r["vendor"])]),
         axis=1,
     )]
     if len(out_of_scope) > 0:
