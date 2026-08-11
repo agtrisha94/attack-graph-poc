@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .superpowers/
 .env
+docker-compose.override.yml
 
 # Raw external data sources (large clones/snapshots, refetchable — not checked in)
 data/raw
