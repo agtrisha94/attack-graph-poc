@@ -50,7 +50,7 @@ dashboard/
 Streamlit auto-discovers `pages/*.py` for multipage nav — no router to
 write. `db.py` is the only module every page imports. Each page's Cypher
 queries live as small, page-scoped functions in a co-located `_queries.py`
-(e.g. `dashboard/pages/_attack_paths_queries.py`) — testable by direct
+(e.g. `dashboard/_attack_paths_queries.py`) — testable by direct
 import, not defined inline in the Streamlit script itself. No shared
 query-builder abstraction across pages — there's no reuse across pages to
 justify one.

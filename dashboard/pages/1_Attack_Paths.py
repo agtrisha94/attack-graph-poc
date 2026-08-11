@@ -14,6 +14,10 @@ with get_driver().session() as session:
     paths = read_attack_paths_with_reasoning(session)
 
 df = pd.DataFrame(paths)
+if df.empty:
+    st.info("No attack paths found — run scripts/find_paths.py first.")
+    st.stop()
+
 display_columns = [
     "rank", "source_cve", "base_score", "epss_score",
     "source_asset_id", "target_asset_id", "target_criticality_tier", "hop_count",
