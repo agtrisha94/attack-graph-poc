@@ -78,7 +78,7 @@ def validate_outputs(processed_dir: pathlib.Path, synthetic_dir: pathlib.Path) -
         if non_kev_rows[col].notna().any():
             violations.append(f"microsoft_cve_master.csv has kev_flag=False with non-null {col}")
     out_of_scope = cve_master[~cve_master.apply(
-        lambda r: bool(r["kev_flag"]) or is_microsoft_scope([str(r["vendor"]), str(r["product"])]),
+        lambda r: is_microsoft_scope([str(r["vendor"]), str(r["product"])]),
         axis=1,
     )]
     if len(out_of_scope) > 0:
