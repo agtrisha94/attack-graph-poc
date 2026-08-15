@@ -17,11 +17,14 @@ hand off a queryable result to Agent 5 (Reasoning Agent) via contract 04.
   in `schemas/data_schema.yaml`), identity-only (User/HAS_SESSION) path
   analysis, and any change to the Agent 3 graph model beyond adding new
   properties/node types additively.
-- **Scale:** the synthetic topology is small — 80 `:Asset` nodes, 80 topology
-  edges, 16 Crown Jewel targets (checked directly against
-  `data/synthetic/nodes_topology.csv`). This rules out combinatorial blowup as
-  a real concern and justifies the simplest correct algorithm over a more
-  elaborate one.
+- **Scale:** the synthetic topology is small — 380 `:Asset` nodes, 359
+  topology edges, 76 Crown Jewel targets (checked directly against
+  `data/synthetic/nodes_topology.csv`, after `COMPUTERS_PER_MG`/
+  `USERS_PER_MG` were raised from 4/3 to 20/15). This still rules out
+  combinatorial blowup as a real concern and justifies the simplest correct
+  algorithm over a more elaborate one — re-confirm against a measured
+  `find_paths.py` runtime once Path Engine (stage 4) is rerun against this
+  scale.
 
 ## Architecture
 

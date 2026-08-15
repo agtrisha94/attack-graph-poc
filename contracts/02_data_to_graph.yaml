@@ -18,9 +18,9 @@ inputs:
       such CAPEC cross-reference and are left empty rather than fabricated,
       per requirements.md NFR2. See src/ingestion/technique_map.py.
   - path: data/synthetic/nodes_topology.csv
-    description: 80 synthetic AzureHound-shaped nodes (User/Group/Computer/Application/Device).
+    description: 380 synthetic AzureHound-shaped nodes (User/Group/Computer/Application/Device).
   - path: data/synthetic/edges_topology.csv
-    description: 79 synthetic relationships (RUNS/CONNECTS_TO/MEMBER_OF/HAS_SESSION/CONTROLS).
+    description: 359 synthetic relationships (RUNS/CONNECTS_TO/MEMBER_OF/HAS_SESSION/CONTROLS).
 
 outputs:
   - path: (Neo4j graph, not a file — see contract 03 for connection details)

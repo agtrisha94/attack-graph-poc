@@ -23,8 +23,8 @@ CRITICALITY_BY_MG = {
     "LandingZones/Online": "Medium",
 }
 
-COMPUTERS_PER_MG = 4
-USERS_PER_MG = 3
+COMPUTERS_PER_MG = 20
+USERS_PER_MG = 15
 
 CVE_MASTER_PATH = pathlib.Path("data/processed/microsoft_cve_master.csv")
 NODES_OUT = pathlib.Path("data/synthetic/nodes_topology.csv")

@@ -1,4 +1,9 @@
-from src.generator.topology import generate_topology, MANAGEMENT_GROUPS
+from src.generator.topology import (
+    COMPUTERS_PER_MG,
+    MANAGEMENT_GROUPS,
+    USERS_PER_MG,
+    generate_topology,
+)
 
 VALID_NODE_TYPES = {"User", "Group", "Computer", "Application", "Device"}
 VALID_EDGE_TYPES = {"RUNS", "CONNECTS_TO", "MEMBER_OF", "HAS_SESSION", "CONTROLS"}
@@ -26,3 +31,14 @@ def test_generate_topology_produces_valid_nodes_and_edges():
     node_ids = set(nodes["node_id"])
     assert set(edges["source_id"]).issubset(node_ids)
     assert set(edges["target_id"]).issubset(node_ids)
+
+
+def test_generate_topology_node_count_matches_per_mg_formula():
+    products = ["Exchange Server", "SQL Server"]
+    apps_per_computer = min(2, len(products))
+    nodes, _ = generate_topology(products, seed=1)
+
+    expected = len(MANAGEMENT_GROUPS) * (
+        1 + COMPUTERS_PER_MG + COMPUTERS_PER_MG * apps_per_computer + USERS_PER_MG
+    )
+    assert len(nodes) == expected
