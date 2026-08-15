@@ -3,4 +3,4 @@ PyYAML==6.0.3
 pytest==9.1.1
 neo4j==5.28.4
 streamlit==1.61.1
-pyvis==0.3.2
+streamlit-agraph==0.0.45
