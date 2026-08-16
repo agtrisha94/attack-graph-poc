@@ -31,7 +31,7 @@ outputs:
 
 consumer_must_validate:
   - "Every (:AttackPath).node_ids entry resolves to an existing (:Asset {node_id})."
-  - "(:AttackPath).score is non-null and reproducible as base_score * epss_score * criticality_weight (Crown Jewel=4, High=3, Medium=2, Low=1), reading base_score/epss_score from the (:CVE {cve_id: source_cve}) and criticality_tier from the (:Asset {node_id: target_asset_id})."
+  - "(:AttackPath).score is non-null and reproducible as (base_score * epss_score * criticality_weight * kev_multiplier * exposure_multiplier * attack_vector_weight) / (hop_count + 1) -- see src/paths/score.py. criticality_weight (Crown Jewel=4, High=3, Medium=2, Low=1) reads criticality_tier from the (:Asset {node_id: target_asset_id}); base_score/epss_score/kev_flag/attack_vector read from the (:CVE {cve_id: source_cve}) (kev_multiplier is 2.0 if kev_flag else 1.0; attack_vector_weight is NETWORK=1.5, ADJACENT_NETWORK=1.25, LOCAL=1.0, PHYSICAL=0.75, default 1.0); exposure_multiplier is 1.5 if internet_facing else 1.0, read from the (:Asset {node_id: source_asset_id}) -- the exploited entry point, not the target."
   - "(:AttackPath).rank is a dense 1..N ordering by score descending within the top-50 set."
   - "(:Asset).blast_radius and (:Asset).choke_point_count, where present, are non-negative integers."
 
