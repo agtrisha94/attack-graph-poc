@@ -7,9 +7,9 @@ step. Assumes Docker is installed.
 
 ```bash
 pip install -r requirements.txt
-docker compose up -d          # starts Neo4j on bolt://localhost:7687
 cp .env.example .env          # then fill in a real NEO4J_PASSWORD (8+ chars)
 set -a && source .env && set +a
+docker compose up -d          # starts Neo4j on bolt://localhost:7687
 ```
 
 ## 2. Build and import the graph (Agents 2-3)
@@ -58,7 +58,8 @@ python3 -m pytest tests/acceptance/test_contracts.py -v
 ```
 
 Every contract's `consumer_must_validate` checklist is checked against the
-live data you just built. All 6 should pass.
+live data you just built. All 6 contracts, verified across 5 test functions,
+should pass.
 
 ## 7. Explore visually
 
@@ -66,6 +67,6 @@ live data you just built. All 6 should pass.
 streamlit run dashboard/app.py
 ```
 
-Opens the dashboard: Graph Explorer (the attack-relevant subgraph), Overview,
-Attack Paths, and Risk Analysis pages -- browse the same top-50 paths you
-just verified.
+Opens the dashboard: Graph Explorer (the attack-relevant subgraph, default
+landing page), Attack Paths, Risk Analysis, and Data Sources pages -- browse
+the same top-50 paths you just verified.
