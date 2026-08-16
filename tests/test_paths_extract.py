@@ -1,23 +1,27 @@
 import random
 from unittest.mock import MagicMock
 
-from src.paths.extract import PATH_QUERY, dedupe_and_rank, extract_candidate_paths
+from src.paths.extract import HOP_CAP, PATH_QUERY, dedupe_and_rank, extract_candidate_paths
 from src.paths.score import score_path
 
 
-def _candidate(cve_id, base_score, epss_score, start_id, target_id, node_ids, hop_count):
+def _candidate(cve_id, base_score, epss_score, start_id, target_id, node_ids, hop_count,
+                kev_flag=False, start_internet_facing=False, attack_vector=None):
     return {
         "cve_id": cve_id, "base_score": base_score, "epss_score": epss_score,
         "start_id": start_id, "target_id": target_id, "target_criticality": "Crown Jewel",
         "node_ids": node_ids, "hop_count": hop_count,
+        "kev_flag": kev_flag, "start_internet_facing": start_internet_facing,
+        "attack_vector": attack_vector,
     }
 
 
 def test_path_query_uses_hop_cap_edge_types_and_crown_jewel_target():
     assert "allShortestPaths" in PATH_QUERY
     assert "AFFECTS" in PATH_QUERY
-    assert "*0..6" in PATH_QUERY
-    assert "RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS" in PATH_QUERY
+    assert f"*0..{HOP_CAP}" in PATH_QUERY
+    assert "RUNS|CONNECTS_TO|HAS_SESSION|CONTROLS" in PATH_QUERY
+    assert "MEMBER_OF" not in PATH_QUERY
     assert "Crown Jewel" in PATH_QUERY
 
 
@@ -45,7 +49,10 @@ def test_dedupe_and_rank_keeps_max_scoring_cve_per_physical_route():
 
     assert len(routes) == 1
     assert routes[0]["source_cve"] == "CVE-HIGH"
-    assert routes[0]["score"] == score_path(9.8, 0.9, "Crown Jewel")
+    assert routes[0]["score"] == score_path(
+        9.8, 0.9, "Crown Jewel",
+        kev_flag=False, hop_count=2, internet_facing=False, attack_vector=None,
+    )
     assert routes[0]["rank"] == 1
     assert routes[0]["node_ids"] == ["computer-0001", "computer-0018", "group-0033"]
 
@@ -81,19 +88,19 @@ def test_dedupe_and_rank_empty_input_returns_empty_list():
 
 
 def test_dedupe_and_rank_is_deterministic_on_score_ties():
-    # Same base_score/epss_score/target_criticality -> identical score for
-    # every candidate here, so ordering must come entirely from the
-    # tiebreak (hop_count ascending, then node_ids lexicographically),
-    # regardless of input order.
+    # Same base_score/epss_score/target_criticality/hop_count (and no
+    # kev/exposure/attack-vector multipliers) -> identical score for every
+    # candidate here, so ordering must come entirely from the node_ids
+    # tiebreak, regardless of input order.
     candidates = [
         _candidate("CVE-A", 7.0, 0.5, "computer-0001", "group-0033",
                    ["computer-0001", "computer-0018", "group-0033"], 2),
         _candidate("CVE-B", 7.0, 0.5, "computer-0002", "group-0033",
-                   ["computer-0002", "group-0033"], 1),
+                   ["computer-0002", "computer-0019", "group-0033"], 2),
         _candidate("CVE-C", 7.0, 0.5, "computer-0003", "group-0033",
                    ["computer-0003", "computer-0099", "group-0033"], 2),
         _candidate("CVE-D", 7.0, 0.5, "computer-0004", "group-0033",
-                   ["computer-0004", "group-0033"], 1),
+                   ["computer-0004", "computer-0020", "group-0033"], 2),
     ]
 
     routes_in_order = dedupe_and_rank(candidates, top_n=50)
@@ -106,12 +113,11 @@ def test_dedupe_and_rank_is_deterministic_on_score_ties():
     node_ids_shuffled = [r["node_ids"] for r in routes_shuffled]
     assert node_ids_in_order == node_ids_shuffled
 
-    # All candidates score identically, so the 1-hop routes (CVE-B, CVE-D)
-    # must rank ahead of the 2-hop routes (CVE-A, CVE-C); within each hop
-    # count, node_ids break the tie lexicographically.
+    # All candidates score identically, so ordering is purely lexicographic
+    # on node_ids.
     assert node_ids_in_order == [
-        ["computer-0002", "group-0033"],
-        ["computer-0004", "group-0033"],
         ["computer-0001", "computer-0018", "group-0033"],
+        ["computer-0002", "computer-0019", "group-0033"],
         ["computer-0003", "computer-0099", "group-0033"],
+        ["computer-0004", "computer-0020", "group-0033"],
     ]

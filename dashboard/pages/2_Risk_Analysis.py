@@ -35,7 +35,7 @@ choke_df = pd.DataFrame(choke_points)
 if choke_df.empty:
     st.info("No choke-point data yet — run scripts/find_paths.py first.")
 else:
-    st.bar_chart(choke_df.set_index("display_name")["choke_point_count"])
+    st.bar_chart(choke_df, x="display_name", y="choke_point_count", sort="-choke_point_count")
     selected_choke_asset = st.selectbox(
         "Show attack paths through", options=choke_df["asset_id"],
         format_func=lambda aid: choke_df.set_index("asset_id").loc[aid, "display_name"],
@@ -59,7 +59,7 @@ blast_df = pd.DataFrame(blast_radii)
 if blast_df.empty:
     st.info("No CVE-exploitable assets found.")
 else:
-    st.bar_chart(blast_df.set_index("display_name")["blast_radius"])
+    st.bar_chart(blast_df, x="display_name", y="blast_radius", sort="-blast_radius")
     selected_blast_asset = st.selectbox(
         "Show reachable assets from", options=blast_df["asset_id"],
         format_func=lambda aid: blast_df.set_index("asset_id").loc[aid, "display_name"],

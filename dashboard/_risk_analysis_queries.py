@@ -5,19 +5,21 @@ live from CVE/AFFECTS/topology data, independent of stage 4) -- see
 docs/superpowers/plans/since-assets-are-synthetic-lexical-gizmo.md, Part 2,
 Page 3."""
 
-# Mirrors src/paths/analysis.py's BLAST_RADIUS_QUERY -- duplicated rather
-# than imported for the same reason as _attack_paths_queries.py's
-# SOURCE_TIER_WEIGHT_DEFAULTS: dashboard pages run under Streamlit's own
-# sys.path (only dashboard/ is added, not the repo root), so `from src...`
-# doesn't resolve there, and every other dashboard query module is
-# self-contained the same way.
+# Reads the blast_radius already computed and written onto each :Asset by
+# scripts/find_paths.py (src/paths/writeback.py::write_asset_metrics) rather
+# than re-deriving it live -- same pattern as CHOKE_POINT_QUERY below. A
+# prior version duplicated the traversal Cypher instead (like
+# REACHABLE_ASSETS_QUERY/REACHABLE_EDGES_QUERY still do below, since those
+# need per-node hop distances a stored scalar can't provide), but that copy
+# drifted from src/paths/analysis.py's BLAST_RADIUS_QUERY (stale MEMBER_OF
+# edge, stale *0..6 hop cap) and silently showed wrong numbers on this page
+# even after the pipeline's own numbers were fixed. Reading the stored
+# property removes that drift risk entirely for this one.
 BLAST_RADIUS_QUERY = """
-MATCH (cve:CVE)-[:AFFECTS]->(start:Asset)
-WITH DISTINCT start
-MATCH (start)-[:RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS*0..6]-(reachable:Asset)
-WHERE reachable <> start
-RETURN start.node_id AS asset_id, start.display_name AS display_name,
-       count(DISTINCT reachable) AS blast_radius
+MATCH (a:Asset)
+WHERE a.blast_radius IS NOT NULL
+RETURN a.node_id AS asset_id, a.display_name AS display_name,
+       a.blast_radius AS blast_radius
 ORDER BY blast_radius DESC
 """.strip()
 
@@ -47,7 +49,7 @@ ORDER BY p.rank
 # blast-radius layout in the Risk Analysis page (nearer rings = fewer hops).
 REACHABLE_ASSETS_QUERY = """
 MATCH (start:Asset {node_id: $asset_id})
-MATCH p = shortestPath((start)-[:RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS*0..6]-(reachable:Asset))
+MATCH p = shortestPath((start)-[:RUNS|CONNECTS_TO|HAS_SESSION|CONTROLS*0..5]-(reachable:Asset))
 WHERE reachable <> start
 RETURN reachable.node_id AS node_id, reachable.display_name AS display_name,
        reachable.node_type AS node_type, reachable.criticality_tier AS criticality_tier,
@@ -60,11 +62,11 @@ RETURN reachable.node_id AS node_id, reachable.display_name AS display_name,
 # rendered mini-graph.
 REACHABLE_EDGES_QUERY = """
 MATCH (start:Asset {node_id: $asset_id})
-MATCH (start)-[:RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS*0..6]-(reachable:Asset)
+MATCH (start)-[:RUNS|CONNECTS_TO|HAS_SESSION|CONTROLS*0..5]-(reachable:Asset)
 WHERE reachable <> start
 WITH start, collect(DISTINCT reachable.node_id) AS reachable_ids
 WITH reachable_ids + [start.node_id] AS subgraph_ids
-MATCH (s:Asset)-[r:RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS]-(t:Asset)
+MATCH (s:Asset)-[r:RUNS|CONNECTS_TO|HAS_SESSION|CONTROLS]-(t:Asset)
 WHERE s.node_id IN subgraph_ids AND t.node_id IN subgraph_ids AND s.node_id < t.node_id
 RETURN s.node_id AS source_id, t.node_id AS target_id, type(r) AS rel_type
 """.strip()

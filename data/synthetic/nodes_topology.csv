@@ -1,381 +1,381 @@
-node_id,node_type,display_name,criticality_tier,installed_software,management_group
-group-0001,Group,Management-Admins,High,,Platform/Management
-computer-0002,Computer,Management-Host-computer-0002,High,activesync;windows xp,Platform/Management
-app-0003,Application,activesync,High,,Platform/Management
-app-0004,Application,windows xp,High,,Platform/Management
-computer-0005,Computer,Management-Host-computer-0005,High,ledger live;dynamics 365,Platform/Management
-app-0006,Application,ledger live,High,,Platform/Management
-app-0007,Application,dynamics 365,High,,Platform/Management
-computer-0008,Computer,Management-Host-computer-0008,High,windows-build-tools;office powerpoint,Platform/Management
-app-0009,Application,windows-build-tools,High,,Platform/Management
-app-0010,Application,office powerpoint,High,,Platform/Management
-computer-0011,Computer,Management-Host-computer-0011,High,minna de office;windows nt helper components,Platform/Management
-app-0012,Application,minna de office,High,,Platform/Management
-app-0013,Application,windows nt helper components,High,,Platform/Management
-computer-0014,Computer,Management-Host-computer-0014,High,pc manager;content management server,Platform/Management
-app-0015,Application,pc manager,High,,Platform/Management
-app-0016,Application,content management server,High,,Platform/Management
-computer-0017,Computer,Management-Host-computer-0017,High,.net framework;step-by-step interactive training,Platform/Management
-app-0018,Application,.net framework,High,,Platform/Management
-app-0019,Application,step-by-step interactive training,High,,Platform/Management
-computer-0020,Computer,Management-Host-computer-0020,High,ledger;objecttoken,Platform/Management
-app-0021,Application,ledger,High,,Platform/Management
-app-0022,Application,objecttoken,High,,Platform/Management
-computer-0023,Computer,Management-Host-computer-0023,High,commerce server;drupal 7 driver for sql server and sql azure,Platform/Management
-app-0024,Application,commerce server,High,,Platform/Management
-app-0025,Application,drupal 7 driver for sql server and sql azure,High,,Platform/Management
-computer-0026,Computer,Management-Host-computer-0026,High,dataverse;office online server,Platform/Management
-app-0027,Application,dataverse,High,,Platform/Management
-app-0028,Application,office online server,High,,Platform/Management
-computer-0029,Computer,Management-Host-computer-0029,High,azure playfab;collabora online development edition,Platform/Management
-app-0030,Application,azure playfab,High,,Platform/Management
-app-0031,Application,collabora online development edition,High,,Platform/Management
-computer-0032,Computer,Management-Host-computer-0032,High,netmeeting;Forefront Threat Management Gateway (TMG),Platform/Management
-app-0033,Application,netmeeting,High,,Platform/Management
-app-0034,Application,Forefront Threat Management Gateway (TMG),High,,Platform/Management
-computer-0035,Computer,Management-Host-computer-0035,High,airlift microsoft com;azure arc-enabled kubernetes,Platform/Management
-app-0036,Application,airlift microsoft com,High,,Platform/Management
-app-0037,Application,azure arc-enabled kubernetes,High,,Platform/Management
-computer-0038,Computer,Management-Host-computer-0038,High,collabora online development edition;office 2010,Platform/Management
-app-0039,Application,collabora online development edition,High,,Platform/Management
-app-0040,Application,office 2010,High,,Platform/Management
-computer-0041,Computer,Management-Host-computer-0041,High,cs-cart japanese edition;open management infrastructure,Platform/Management
-app-0042,Application,cs-cart japanese edition,High,,Platform/Management
-app-0043,Application,open management infrastructure,High,,Platform/Management
-computer-0044,Computer,Management-Host-computer-0044,High,minna de office;dynamics gp,Platform/Management
-app-0045,Application,minna de office,High,,Platform/Management
-app-0046,Application,dynamics gp,High,,Platform/Management
-computer-0047,Computer,Management-Host-computer-0047,High,azure rtos netx duo;html help workshop,Platform/Management
-app-0048,Application,azure rtos netx duo,High,,Platform/Management
-app-0049,Application,html help workshop,High,,Platform/Management
-computer-0050,Computer,Management-Host-computer-0050,High,odbc;azure rtos guix studio,Platform/Management
-app-0051,Application,odbc,High,,Platform/Management
-app-0052,Application,azure rtos guix studio,High,,Platform/Management
-computer-0053,Computer,Management-Host-computer-0053,High,surface hub firmware;snowblind web server,Platform/Management
-app-0054,Application,surface hub firmware,High,,Platform/Management
-app-0055,Application,snowblind web server,High,,Platform/Management
-computer-0056,Computer,Management-Host-computer-0056,High,azure language;hedgehog-cms,Platform/Management
-app-0057,Application,azure language,High,,Platform/Management
-app-0058,Application,hedgehog-cms,High,,Platform/Management
-computer-0059,Computer,Management-Host-computer-0059,High,slide anything-responsive content\/html slider and carousel;windows live messenger,Platform/Management
-app-0060,Application,slide anything-responsive content\/html slider and carousel,High,,Platform/Management
-app-0061,Application,windows live messenger,High,,Platform/Management
-user-0062,User,Management-User-user-0062,High,,Platform/Management
-user-0063,User,Management-User-user-0063,High,,Platform/Management
-user-0064,User,Management-User-user-0064,High,,Platform/Management
-user-0065,User,Management-User-user-0065,High,,Platform/Management
-user-0066,User,Management-User-user-0066,High,,Platform/Management
-user-0067,User,Management-User-user-0067,High,,Platform/Management
-user-0068,User,Management-User-user-0068,High,,Platform/Management
-user-0069,User,Management-User-user-0069,High,,Platform/Management
-user-0070,User,Management-User-user-0070,High,,Platform/Management
-user-0071,User,Management-User-user-0071,High,,Platform/Management
-user-0072,User,Management-User-user-0072,High,,Platform/Management
-user-0073,User,Management-User-user-0073,High,,Platform/Management
-user-0074,User,Management-User-user-0074,High,,Platform/Management
-user-0075,User,Management-User-user-0075,High,,Platform/Management
-user-0076,User,Management-User-user-0076,High,,Platform/Management
-group-0077,Group,Connectivity-Admins,High,,Platform/Connectivity
-computer-0078,Computer,Connectivity-Host-computer-0078,High,pythagorean oa office system;Ancillary Function Driver (afd.sys),Platform/Connectivity
-app-0079,Application,pythagorean oa office system,High,,Platform/Connectivity
-app-0080,Application,Ancillary Function Driver (afd.sys),High,,Platform/Connectivity
-computer-0081,Computer,Connectivity-Host-computer-0081,High,mono;azure data box gateway,Platform/Connectivity
-app-0082,Application,mono,High,,Platform/Connectivity
-app-0083,Application,azure data box gateway,High,,Platform/Connectivity
-computer-0084,Computer,Connectivity-Host-computer-0084,High,sharepoint enterprise server;service fabric,Platform/Connectivity
-app-0085,Application,sharepoint enterprise server,High,,Platform/Connectivity
-app-0086,Application,service fabric,High,,Platform/Connectivity
-computer-0087,Computer,Connectivity-Host-computer-0087,High,phpbannerexchange;visual studio team foundation server,Platform/Connectivity
-app-0088,Application,phpbannerexchange,High,,Platform/Connectivity
-app-0089,Application,visual studio team foundation server,High,,Platform/Connectivity
-computer-0090,Computer,Connectivity-Host-computer-0090,High,dynamics 365;host integration server,Platform/Connectivity
-app-0091,Application,dynamics 365,High,,Platform/Connectivity
-app-0092,Application,host integration server,High,,Platform/Connectivity
-computer-0093,Computer,Connectivity-Host-computer-0093,High,azure front door;azure pipelines agent,Platform/Connectivity
-app-0094,Application,azure front door,High,,Platform/Connectivity
-app-0095,Application,azure pipelines agent,High,,Platform/Connectivity
-computer-0096,Computer,Connectivity-Host-computer-0096,High,autoupdate;xamarin.ios,Platform/Connectivity
-app-0097,Application,autoupdate,High,,Platform/Connectivity
-app-0098,Application,xamarin.ios,High,,Platform/Connectivity
-computer-0099,Computer,Connectivity-Host-computer-0099,High,azure data explorer;office infopath,Platform/Connectivity
-app-0100,Application,azure data explorer,High,,Platform/Connectivity
-app-0101,Application,office infopath,High,,Platform/Connectivity
-computer-0102,Computer,Connectivity-Host-computer-0102,High,open monograph press;content management server,Platform/Connectivity
-app-0103,Application,open monograph press,High,,Platform/Connectivity
-app-0104,Application,content management server,High,,Platform/Connectivity
-computer-0105,Computer,Connectivity-Host-computer-0105,High,app service configurable;bing search,Platform/Connectivity
-app-0106,Application,app service configurable,High,,Platform/Connectivity
-app-0107,Application,bing search,High,,Platform/Connectivity
-computer-0108,Computer,Connectivity-Host-computer-0108,High,windows server 2019;outlook express book control,Platform/Connectivity
-app-0109,Application,windows server 2019,High,,Platform/Connectivity
-app-0110,Application,outlook express book control,High,,Platform/Connectivity
-computer-0111,Computer,Connectivity-Host-computer-0111,High,Graphics Device Interface (GDI);azure rtos,Platform/Connectivity
-app-0112,Application,Graphics Device Interface (GDI),High,,Platform/Connectivity
-app-0113,Application,azure rtos,High,,Platform/Connectivity
-computer-0114,Computer,Connectivity-Host-computer-0114,High,SMBv1 server;azure app service for linux,Platform/Connectivity
-app-0115,Application,SMBv1 server,High,,Platform/Connectivity
-app-0116,Application,azure app service for linux,High,,Platform/Connectivity
-computer-0117,Computer,Connectivity-Host-computer-0117,High,azure c shared utility;solaredge monitoring platform,Platform/Connectivity
-app-0118,Application,azure c shared utility,High,,Platform/Connectivity
-app-0119,Application,solaredge monitoring platform,High,,Platform/Connectivity
-computer-0120,Computer,Connectivity-Host-computer-0120,High,ezarticles;windows malicious software removal tool,Platform/Connectivity
-app-0121,Application,ezarticles,High,,Platform/Connectivity
-app-0122,Application,windows malicious software removal tool,High,,Platform/Connectivity
-computer-0123,Computer,Connectivity-Host-computer-0123,High,office powerpoint;MSHTML,Platform/Connectivity
-app-0124,Application,office powerpoint,High,,Platform/Connectivity
-app-0125,Application,MSHTML,High,,Platform/Connectivity
-computer-0126,Computer,Connectivity-Host-computer-0126,High,Update Notification Manager;account,Platform/Connectivity
-app-0127,Application,Update Notification Manager,High,,Platform/Connectivity
-app-0128,Application,account,High,,Platform/Connectivity
-computer-0129,Computer,Connectivity-Host-computer-0129,High,SmartScreen Prompt;typed-rest-client,Platform/Connectivity
-app-0130,Application,SmartScreen Prompt,High,,Platform/Connectivity
-app-0131,Application,typed-rest-client,High,,Platform/Connectivity
-computer-0132,Computer,Connectivity-Host-computer-0132,High,xamarin.ios;forefront threat management gateway,Platform/Connectivity
-app-0133,Application,xamarin.ios,High,,Platform/Connectivity
-app-0134,Application,forefront threat management gateway,High,,Platform/Connectivity
-computer-0135,Computer,Connectivity-Host-computer-0135,High,azure spring cloud;webapp,Platform/Connectivity
-app-0136,Application,azure spring cloud,High,,Platform/Connectivity
-app-0137,Application,webapp,High,,Platform/Connectivity
-user-0138,User,Connectivity-User-user-0138,High,,Platform/Connectivity
-user-0139,User,Connectivity-User-user-0139,High,,Platform/Connectivity
-user-0140,User,Connectivity-User-user-0140,High,,Platform/Connectivity
-user-0141,User,Connectivity-User-user-0141,High,,Platform/Connectivity
-user-0142,User,Connectivity-User-user-0142,High,,Platform/Connectivity
-user-0143,User,Connectivity-User-user-0143,High,,Platform/Connectivity
-user-0144,User,Connectivity-User-user-0144,High,,Platform/Connectivity
-user-0145,User,Connectivity-User-user-0145,High,,Platform/Connectivity
-user-0146,User,Connectivity-User-user-0146,High,,Platform/Connectivity
-user-0147,User,Connectivity-User-user-0147,High,,Platform/Connectivity
-user-0148,User,Connectivity-User-user-0148,High,,Platform/Connectivity
-user-0149,User,Connectivity-User-user-0149,High,,Platform/Connectivity
-user-0150,User,Connectivity-User-user-0150,High,,Platform/Connectivity
-user-0151,User,Connectivity-User-user-0151,High,,Platform/Connectivity
-user-0152,User,Connectivity-User-user-0152,High,,Platform/Connectivity
-group-0153,Group,Identity-Admins,Crown Jewel,,Platform/Identity
-computer-0154,Computer,Identity-Host-computer-0154,Crown Jewel,service fabric;azure arc-enabled kubernetes,Platform/Identity
-app-0155,Application,service fabric,Crown Jewel,,Platform/Identity
-app-0156,Application,azure arc-enabled kubernetes,Crown Jewel,,Platform/Identity
-computer-0157,Computer,Identity-Host-computer-0157,Crown Jewel,activesync;bot framework software development kit,Platform/Identity
-app-0158,Application,activesync,Crown Jewel,,Platform/Identity
-app-0159,Application,bot framework software development kit,Crown Jewel,,Platform/Identity
-computer-0160,Computer,Identity-Host-computer-0160,Crown Jewel,dynamics 365 business central 2023;quick polls,Platform/Identity
-app-0161,Application,dynamics 365 business central 2023,Crown Jewel,,Platform/Identity
-app-0162,Application,quick polls,Crown Jewel,,Platform/Identity
-computer-0163,Computer,Identity-Host-computer-0163,Crown Jewel,blu-ic4 firmware;internet explorer,Platform/Identity
-app-0164,Application,blu-ic4 firmware,Crown Jewel,,Platform/Identity
-app-0165,Application,internet explorer,Crown Jewel,,Platform/Identity
-computer-0166,Computer,Identity-Host-computer-0166,Crown Jewel,feedgen;azure sql managed instance,Platform/Identity
-app-0167,Application,feedgen,Crown Jewel,,Platform/Identity
-app-0168,Application,azure sql managed instance,Crown Jewel,,Platform/Identity
-computer-0169,Computer,Identity-Host-computer-0169,Crown Jewel,malware protection engine;office viewer ocx,Platform/Identity
-app-0170,Application,malware protection engine,Crown Jewel,,Platform/Identity
-app-0171,Application,office viewer ocx,Crown Jewel,,Platform/Identity
-computer-0172,Computer,Identity-Host-computer-0172,Crown Jewel,quantum development kit;drupal 7 driver for sql server and sql azure,Platform/Identity
-app-0173,Application,quantum development kit,Crown Jewel,,Platform/Identity
-app-0174,Application,drupal 7 driver for sql server and sql azure,Crown Jewel,,Platform/Identity
-computer-0175,Computer,Identity-Host-computer-0175,Crown Jewel,groove server;head start,Platform/Identity
-app-0176,Application,groove server,Crown Jewel,,Platform/Identity
-app-0177,Application,head start,Crown Jewel,,Platform/Identity
-computer-0178,Computer,Identity-Host-computer-0178,Crown Jewel,forms server;internet information services,Platform/Identity
-app-0179,Application,forms server,Crown Jewel,,Platform/Identity
-app-0180,Application,internet information services,Crown Jewel,,Platform/Identity
-computer-0181,Computer,Identity-Host-computer-0181,Crown Jewel,powerbi-client js sdk;office 2024,Platform/Identity
-app-0182,Application,powerbi-client js sdk,Crown Jewel,,Platform/Identity
-app-0183,Application,office 2024,Crown Jewel,,Platform/Identity
-computer-0184,Computer,Identity-Host-computer-0184,Crown Jewel,money;expression media,Platform/Identity
-app-0185,Application,money,Crown Jewel,,Platform/Identity
-app-0186,Application,expression media,Crown Jewel,,Platform/Identity
-computer-0187,Computer,Identity-Host-computer-0187,Crown Jewel,e-office;elfinder.net.core,Platform/Identity
-app-0188,Application,e-office,Crown Jewel,,Platform/Identity
-app-0189,Application,elfinder.net.core,Crown Jewel,,Platform/Identity
-computer-0190,Computer,Identity-Host-computer-0190,Crown Jewel,sharepoint enterprise server 2016;windows 98se,Platform/Identity
-app-0191,Application,sharepoint enterprise server 2016,Crown Jewel,,Platform/Identity
-app-0192,Application,windows 98se,Crown Jewel,,Platform/Identity
-computer-0193,Computer,Identity-Host-computer-0193,Crown Jewel,azure internet of things edge;windows live messenger,Platform/Identity
-app-0194,Application,azure internet of things edge,Crown Jewel,,Platform/Identity
-app-0195,Application,windows live messenger,Crown Jewel,,Platform/Identity
-computer-0196,Computer,Identity-Host-computer-0196,Crown Jewel,xml core services;exchange online,Platform/Identity
-app-0197,Application,xml core services,Crown Jewel,,Platform/Identity
-app-0198,Application,exchange online,Crown Jewel,,Platform/Identity
-computer-0199,Computer,Identity-Host-computer-0199,Crown Jewel,aspthai forums;office snapshot viewer activex,Platform/Identity
-app-0200,Application,aspthai forums,Crown Jewel,,Platform/Identity
-app-0201,Application,office snapshot viewer activex,Crown Jewel,,Platform/Identity
-computer-0202,Computer,Identity-Host-computer-0202,Crown Jewel,windows media encoder;azure ai foundry,Platform/Identity
-app-0203,Application,windows media encoder,Crown Jewel,,Platform/Identity
-app-0204,Application,azure ai foundry,Crown Jewel,,Platform/Identity
-computer-0205,Computer,Identity-Host-computer-0205,Crown Jewel,open harvester systems;windows malicious software removal tool,Platform/Identity
-app-0206,Application,open harvester systems,Crown Jewel,,Platform/Identity
-app-0207,Application,windows malicious software removal tool,Crown Jewel,,Platform/Identity
-computer-0208,Computer,Identity-Host-computer-0208,Crown Jewel,azure database for postgresql flexible server;lync for mac,Platform/Identity
-app-0209,Application,azure database for postgresql flexible server,Crown Jewel,,Platform/Identity
-app-0210,Application,lync for mac,Crown Jewel,,Platform/Identity
-computer-0211,Computer,Identity-Host-computer-0211,Crown Jewel,winpat portal;accessibility insights for android,Platform/Identity
-app-0212,Application,winpat portal,Crown Jewel,,Platform/Identity
-app-0213,Application,accessibility insights for android,Crown Jewel,,Platform/Identity
-user-0214,User,Identity-User-user-0214,Crown Jewel,,Platform/Identity
-user-0215,User,Identity-User-user-0215,Crown Jewel,,Platform/Identity
-user-0216,User,Identity-User-user-0216,Crown Jewel,,Platform/Identity
-user-0217,User,Identity-User-user-0217,Crown Jewel,,Platform/Identity
-user-0218,User,Identity-User-user-0218,Crown Jewel,,Platform/Identity
-user-0219,User,Identity-User-user-0219,Crown Jewel,,Platform/Identity
-user-0220,User,Identity-User-user-0220,Crown Jewel,,Platform/Identity
-user-0221,User,Identity-User-user-0221,Crown Jewel,,Platform/Identity
-user-0222,User,Identity-User-user-0222,Crown Jewel,,Platform/Identity
-user-0223,User,Identity-User-user-0223,Crown Jewel,,Platform/Identity
-user-0224,User,Identity-User-user-0224,Crown Jewel,,Platform/Identity
-user-0225,User,Identity-User-user-0225,Crown Jewel,,Platform/Identity
-user-0226,User,Identity-User-user-0226,Crown Jewel,,Platform/Identity
-user-0227,User,Identity-User-user-0227,Crown Jewel,,Platform/Identity
-user-0228,User,Identity-User-user-0228,Crown Jewel,,Platform/Identity
-group-0229,Group,Corp-Admins,Medium,,LandingZones/Corp
-computer-0230,Computer,Corp-Host-computer-0230,Medium,access;visual interdev,LandingZones/Corp
-app-0231,Application,access,Medium,,LandingZones/Corp
-app-0232,Application,visual interdev,Medium,,LandingZones/Corp
-computer-0233,Computer,Corp-Host-computer-0233,Medium,telnet client;iroha,LandingZones/Corp
-app-0234,Application,telnet client,Medium,,LandingZones/Corp
-app-0235,Application,iroha,Medium,,LandingZones/Corp
-computer-0236,Computer,Corp-Host-computer-0236,Medium,simple blog;metadirectory services,LandingZones/Corp
-app-0237,Application,simple blog,Medium,,LandingZones/Corp
-app-0238,Application,metadirectory services,Medium,,LandingZones/Corp
-computer-0239,Computer,Corp-Host-computer-0239,Medium,workspace-tools;visual interdev,LandingZones/Corp
-app-0240,Application,workspace-tools,Medium,,LandingZones/Corp
-app-0241,Application,visual interdev,Medium,,LandingZones/Corp
-computer-0242,Computer,Corp-Host-computer-0242,Medium,DirectX Graphics Kernel (DXGKRNL);pnotes.net,LandingZones/Corp
-app-0243,Application,DirectX Graphics Kernel (DXGKRNL),Medium,,LandingZones/Corp
-app-0244,Application,pnotes.net,Medium,,LandingZones/Corp
-computer-0245,Computer,Corp-Host-computer-0245,Medium,azure horizondb;dmitry deepmagic information gathering tool,LandingZones/Corp
-app-0246,Application,azure horizondb,Medium,,LandingZones/Corp
-app-0247,Application,dmitry deepmagic information gathering tool,Medium,,LandingZones/Corp
-computer-0248,Computer,Corp-Host-computer-0248,Medium,phpkb knowledge base software;azure cloud shell,LandingZones/Corp
-app-0249,Application,phpkb knowledge base software,Medium,,LandingZones/Corp
-app-0250,Application,azure cloud shell,Medium,,LandingZones/Corp
-computer-0251,Computer,Corp-Host-computer-0251,Medium,office 365 proplus;azure cloud shell,LandingZones/Corp
-app-0252,Application,office 365 proplus,Medium,,LandingZones/Corp
-app-0253,Application,azure cloud shell,Medium,,LandingZones/Corp
-computer-0254,Computer,Corp-Host-computer-0254,Medium,azure kinect software development kit;nokia asha 501 software,LandingZones/Corp
-app-0255,Application,azure kinect software development kit,Medium,,LandingZones/Corp
-app-0256,Application,nokia asha 501 software,Medium,,LandingZones/Corp
-computer-0257,Computer,Corp-Host-computer-0257,Medium,super link exchange script;html help workshop,LandingZones/Corp
-app-0258,Application,super link exchange script,Medium,,LandingZones/Corp
-app-0259,Application,html help workshop,Medium,,LandingZones/Corp
-computer-0260,Computer,Corp-Host-computer-0260,Medium,azure agent;3d builder,LandingZones/Corp
-app-0261,Application,azure agent,Medium,,LandingZones/Corp
-app-0262,Application,3d builder,Medium,,LandingZones/Corp
-computer-0263,Computer,Corp-Host-computer-0263,Medium,crypto and defi widgets;azure iot hub device client sdk,LandingZones/Corp
-app-0264,Application,crypto and defi widgets,Medium,,LandingZones/Corp
-app-0265,Application,azure iot hub device client sdk,Medium,,LandingZones/Corp
-computer-0266,Computer,Corp-Host-computer-0266,Medium,semantic kernel;forum web server,LandingZones/Corp
-app-0267,Application,semantic kernel,Medium,,LandingZones/Corp
-app-0268,Application,forum web server,Medium,,LandingZones/Corp
-computer-0269,Computer,Corp-Host-computer-0269,Medium,windows mobile;image color management,LandingZones/Corp
-app-0270,Application,windows mobile,Medium,,LandingZones/Corp
-app-0271,Application,image color management,Medium,,LandingZones/Corp
-computer-0272,Computer,Corp-Host-computer-0272,Medium,powerbi-javascript;ldap wp login \/ active directory integration,LandingZones/Corp
-app-0273,Application,powerbi-javascript,Medium,,LandingZones/Corp
-app-0274,Application,ldap wp login \/ active directory integration,Medium,,LandingZones/Corp
-computer-0275,Computer,Corp-Host-computer-0275,Medium,dr;azure-umqtt-c,LandingZones/Corp
-app-0276,Application,dr,Medium,,LandingZones/Corp
-app-0277,Application,azure-umqtt-c,Medium,,LandingZones/Corp
-computer-0278,Computer,Corp-Host-computer-0278,Medium,Input Method Editor (IME) Japanese;nokia asha 501 software,LandingZones/Corp
-app-0279,Application,Input Method Editor (IME) Japanese,Medium,,LandingZones/Corp
-app-0280,Application,nokia asha 501 software,Medium,,LandingZones/Corp
-computer-0281,Computer,Corp-Host-computer-0281,Medium,azure monitor;adam,LandingZones/Corp
-app-0282,Application,azure monitor,Medium,,LandingZones/Corp
-app-0283,Application,adam,Medium,,LandingZones/Corp
-computer-0284,Computer,Corp-Host-computer-0284,Medium,pc manager;asp.net signalr,LandingZones/Corp
-app-0285,Application,pc manager,Medium,,LandingZones/Corp
-app-0286,Application,asp.net signalr,Medium,,LandingZones/Corp
-computer-0287,Computer,Corp-Host-computer-0287,Medium,pnotes.net;azure resource manager,LandingZones/Corp
-app-0288,Application,pnotes.net,Medium,,LandingZones/Corp
-app-0289,Application,azure resource manager,Medium,,LandingZones/Corp
-user-0290,User,Corp-User-user-0290,Medium,,LandingZones/Corp
-user-0291,User,Corp-User-user-0291,Medium,,LandingZones/Corp
-user-0292,User,Corp-User-user-0292,Medium,,LandingZones/Corp
-user-0293,User,Corp-User-user-0293,Medium,,LandingZones/Corp
-user-0294,User,Corp-User-user-0294,Medium,,LandingZones/Corp
-user-0295,User,Corp-User-user-0295,Medium,,LandingZones/Corp
-user-0296,User,Corp-User-user-0296,Medium,,LandingZones/Corp
-user-0297,User,Corp-User-user-0297,Medium,,LandingZones/Corp
-user-0298,User,Corp-User-user-0298,Medium,,LandingZones/Corp
-user-0299,User,Corp-User-user-0299,Medium,,LandingZones/Corp
-user-0300,User,Corp-User-user-0300,Medium,,LandingZones/Corp
-user-0301,User,Corp-User-user-0301,Medium,,LandingZones/Corp
-user-0302,User,Corp-User-user-0302,Medium,,LandingZones/Corp
-user-0303,User,Corp-User-user-0303,Medium,,LandingZones/Corp
-user-0304,User,Corp-User-user-0304,Medium,,LandingZones/Corp
-group-0305,Group,Online-Admins,Medium,,LandingZones/Online
-computer-0306,Computer,Online-Host-computer-0306,Medium,telnet client;open journal systems,LandingZones/Online
-app-0307,Application,telnet client,Medium,,LandingZones/Online
-app-0308,Application,open journal systems,Medium,,LandingZones/Online
-computer-0309,Computer,Online-Host-computer-0309,Medium,on-prem data gateway;internet information server,LandingZones/Online
-app-0310,Application,on-prem data gateway,Medium,,LandingZones/Online
-app-0311,Application,internet information server,Medium,,LandingZones/Online
-computer-0312,Computer,Online-Host-computer-0312,Medium,entra jira sso plugin;remote desktop connection manager,LandingZones/Online
-app-0313,Application,entra jira sso plugin,Medium,,LandingZones/Online
-app-0314,Application,remote desktop connection manager,Medium,,LandingZones/Online
-computer-0315,Computer,Online-Host-computer-0315,Medium,github copilot chat;webp image extension,LandingZones/Online
-app-0316,Application,github copilot chat,Medium,,LandingZones/Online
-app-0317,Application,webp image extension,Medium,,LandingZones/Online
-computer-0318,Computer,Online-Host-computer-0318,Medium,azure database for postgresql flexible server;azure stack edge,LandingZones/Online
-app-0319,Application,azure database for postgresql flexible server,Medium,,LandingZones/Online
-app-0320,Application,azure stack edge,Medium,,LandingZones/Online
-computer-0321,Computer,Online-Host-computer-0321,Medium,event registration;aquarium advice,LandingZones/Online
-app-0322,Application,event registration,Medium,,LandingZones/Online
-app-0323,Application,aquarium advice,Medium,,LandingZones/Online
-computer-0324,Computer,Online-Host-computer-0324,Medium,-;azure active directory connect,LandingZones/Online
-app-0325,Application,-,Medium,,LandingZones/Online
-app-0326,Application,azure active directory connect,Medium,,LandingZones/Online
-computer-0327,Computer,Online-Host-computer-0327,Medium,remote desktop connection;image color management,LandingZones/Online
-app-0328,Application,remote desktop connection,Medium,,LandingZones/Online
-app-0329,Application,image color management,Medium,,LandingZones/Online
-computer-0330,Computer,Online-Host-computer-0330,Medium,fslogix;yet another forum.net,LandingZones/Online
-app-0331,Application,fslogix,Medium,,LandingZones/Online
-app-0332,Application,yet another forum.net,Medium,,LandingZones/Online
-computer-0333,Computer,Online-Host-computer-0333,Medium,virtual pc;windows 11 26h1,LandingZones/Online
-app-0334,Application,virtual pc,Medium,,LandingZones/Online
-app-0335,Application,windows 11 26h1,Medium,,LandingZones/Online
-computer-0336,Computer,Online-Host-computer-0336,Medium,windows xp media center;outlook connector,LandingZones/Online
-app-0337,Application,windows xp media center,Medium,,LandingZones/Online
-app-0338,Application,outlook connector,Medium,,LandingZones/Online
-computer-0339,Computer,Online-Host-computer-0339,Medium,webvizyon portal;web applications,LandingZones/Online
-app-0340,Application,webvizyon portal,Medium,,LandingZones/Online
-app-0341,Application,web applications,Medium,,LandingZones/Online
-computer-0342,Computer,Online-Host-computer-0342,Medium,php-ping;my amazon store manager,LandingZones/Online
-app-0343,Application,php-ping,Medium,,LandingZones/Online
-app-0344,Application,my amazon store manager,Medium,,LandingZones/Online
-computer-0345,Computer,Online-Host-computer-0345,Medium,research javascript cryptography library;clash,LandingZones/Online
-app-0346,Application,research javascript cryptography library,Medium,,LandingZones/Online
-app-0347,Application,clash,Medium,,LandingZones/Online
-computer-0348,Computer,Online-Host-computer-0348,Medium,project;windows azure pack rollup,LandingZones/Online
-app-0349,Application,project,Medium,,LandingZones/Online
-app-0350,Application,windows azure pack rollup,Medium,,LandingZones/Online
-computer-0351,Computer,Online-Host-computer-0351,Medium,foundation class library;aspplayground.net,LandingZones/Online
-app-0352,Application,foundation class library,Medium,,LandingZones/Online
-app-0353,Application,aspplayground.net,Medium,,LandingZones/Online
-computer-0354,Computer,Online-Host-computer-0354,Medium,visual c\+\+ redistributable;clarity,LandingZones/Online
-app-0355,Application,visual c\+\+ redistributable,Medium,,LandingZones/Online
-app-0356,Application,clarity,Medium,,LandingZones/Online
-computer-0357,Computer,Online-Host-computer-0357,Medium,power bi report server;Edge,LandingZones/Online
-app-0358,Application,power bi report server,Medium,,LandingZones/Online
-app-0359,Application,Edge,Medium,,LandingZones/Online
-computer-0360,Computer,Online-Host-computer-0360,Medium,Active Directory;microsoft.data.odata,LandingZones/Online
-app-0361,Application,Active Directory,Medium,,LandingZones/Online
-app-0362,Application,microsoft.data.odata,Medium,,LandingZones/Online
-computer-0363,Computer,Online-Host-computer-0363,Medium,remote desktop connection manager;azure c shared utility,LandingZones/Online
-app-0364,Application,remote desktop connection manager,Medium,,LandingZones/Online
-app-0365,Application,azure c shared utility,Medium,,LandingZones/Online
-user-0366,User,Online-User-user-0366,Medium,,LandingZones/Online
-user-0367,User,Online-User-user-0367,Medium,,LandingZones/Online
-user-0368,User,Online-User-user-0368,Medium,,LandingZones/Online
-user-0369,User,Online-User-user-0369,Medium,,LandingZones/Online
-user-0370,User,Online-User-user-0370,Medium,,LandingZones/Online
-user-0371,User,Online-User-user-0371,Medium,,LandingZones/Online
-user-0372,User,Online-User-user-0372,Medium,,LandingZones/Online
-user-0373,User,Online-User-user-0373,Medium,,LandingZones/Online
-user-0374,User,Online-User-user-0374,Medium,,LandingZones/Online
-user-0375,User,Online-User-user-0375,Medium,,LandingZones/Online
-user-0376,User,Online-User-user-0376,Medium,,LandingZones/Online
-user-0377,User,Online-User-user-0377,Medium,,LandingZones/Online
-user-0378,User,Online-User-user-0378,Medium,,LandingZones/Online
-user-0379,User,Online-User-user-0379,Medium,,LandingZones/Online
-user-0380,User,Online-User-user-0380,Medium,,LandingZones/Online
+node_id,node_type,display_name,criticality_tier,installed_software,management_group,role,internet_facing,is_admin
+group-0001,Group,Management-Admins,High,,Platform/Management,,False,False
+computer-0002,Computer,Management-Server-computer-0002,High,activesync;windows xp,Platform/Management,server,False,False
+app-0003,Application,activesync,High,,Platform/Management,,False,False
+app-0004,Application,windows xp,High,,Platform/Management,,False,False
+computer-0005,Computer,Management-Server-computer-0005,High,ledger live;dynamics 365,Platform/Management,server,False,False
+app-0006,Application,ledger live,High,,Platform/Management,,False,False
+app-0007,Application,dynamics 365,High,,Platform/Management,,False,False
+computer-0008,Computer,Management-Server-computer-0008,High,windows-build-tools;office powerpoint,Platform/Management,server,False,False
+app-0009,Application,windows-build-tools,High,,Platform/Management,,False,False
+app-0010,Application,office powerpoint,High,,Platform/Management,,False,False
+computer-0011,Computer,Management-Workstation-computer-0011,Medium,minna de office;windows nt helper components,Platform/Management,workstation,False,False
+app-0012,Application,minna de office,Medium,,Platform/Management,,False,False
+app-0013,Application,windows nt helper components,Medium,,Platform/Management,,False,False
+computer-0014,Computer,Management-Workstation-computer-0014,Medium,pc manager;content management server,Platform/Management,workstation,False,False
+app-0015,Application,pc manager,Medium,,Platform/Management,,False,False
+app-0016,Application,content management server,Medium,,Platform/Management,,False,False
+computer-0017,Computer,Management-Workstation-computer-0017,Medium,.net framework;step-by-step interactive training,Platform/Management,workstation,False,False
+app-0018,Application,.net framework,Medium,,Platform/Management,,False,False
+app-0019,Application,step-by-step interactive training,Medium,,Platform/Management,,False,False
+computer-0020,Computer,Management-Workstation-computer-0020,Medium,ledger;objecttoken,Platform/Management,workstation,False,False
+app-0021,Application,ledger,Medium,,Platform/Management,,False,False
+app-0022,Application,objecttoken,Medium,,Platform/Management,,False,False
+computer-0023,Computer,Management-Workstation-computer-0023,Medium,commerce server;drupal 7 driver for sql server and sql azure,Platform/Management,workstation,False,False
+app-0024,Application,commerce server,Medium,,Platform/Management,,False,False
+app-0025,Application,drupal 7 driver for sql server and sql azure,Medium,,Platform/Management,,False,False
+computer-0026,Computer,Management-Workstation-computer-0026,Medium,dataverse;office online server,Platform/Management,workstation,False,False
+app-0027,Application,dataverse,Medium,,Platform/Management,,False,False
+app-0028,Application,office online server,Medium,,Platform/Management,,False,False
+computer-0029,Computer,Management-Workstation-computer-0029,Medium,azure playfab;collabora online development edition,Platform/Management,workstation,False,False
+app-0030,Application,azure playfab,Medium,,Platform/Management,,False,False
+app-0031,Application,collabora online development edition,Medium,,Platform/Management,,False,False
+computer-0032,Computer,Management-Workstation-computer-0032,Medium,netmeeting;Forefront Threat Management Gateway (TMG),Platform/Management,workstation,False,False
+app-0033,Application,netmeeting,Medium,,Platform/Management,,False,False
+app-0034,Application,Forefront Threat Management Gateway (TMG),Medium,,Platform/Management,,False,False
+computer-0035,Computer,Management-Workstation-computer-0035,Medium,airlift microsoft com;azure arc-enabled kubernetes,Platform/Management,workstation,False,False
+app-0036,Application,airlift microsoft com,Medium,,Platform/Management,,False,False
+app-0037,Application,azure arc-enabled kubernetes,Medium,,Platform/Management,,False,False
+computer-0038,Computer,Management-Workstation-computer-0038,Medium,collabora online development edition;office 2010,Platform/Management,workstation,False,False
+app-0039,Application,collabora online development edition,Medium,,Platform/Management,,False,False
+app-0040,Application,office 2010,Medium,,Platform/Management,,False,False
+computer-0041,Computer,Management-Workstation-computer-0041,Medium,cs-cart japanese edition;open management infrastructure,Platform/Management,workstation,False,False
+app-0042,Application,cs-cart japanese edition,Medium,,Platform/Management,,False,False
+app-0043,Application,open management infrastructure,Medium,,Platform/Management,,False,False
+computer-0044,Computer,Management-Workstation-computer-0044,Medium,minna de office;dynamics gp,Platform/Management,workstation,False,False
+app-0045,Application,minna de office,Medium,,Platform/Management,,False,False
+app-0046,Application,dynamics gp,Medium,,Platform/Management,,False,False
+computer-0047,Computer,Management-Workstation-computer-0047,Medium,azure rtos netx duo;html help workshop,Platform/Management,workstation,False,False
+app-0048,Application,azure rtos netx duo,Medium,,Platform/Management,,False,False
+app-0049,Application,html help workshop,Medium,,Platform/Management,,False,False
+computer-0050,Computer,Management-Workstation-computer-0050,Medium,odbc;azure rtos guix studio,Platform/Management,workstation,False,False
+app-0051,Application,odbc,Medium,,Platform/Management,,False,False
+app-0052,Application,azure rtos guix studio,Medium,,Platform/Management,,False,False
+computer-0053,Computer,Management-Workstation-computer-0053,Medium,surface hub firmware;snowblind web server,Platform/Management,workstation,False,False
+app-0054,Application,surface hub firmware,Medium,,Platform/Management,,False,False
+app-0055,Application,snowblind web server,Medium,,Platform/Management,,False,False
+computer-0056,Computer,Management-Workstation-computer-0056,Medium,azure language;hedgehog-cms,Platform/Management,workstation,False,False
+app-0057,Application,azure language,Medium,,Platform/Management,,False,False
+app-0058,Application,hedgehog-cms,Medium,,Platform/Management,,False,False
+computer-0059,Computer,Management-Workstation-computer-0059,Medium,slide anything-responsive content\/html slider and carousel;windows live messenger,Platform/Management,workstation,False,False
+app-0060,Application,slide anything-responsive content\/html slider and carousel,Medium,,Platform/Management,,False,False
+app-0061,Application,windows live messenger,Medium,,Platform/Management,,False,False
+user-0062,User,Management-User-user-0062,Low,,Platform/Management,,False,False
+user-0063,User,Management-User-user-0063,Low,,Platform/Management,,False,False
+user-0064,User,Management-User-user-0064,Low,,Platform/Management,,False,False
+user-0065,User,Management-User-user-0065,Low,,Platform/Management,,False,True
+user-0066,User,Management-User-user-0066,Low,,Platform/Management,,False,False
+user-0067,User,Management-User-user-0067,Low,,Platform/Management,,False,True
+user-0068,User,Management-User-user-0068,Low,,Platform/Management,,False,False
+user-0069,User,Management-User-user-0069,Low,,Platform/Management,,False,False
+user-0070,User,Management-User-user-0070,Low,,Platform/Management,,False,False
+user-0071,User,Management-User-user-0071,Low,,Platform/Management,,False,False
+user-0072,User,Management-User-user-0072,Low,,Platform/Management,,False,False
+user-0073,User,Management-User-user-0073,Low,,Platform/Management,,False,False
+user-0074,User,Management-User-user-0074,Low,,Platform/Management,,False,False
+user-0075,User,Management-User-user-0075,Low,,Platform/Management,,False,False
+user-0076,User,Management-User-user-0076,Low,,Platform/Management,,False,False
+group-0077,Group,Connectivity-Admins,High,,Platform/Connectivity,,False,False
+computer-0078,Computer,Connectivity-Server-computer-0078,High,Exchange Server;Exchange,Platform/Connectivity,server,True,False
+app-0079,Application,Exchange Server,High,,Platform/Connectivity,,False,False
+app-0080,Application,Exchange,High,,Platform/Connectivity,,False,False
+computer-0081,Computer,Connectivity-Server-computer-0081,High,ezarticles;windows malicious software removal tool,Platform/Connectivity,server,False,False
+app-0082,Application,ezarticles,High,,Platform/Connectivity,,False,False
+app-0083,Application,windows malicious software removal tool,High,,Platform/Connectivity,,False,False
+computer-0084,Computer,Connectivity-Server-computer-0084,High,office powerpoint;MSHTML,Platform/Connectivity,server,False,False
+app-0085,Application,office powerpoint,High,,Platform/Connectivity,,False,False
+app-0086,Application,MSHTML,High,,Platform/Connectivity,,False,False
+computer-0087,Computer,Connectivity-Workstation-computer-0087,Medium,Update Notification Manager;account,Platform/Connectivity,workstation,False,False
+app-0088,Application,Update Notification Manager,Medium,,Platform/Connectivity,,False,False
+app-0089,Application,account,Medium,,Platform/Connectivity,,False,False
+computer-0090,Computer,Connectivity-Workstation-computer-0090,Medium,SmartScreen Prompt;typed-rest-client,Platform/Connectivity,workstation,False,False
+app-0091,Application,SmartScreen Prompt,Medium,,Platform/Connectivity,,False,False
+app-0092,Application,typed-rest-client,Medium,,Platform/Connectivity,,False,False
+computer-0093,Computer,Connectivity-Workstation-computer-0093,Medium,xamarin.ios;forefront threat management gateway,Platform/Connectivity,workstation,False,False
+app-0094,Application,xamarin.ios,Medium,,Platform/Connectivity,,False,False
+app-0095,Application,forefront threat management gateway,Medium,,Platform/Connectivity,,False,False
+computer-0096,Computer,Connectivity-Workstation-computer-0096,Medium,azure spring cloud;webapp,Platform/Connectivity,workstation,False,False
+app-0097,Application,azure spring cloud,Medium,,Platform/Connectivity,,False,False
+app-0098,Application,webapp,Medium,,Platform/Connectivity,,False,False
+computer-0099,Computer,Connectivity-Workstation-computer-0099,Medium,all windows;open source,Platform/Connectivity,workstation,False,False
+app-0100,Application,all windows,Medium,,Platform/Connectivity,,False,False
+app-0101,Application,open source,Medium,,Platform/Connectivity,,False,False
+computer-0102,Computer,Connectivity-Workstation-computer-0102,Medium,groove server;libreoffice,Platform/Connectivity,workstation,False,False
+app-0103,Application,groove server,Medium,,Platform/Connectivity,,False,False
+app-0104,Application,libreoffice,Medium,,Platform/Connectivity,,False,False
+computer-0105,Computer,Connectivity-Workstation-computer-0105,Medium,pc manager;internet key exchange,Platform/Connectivity,workstation,False,False
+app-0106,Application,pc manager,Medium,,Platform/Connectivity,,False,False
+app-0107,Application,internet key exchange,Medium,,Platform/Connectivity,,False,False
+computer-0108,Computer,Connectivity-Workstation-computer-0108,Medium,azure uamqp;richdocumentscode,Platform/Connectivity,workstation,False,False
+app-0109,Application,azure uamqp,Medium,,Platform/Connectivity,,False,False
+app-0110,Application,richdocumentscode,Medium,,Platform/Connectivity,,False,False
+computer-0111,Computer,Connectivity-Workstation-computer-0111,Medium,aci confidential containers;azure devops server,Platform/Connectivity,workstation,False,False
+app-0112,Application,aci confidential containers,Medium,,Platform/Connectivity,,False,False
+app-0113,Application,azure devops server,Medium,,Platform/Connectivity,,False,False
+computer-0114,Computer,Connectivity-Workstation-computer-0114,Medium,data access components;home server,Platform/Connectivity,workstation,False,False
+app-0115,Application,data access components,Medium,,Platform/Connectivity,,False,False
+app-0116,Application,home server,Medium,,Platform/Connectivity,,False,False
+computer-0117,Computer,Connectivity-Workstation-computer-0117,Medium,service fabric;azure arc-enabled kubernetes,Platform/Connectivity,workstation,False,False
+app-0118,Application,service fabric,Medium,,Platform/Connectivity,,False,False
+app-0119,Application,azure arc-enabled kubernetes,Medium,,Platform/Connectivity,,False,False
+computer-0120,Computer,Connectivity-Workstation-computer-0120,Medium,activesync;bot framework software development kit,Platform/Connectivity,workstation,False,False
+app-0121,Application,activesync,Medium,,Platform/Connectivity,,False,False
+app-0122,Application,bot framework software development kit,Medium,,Platform/Connectivity,,False,False
+computer-0123,Computer,Connectivity-Workstation-computer-0123,Medium,dynamics 365 business central 2023;quick polls,Platform/Connectivity,workstation,False,False
+app-0124,Application,dynamics 365 business central 2023,Medium,,Platform/Connectivity,,False,False
+app-0125,Application,quick polls,Medium,,Platform/Connectivity,,False,False
+computer-0126,Computer,Connectivity-Workstation-computer-0126,Medium,blu-ic4 firmware;internet explorer,Platform/Connectivity,workstation,False,False
+app-0127,Application,blu-ic4 firmware,Medium,,Platform/Connectivity,,False,False
+app-0128,Application,internet explorer,Medium,,Platform/Connectivity,,False,False
+computer-0129,Computer,Connectivity-Workstation-computer-0129,Medium,feedgen;azure sql managed instance,Platform/Connectivity,workstation,False,False
+app-0130,Application,feedgen,Medium,,Platform/Connectivity,,False,False
+app-0131,Application,azure sql managed instance,Medium,,Platform/Connectivity,,False,False
+computer-0132,Computer,Connectivity-Workstation-computer-0132,Medium,malware protection engine;office viewer ocx,Platform/Connectivity,workstation,False,False
+app-0133,Application,malware protection engine,Medium,,Platform/Connectivity,,False,False
+app-0134,Application,office viewer ocx,Medium,,Platform/Connectivity,,False,False
+computer-0135,Computer,Connectivity-Workstation-computer-0135,Medium,quantum development kit;drupal 7 driver for sql server and sql azure,Platform/Connectivity,workstation,False,False
+app-0136,Application,quantum development kit,Medium,,Platform/Connectivity,,False,False
+app-0137,Application,drupal 7 driver for sql server and sql azure,Medium,,Platform/Connectivity,,False,False
+user-0138,User,Connectivity-User-user-0138,Low,,Platform/Connectivity,,False,False
+user-0139,User,Connectivity-User-user-0139,Low,,Platform/Connectivity,,False,False
+user-0140,User,Connectivity-User-user-0140,Low,,Platform/Connectivity,,False,False
+user-0141,User,Connectivity-User-user-0141,Low,,Platform/Connectivity,,False,False
+user-0142,User,Connectivity-User-user-0142,Low,,Platform/Connectivity,,False,False
+user-0143,User,Connectivity-User-user-0143,Low,,Platform/Connectivity,,False,False
+user-0144,User,Connectivity-User-user-0144,Low,,Platform/Connectivity,,False,False
+user-0145,User,Connectivity-User-user-0145,Low,,Platform/Connectivity,,False,False
+user-0146,User,Connectivity-User-user-0146,Low,,Platform/Connectivity,,False,True
+user-0147,User,Connectivity-User-user-0147,Low,,Platform/Connectivity,,False,True
+user-0148,User,Connectivity-User-user-0148,Low,,Platform/Connectivity,,False,False
+user-0149,User,Connectivity-User-user-0149,Low,,Platform/Connectivity,,False,False
+user-0150,User,Connectivity-User-user-0150,Low,,Platform/Connectivity,,False,False
+user-0151,User,Connectivity-User-user-0151,Low,,Platform/Connectivity,,False,False
+user-0152,User,Connectivity-User-user-0152,Low,,Platform/Connectivity,,False,False
+group-0153,Group,Identity-Admins,Crown Jewel,,Platform/Identity,,False,False
+computer-0154,Computer,Identity-DomainController-computer-0154,Crown Jewel,office online server;access,Platform/Identity,domain_controller,False,False
+app-0155,Application,office online server,Crown Jewel,,Platform/Identity,,False,False
+app-0156,Application,access,Crown Jewel,,Platform/Identity,,False,False
+computer-0157,Computer,Identity-DomainController-computer-0157,Crown Jewel,visual interdev;telnet client,Platform/Identity,domain_controller,False,False
+app-0158,Application,visual interdev,Crown Jewel,,Platform/Identity,,False,False
+app-0159,Application,telnet client,Crown Jewel,,Platform/Identity,,False,False
+computer-0160,Computer,Identity-DomainController-computer-0160,Crown Jewel,iroha;simple blog,Platform/Identity,domain_controller,False,False
+app-0161,Application,iroha,Crown Jewel,,Platform/Identity,,False,False
+app-0162,Application,simple blog,Crown Jewel,,Platform/Identity,,False,False
+computer-0163,Computer,Identity-Workstation-computer-0163,Medium,metadirectory services;workspace-tools,Platform/Identity,workstation,False,False
+app-0164,Application,metadirectory services,Medium,,Platform/Identity,,False,False
+app-0165,Application,workspace-tools,Medium,,Platform/Identity,,False,False
+computer-0166,Computer,Identity-Workstation-computer-0166,Medium,visual interdev;DirectX Graphics Kernel (DXGKRNL),Platform/Identity,workstation,False,False
+app-0167,Application,visual interdev,Medium,,Platform/Identity,,False,False
+app-0168,Application,DirectX Graphics Kernel (DXGKRNL),Medium,,Platform/Identity,,False,False
+computer-0169,Computer,Identity-Workstation-computer-0169,Medium,pnotes.net;azure horizondb,Platform/Identity,workstation,False,False
+app-0170,Application,pnotes.net,Medium,,Platform/Identity,,False,False
+app-0171,Application,azure horizondb,Medium,,Platform/Identity,,False,False
+computer-0172,Computer,Identity-Workstation-computer-0172,Medium,dmitry deepmagic information gathering tool;phpkb knowledge base software,Platform/Identity,workstation,False,False
+app-0173,Application,dmitry deepmagic information gathering tool,Medium,,Platform/Identity,,False,False
+app-0174,Application,phpkb knowledge base software,Medium,,Platform/Identity,,False,False
+computer-0175,Computer,Identity-Workstation-computer-0175,Medium,azure cloud shell;office 365 proplus,Platform/Identity,workstation,False,False
+app-0176,Application,azure cloud shell,Medium,,Platform/Identity,,False,False
+app-0177,Application,office 365 proplus,Medium,,Platform/Identity,,False,False
+computer-0178,Computer,Identity-Workstation-computer-0178,Medium,azure cloud shell;azure kinect software development kit,Platform/Identity,workstation,False,False
+app-0179,Application,azure cloud shell,Medium,,Platform/Identity,,False,False
+app-0180,Application,azure kinect software development kit,Medium,,Platform/Identity,,False,False
+computer-0181,Computer,Identity-Workstation-computer-0181,Medium,nokia asha 501 software;super link exchange script,Platform/Identity,workstation,False,False
+app-0182,Application,nokia asha 501 software,Medium,,Platform/Identity,,False,False
+app-0183,Application,super link exchange script,Medium,,Platform/Identity,,False,False
+computer-0184,Computer,Identity-Workstation-computer-0184,Medium,html help workshop;azure agent,Platform/Identity,workstation,False,False
+app-0185,Application,html help workshop,Medium,,Platform/Identity,,False,False
+app-0186,Application,azure agent,Medium,,Platform/Identity,,False,False
+computer-0187,Computer,Identity-Workstation-computer-0187,Medium,3d builder;crypto and defi widgets,Platform/Identity,workstation,False,False
+app-0188,Application,3d builder,Medium,,Platform/Identity,,False,False
+app-0189,Application,crypto and defi widgets,Medium,,Platform/Identity,,False,False
+computer-0190,Computer,Identity-Workstation-computer-0190,Medium,azure iot hub device client sdk;semantic kernel,Platform/Identity,workstation,False,False
+app-0191,Application,azure iot hub device client sdk,Medium,,Platform/Identity,,False,False
+app-0192,Application,semantic kernel,Medium,,Platform/Identity,,False,False
+computer-0193,Computer,Identity-Workstation-computer-0193,Medium,forum web server;windows mobile,Platform/Identity,workstation,False,False
+app-0194,Application,forum web server,Medium,,Platform/Identity,,False,False
+app-0195,Application,windows mobile,Medium,,Platform/Identity,,False,False
+computer-0196,Computer,Identity-Workstation-computer-0196,Medium,image color management;powerbi-javascript,Platform/Identity,workstation,False,False
+app-0197,Application,image color management,Medium,,Platform/Identity,,False,False
+app-0198,Application,powerbi-javascript,Medium,,Platform/Identity,,False,False
+computer-0199,Computer,Identity-Workstation-computer-0199,Medium,ldap wp login \/ active directory integration;dr,Platform/Identity,workstation,False,False
+app-0200,Application,ldap wp login \/ active directory integration,Medium,,Platform/Identity,,False,False
+app-0201,Application,dr,Medium,,Platform/Identity,,False,False
+computer-0202,Computer,Identity-Workstation-computer-0202,Medium,azure-umqtt-c;Input Method Editor (IME) Japanese,Platform/Identity,workstation,False,False
+app-0203,Application,azure-umqtt-c,Medium,,Platform/Identity,,False,False
+app-0204,Application,Input Method Editor (IME) Japanese,Medium,,Platform/Identity,,False,False
+computer-0205,Computer,Identity-Workstation-computer-0205,Medium,nokia asha 501 software;azure monitor,Platform/Identity,workstation,False,False
+app-0206,Application,nokia asha 501 software,Medium,,Platform/Identity,,False,False
+app-0207,Application,azure monitor,Medium,,Platform/Identity,,False,False
+computer-0208,Computer,Identity-Workstation-computer-0208,Medium,adam;pc manager,Platform/Identity,workstation,False,False
+app-0209,Application,adam,Medium,,Platform/Identity,,False,False
+app-0210,Application,pc manager,Medium,,Platform/Identity,,False,False
+computer-0211,Computer,Identity-Workstation-computer-0211,Medium,asp.net signalr;pnotes.net,Platform/Identity,workstation,False,False
+app-0212,Application,asp.net signalr,Medium,,Platform/Identity,,False,False
+app-0213,Application,pnotes.net,Medium,,Platform/Identity,,False,False
+user-0214,User,Identity-User-user-0214,Low,,Platform/Identity,,False,False
+user-0215,User,Identity-User-user-0215,Low,,Platform/Identity,,False,False
+user-0216,User,Identity-User-user-0216,Low,,Platform/Identity,,False,False
+user-0217,User,Identity-User-user-0217,Low,,Platform/Identity,,False,False
+user-0218,User,Identity-User-user-0218,Low,,Platform/Identity,,False,False
+user-0219,User,Identity-User-user-0219,Low,,Platform/Identity,,False,False
+user-0220,User,Identity-User-user-0220,Low,,Platform/Identity,,False,False
+user-0221,User,Identity-User-user-0221,Low,,Platform/Identity,,False,False
+user-0222,User,Identity-User-user-0222,Low,,Platform/Identity,,False,True
+user-0223,User,Identity-User-user-0223,Low,,Platform/Identity,,False,False
+user-0224,User,Identity-User-user-0224,Low,,Platform/Identity,,False,False
+user-0225,User,Identity-User-user-0225,Low,,Platform/Identity,,False,False
+user-0226,User,Identity-User-user-0226,Low,,Platform/Identity,,False,False
+user-0227,User,Identity-User-user-0227,Low,,Platform/Identity,,False,True
+user-0228,User,Identity-User-user-0228,Low,,Platform/Identity,,False,False
+group-0229,Group,Corp-Admins,Medium,,LandingZones/Corp,,False,False
+computer-0230,Computer,Corp-Server-computer-0230,High,webvizyon portal;web applications,LandingZones/Corp,server,False,False
+app-0231,Application,webvizyon portal,High,,LandingZones/Corp,,False,False
+app-0232,Application,web applications,High,,LandingZones/Corp,,False,False
+computer-0233,Computer,Corp-Server-computer-0233,High,php-ping;my amazon store manager,LandingZones/Corp,server,False,False
+app-0234,Application,php-ping,High,,LandingZones/Corp,,False,False
+app-0235,Application,my amazon store manager,High,,LandingZones/Corp,,False,False
+computer-0236,Computer,Corp-Server-computer-0236,High,research javascript cryptography library;clash,LandingZones/Corp,server,False,False
+app-0237,Application,research javascript cryptography library,High,,LandingZones/Corp,,False,False
+app-0238,Application,clash,High,,LandingZones/Corp,,False,False
+computer-0239,Computer,Corp-Workstation-computer-0239,Medium,project;windows azure pack rollup,LandingZones/Corp,workstation,False,False
+app-0240,Application,project,Medium,,LandingZones/Corp,,False,False
+app-0241,Application,windows azure pack rollup,Medium,,LandingZones/Corp,,False,False
+computer-0242,Computer,Corp-Workstation-computer-0242,Medium,foundation class library;aspplayground.net,LandingZones/Corp,workstation,False,False
+app-0243,Application,foundation class library,Medium,,LandingZones/Corp,,False,False
+app-0244,Application,aspplayground.net,Medium,,LandingZones/Corp,,False,False
+computer-0245,Computer,Corp-Workstation-computer-0245,Medium,visual c\+\+ redistributable;clarity,LandingZones/Corp,workstation,False,False
+app-0246,Application,visual c\+\+ redistributable,Medium,,LandingZones/Corp,,False,False
+app-0247,Application,clarity,Medium,,LandingZones/Corp,,False,False
+computer-0248,Computer,Corp-Workstation-computer-0248,Medium,power bi report server;Edge,LandingZones/Corp,workstation,False,False
+app-0249,Application,power bi report server,Medium,,LandingZones/Corp,,False,False
+app-0250,Application,Edge,Medium,,LandingZones/Corp,,False,False
+computer-0251,Computer,Corp-Workstation-computer-0251,Medium,Active Directory;microsoft.data.odata,LandingZones/Corp,workstation,False,False
+app-0252,Application,Active Directory,Medium,,LandingZones/Corp,,False,False
+app-0253,Application,microsoft.data.odata,Medium,,LandingZones/Corp,,False,False
+computer-0254,Computer,Corp-Workstation-computer-0254,Medium,remote desktop connection manager;azure c shared utility,LandingZones/Corp,workstation,False,False
+app-0255,Application,remote desktop connection manager,Medium,,LandingZones/Corp,,False,False
+app-0256,Application,azure c shared utility,Medium,,LandingZones/Corp,,False,False
+computer-0257,Computer,Corp-Workstation-computer-0257,Medium,peachtree accounting;visual studio code kubernetes tools,LandingZones/Corp,workstation,False,False
+app-0258,Application,peachtree accounting,Medium,,LandingZones/Corp,,False,False
+app-0259,Application,visual studio code kubernetes tools,Medium,,LandingZones/Corp,,False,False
+computer-0260,Computer,Corp-Workstation-computer-0260,Medium,azure application gateway;clarity,LandingZones/Corp,workstation,False,False
+app-0261,Application,azure application gateway,Medium,,LandingZones/Corp,,False,False
+app-0262,Application,clarity,Medium,,LandingZones/Corp,,False,False
+computer-0263,Computer,Corp-Workstation-computer-0263,Medium,knowledgebasepublisher;backoffice resource kit,LandingZones/Corp,workstation,False,False
+app-0264,Application,knowledgebasepublisher,Medium,,LandingZones/Corp,,False,False
+app-0265,Application,backoffice resource kit,Medium,,LandingZones/Corp,,False,False
+computer-0266,Computer,Corp-Workstation-computer-0266,Medium,se3680h firmware;virtual calendar,LandingZones/Corp,workstation,False,False
+app-0267,Application,se3680h firmware,Medium,,LandingZones/Corp,,False,False
+app-0268,Application,virtual calendar,Medium,,LandingZones/Corp,,False,False
+computer-0269,Computer,Corp-Workstation-computer-0269,Medium,phxcontacts;Internet Information Services (IIS),LandingZones/Corp,workstation,False,False
+app-0270,Application,phxcontacts,Medium,,LandingZones/Corp,,False,False
+app-0271,Application,Internet Information Services (IIS),Medium,,LandingZones/Corp,,False,False
+computer-0272,Computer,Corp-Workstation-computer-0272,Medium,remote desktop connection manager;office communications server,LandingZones/Corp,workstation,False,False
+app-0273,Application,remote desktop connection manager,Medium,,LandingZones/Corp,,False,False
+app-0274,Application,office communications server,Medium,,LandingZones/Corp,,False,False
+computer-0275,Computer,Corp-Workstation-computer-0275,Medium,azure ad pod identity;php-ping,LandingZones/Corp,workstation,False,False
+app-0276,Application,azure ad pod identity,Medium,,LandingZones/Corp,,False,False
+app-0277,Application,php-ping,Medium,,LandingZones/Corp,,False,False
+computer-0278,Computer,Corp-Workstation-computer-0278,Medium,team foundation server;Outlook,LandingZones/Corp,workstation,False,False
+app-0279,Application,team foundation server,Medium,,LandingZones/Corp,,False,False
+app-0280,Application,Outlook,Medium,,LandingZones/Corp,,False,False
+computer-0281,Computer,Corp-Workstation-computer-0281,Medium,heif image extension;quick polls,LandingZones/Corp,workstation,False,False
+app-0282,Application,heif image extension,Medium,,LandingZones/Corp,,False,False
+app-0283,Application,quick polls,Medium,,LandingZones/Corp,,False,False
+computer-0284,Computer,Corp-Workstation-computer-0284,Medium,defender for identity;web media extensions,LandingZones/Corp,workstation,False,False
+app-0285,Application,defender for identity,Medium,,LandingZones/Corp,,False,False
+app-0286,Application,web media extensions,Medium,,LandingZones/Corp,,False,False
+computer-0287,Computer,Corp-Workstation-computer-0287,Medium,terminal server;maven for java,LandingZones/Corp,workstation,False,False
+app-0288,Application,terminal server,Medium,,LandingZones/Corp,,False,False
+app-0289,Application,maven for java,Medium,,LandingZones/Corp,,False,False
+user-0290,User,Corp-User-user-0290,Low,,LandingZones/Corp,,False,False
+user-0291,User,Corp-User-user-0291,Low,,LandingZones/Corp,,False,False
+user-0292,User,Corp-User-user-0292,Low,,LandingZones/Corp,,False,False
+user-0293,User,Corp-User-user-0293,Low,,LandingZones/Corp,,False,False
+user-0294,User,Corp-User-user-0294,Low,,LandingZones/Corp,,False,True
+user-0295,User,Corp-User-user-0295,Low,,LandingZones/Corp,,False,True
+user-0296,User,Corp-User-user-0296,Low,,LandingZones/Corp,,False,False
+user-0297,User,Corp-User-user-0297,Low,,LandingZones/Corp,,False,False
+user-0298,User,Corp-User-user-0298,Low,,LandingZones/Corp,,False,False
+user-0299,User,Corp-User-user-0299,Low,,LandingZones/Corp,,False,False
+user-0300,User,Corp-User-user-0300,Low,,LandingZones/Corp,,False,False
+user-0301,User,Corp-User-user-0301,Low,,LandingZones/Corp,,False,False
+user-0302,User,Corp-User-user-0302,Low,,LandingZones/Corp,,False,False
+user-0303,User,Corp-User-user-0303,Low,,LandingZones/Corp,,False,False
+user-0304,User,Corp-User-user-0304,Low,,LandingZones/Corp,,False,False
+group-0305,Group,Online-Admins,Medium,,LandingZones/Online,,False,False
+computer-0306,Computer,Online-Server-computer-0306,High,Edge and Internet Explorer;walinuxagent,LandingZones/Online,server,False,False
+app-0307,Application,Edge and Internet Explorer,High,,LandingZones/Online,,False,False
+app-0308,Application,walinuxagent,High,,LandingZones/Online,,False,False
+computer-0309,Computer,Online-Server-computer-0309,High,outlook express book control;stex exchange ico,LandingZones/Online,server,True,False
+app-0310,Application,outlook express book control,High,,LandingZones/Online,,False,False
+app-0311,Application,stex exchange ico,High,,LandingZones/Online,,False,False
+computer-0312,Computer,Online-Server-computer-0312,High,sql server 2016;wmi administrative tools,LandingZones/Online,server,False,False
+app-0313,Application,sql server 2016,High,,LandingZones/Online,,False,False
+app-0314,Application,wmi administrative tools,High,,LandingZones/Online,,False,False
+computer-0315,Computer,Online-Workstation-computer-0315,Medium,common;feng office,LandingZones/Online,workstation,False,False
+app-0316,Application,common,Medium,,LandingZones/Online,,False,False
+app-0317,Application,feng office,Medium,,LandingZones/Online,,False,False
+computer-0318,Computer,Online-Workstation-computer-0318,Medium,windows defender;ekuiper,LandingZones/Online,workstation,False,False
+app-0319,Application,windows defender,Medium,,LandingZones/Online,,False,False
+app-0320,Application,ekuiper,Medium,,LandingZones/Online,,False,False
+computer-0321,Computer,Online-Workstation-computer-0321,Medium,services;windows server 2012,LandingZones/Online,workstation,False,False
+app-0322,Application,services,Medium,,LandingZones/Online,,False,False
+app-0323,Application,windows server 2012,Medium,,LandingZones/Online,,False,False
+computer-0324,Computer,Online-Workstation-computer-0324,Medium,azure automation state configuration;Project,LandingZones/Online,workstation,False,False
+app-0325,Application,azure automation state configuration,Medium,,LandingZones/Online,,False,False
+app-0326,Application,Project,Medium,,LandingZones/Online,,False,False
+computer-0327,Computer,Online-Workstation-computer-0327,Medium,java software development kit;service fabric,LandingZones/Online,workstation,False,False
+app-0328,Application,java software development kit,Medium,,LandingZones/Online,,False,False
+app-0329,Application,service fabric,Medium,,LandingZones/Online,,False,False
+computer-0330,Computer,Online-Workstation-computer-0330,Medium,Forefront Threat Management Gateway (TMG);visio,LandingZones/Online,workstation,False,False
+app-0331,Application,Forefront Threat Management Gateway (TMG),Medium,,LandingZones/Online,,False,False
+app-0332,Application,visio,Medium,,LandingZones/Online,,False,False
+computer-0333,Computer,Online-Workstation-computer-0333,Medium,azure connected machine agent;cslivesupport,LandingZones/Online,workstation,False,False
+app-0334,Application,azure connected machine agent,Medium,,LandingZones/Online,,False,False
+app-0335,Application,cslivesupport,Medium,,LandingZones/Online,,False,False
+computer-0336,Computer,Online-Workstation-computer-0336,Medium,azure mcp server;windows-cpu,LandingZones/Online,workstation,False,False
+app-0337,Application,azure mcp server,Medium,,LandingZones/Online,,False,False
+app-0338,Application,windows-cpu,Medium,,LandingZones/Online,,False,False
+computer-0339,Computer,Online-Workstation-computer-0339,Medium,excel for mac;azure container apps,LandingZones/Online,workstation,False,False
+app-0340,Application,excel for mac,Medium,,LandingZones/Online,,False,False
+app-0341,Application,azure container apps,Medium,,LandingZones/Online,,False,False
+computer-0342,Computer,Online-Workstation-computer-0342,Medium,workspace;kubernetes tools,LandingZones/Online,workstation,False,False
+app-0343,Application,workspace,Medium,,LandingZones/Online,,False,False
+app-0344,Application,kubernetes tools,Medium,,LandingZones/Online,,False,False
+computer-0345,Computer,Online-Workstation-computer-0345,Medium,git;officetracker,LandingZones/Online,workstation,False,False
+app-0346,Application,git,Medium,,LandingZones/Online,,False,False
+app-0347,Application,officetracker,Medium,,LandingZones/Online,,False,False
+computer-0348,Computer,Online-Workstation-computer-0348,Medium,frontpage server extensions;sound exchange,LandingZones/Online,workstation,False,False
+app-0349,Application,frontpage server extensions,Medium,,LandingZones/Online,,False,False
+app-0350,Application,sound exchange,Medium,,LandingZones/Online,,False,False
+computer-0351,Computer,Online-Workstation-computer-0351,Medium,azure ai search;windows upgrade assistant,LandingZones/Online,workstation,False,False
+app-0352,Application,azure ai search,Medium,,LandingZones/Online,,False,False
+app-0353,Application,windows upgrade assistant,Medium,,LandingZones/Online,,False,False
+computer-0354,Computer,Online-Workstation-computer-0354,Medium,pnotes.net;zbattle client,LandingZones/Online,workstation,False,False
+app-0355,Application,pnotes.net,Medium,,LandingZones/Online,,False,False
+app-0356,Application,zbattle client,Medium,,LandingZones/Online,,False,False
+computer-0357,Computer,Online-Workstation-computer-0357,Medium,dynamics 365 for finance and operations;windows 10 1809,LandingZones/Online,workstation,False,False
+app-0358,Application,dynamics 365 for finance and operations,Medium,,LandingZones/Online,,False,False
+app-0359,Application,windows 10 1809,Medium,,LandingZones/Online,,False,False
+computer-0360,Computer,Online-Workstation-computer-0360,Medium,azure monitor agent;core,LandingZones/Online,workstation,False,False
+app-0361,Application,azure monitor agent,Medium,,LandingZones/Online,,False,False
+app-0362,Application,core,Medium,,LandingZones/Online,,False,False
+computer-0363,Computer,Online-Workstation-computer-0363,Medium,msn messenger;openoffice.org,LandingZones/Online,workstation,False,False
+app-0364,Application,msn messenger,Medium,,LandingZones/Online,,False,False
+app-0365,Application,openoffice.org,Medium,,LandingZones/Online,,False,False
+user-0366,User,Online-User-user-0366,Low,,LandingZones/Online,,False,False
+user-0367,User,Online-User-user-0367,Low,,LandingZones/Online,,False,False
+user-0368,User,Online-User-user-0368,Low,,LandingZones/Online,,False,False
+user-0369,User,Online-User-user-0369,Low,,LandingZones/Online,,False,False
+user-0370,User,Online-User-user-0370,Low,,LandingZones/Online,,False,False
+user-0371,User,Online-User-user-0371,Low,,LandingZones/Online,,False,False
+user-0372,User,Online-User-user-0372,Low,,LandingZones/Online,,False,False
+user-0373,User,Online-User-user-0373,Low,,LandingZones/Online,,False,False
+user-0374,User,Online-User-user-0374,Low,,LandingZones/Online,,False,False
+user-0375,User,Online-User-user-0375,Low,,LandingZones/Online,,False,True
+user-0376,User,Online-User-user-0376,Low,,LandingZones/Online,,False,False
+user-0377,User,Online-User-user-0377,Low,,LandingZones/Online,,False,False
+user-0378,User,Online-User-user-0378,Low,,LandingZones/Online,,False,False
+user-0379,User,Online-User-user-0379,Low,,LandingZones/Online,,False,False
+user-0380,User,Online-User-user-0380,Low,,LandingZones/Online,,False,True

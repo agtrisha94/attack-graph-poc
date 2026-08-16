@@ -18,10 +18,21 @@ def test_reachable_assets_query_computes_hop_distance_via_shortest_path():
     assert "hop_distance" in REACHABLE_ASSETS_QUERY
 
 
-def test_blast_radius_query_covers_all_five_topology_relationship_types():
-    for rel_type in ("RUNS", "CONNECTS_TO", "MEMBER_OF", "HAS_SESSION", "CONTROLS"):
-        assert rel_type in BLAST_RADIUS_QUERY
-    assert "AFFECTS" in BLAST_RADIUS_QUERY
+def test_blast_radius_query_reads_stored_property_not_a_live_traversal():
+    # Reads the value scripts/find_paths.py already wrote onto each :Asset
+    # (src/paths/writeback.py::write_asset_metrics) rather than re-deriving
+    # it with a duplicated traversal query that could drift from
+    # src/paths/analysis.py's BLAST_RADIUS_QUERY (edge types, hop cap).
+    assert "blast_radius IS NOT NULL" in BLAST_RADIUS_QUERY
+    assert "a.blast_radius AS blast_radius" in BLAST_RADIUS_QUERY
+    for rel_type in ("RUNS", "CONNECTS_TO", "MEMBER_OF", "HAS_SESSION", "CONTROLS", "AFFECTS"):
+        assert rel_type not in BLAST_RADIUS_QUERY
+
+
+def test_reachable_queries_exclude_member_of_and_use_hop_cap_five():
+    for query in (REACHABLE_ASSETS_QUERY, REACHABLE_EDGES_QUERY):
+        assert "MEMBER_OF" not in query
+        assert "*0..5" in query
 
 
 def test_choke_point_query_filters_null_choke_point_count():

@@ -50,11 +50,13 @@ col_filters, col_graph = st.columns([1, 3])
 with col_filters:
     st.subheader("Filters")
     type_filter = st.multiselect(
-        "Node types", ["Asset", "CVE", "Technique"], default=["Asset", "Technique"],
+        "Node types", ["Asset", "CVE", "Technique"], default=["Asset"],
         help="CVE nodes are off by default -- there can be thousands once the "
              "graph is scaled up, and rendering them all at once makes the "
              "force-directed layout hang. Use the severity cap below when "
-             "you turn them on.",
+             "you turn them on. Technique nodes only connect to CVEs "
+             "(no direct Asset edge), so they render as a disconnected ring "
+             "unless CVE is also on -- off by default for the same reason.",
     )
     tier_filter = st.multiselect(
         "Asset criticality tier", TIER_ORDER, default=TIER_ORDER,
@@ -126,7 +128,26 @@ with col_graph:
 
 st.sidebar.header("Selected node")
 if clicked_id and clicked_id in node_properties:
-    st.sidebar.json(node_properties[clicked_id])
+    props = node_properties[clicked_id]
+    if props["type"] == "Asset":
+        blast_radius = props.get("blast_radius")
+        choke_point_count = props.get("choke_point_count")
+        st.sidebar.metric(
+            "Blast radius",
+            blast_radius if blast_radius is not None else "—",
+            help="Distinct assets reachable within 5 hops from this asset, "
+                 "computed only for assets that are a CVE-exploitable entry "
+                 "point on a ranked attack path. \"—\" means this asset isn't "
+                 "one of those entry points.",
+        )
+        st.sidebar.metric(
+            "Choke point count",
+            choke_point_count if choke_point_count is not None else "—",
+            help="Number of the top-50 ranked attack paths that pass through "
+                 "this asset as an intermediate hop. \"—\" means it's not a "
+                 "choke point on any ranked path.",
+        )
+    st.sidebar.json(props)
 else:
     st.sidebar.write("Click a node in the graph to see its properties.")
 

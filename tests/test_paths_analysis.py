@@ -1,10 +1,11 @@
 from unittest.mock import MagicMock
 
 from src.paths.analysis import BLAST_RADIUS_QUERY, choke_point_counts, extract_blast_radius
+from src.paths.extract import HOP_CAP
 
 
 def test_blast_radius_query_excludes_self_and_uses_hop_cap():
-    assert "*0..6" in BLAST_RADIUS_QUERY
+    assert f"*0..{HOP_CAP}" in BLAST_RADIUS_QUERY
     assert "reachable <> start" in BLAST_RADIUS_QUERY
     assert "AFFECTS" in BLAST_RADIUS_QUERY
 

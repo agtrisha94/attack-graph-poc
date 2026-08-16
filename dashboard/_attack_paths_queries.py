@@ -16,6 +16,8 @@ RETURN p.path_id AS path_id, p.rank AS rank, p.score AS pipeline_score,
        p.source_asset_id AS source_asset_id, p.target_asset_id AS target_asset_id,
        p.node_ids AS node_ids, p.hop_count AS hop_count,
        c.base_score AS base_score, c.epss_score AS epss_score,
+       c.kev_flag AS kev_flag, c.attack_vector AS attack_vector,
+       source.internet_facing AS source_internet_facing,
        source.criticality_tier AS source_criticality_tier,
        target.criticality_tier AS target_criticality_tier,
        r.explanation AS explanation, r.technique_ids AS technique_ids,
@@ -27,16 +29,22 @@ ORDER BY p.rank
 # path's node_ids, batched into one query rather than one round-trip per hop.
 PATH_CHAIN_EDGE_TYPES_QUERY = """
 UNWIND range(0, size($node_ids) - 2) AS i
-MATCH (a:Asset {node_id: $node_ids[i]})-[r:RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS]-(b:Asset {node_id: $node_ids[i + 1]})
+MATCH (a:Asset {node_id: $node_ids[i]})-[r:RUNS|CONNECTS_TO|HAS_SESSION|CONTROLS]-(b:Asset {node_id: $node_ids[i + 1]})
 RETURN i, type(r) AS rel_type
 """.strip()
 
-# Mirrors src/paths/score.py's CRITICALITY_WEIGHT -- duplicated rather than
+# Mirrors src/paths/score.py's CRITICALITY_WEIGHT/KEV_MULTIPLIER/
+# EXPOSURE_MULTIPLIER/ATTACK_VECTOR_WEIGHT -- duplicated rather than
 # imported because dashboard pages run under Streamlit's own sys.path
 # (only dashboard/ is added, not the repo root), so `from src...` doesn't
 # resolve there; every other dashboard query module is self-contained the
 # same way, so this keeps the same convention rather than fighting it.
+# Also used as the pipeline's real (target-tier) weight for the score
+# breakdown, since the values are identical to CRITICALITY_WEIGHT.
 SOURCE_TIER_WEIGHT_DEFAULTS = {"Crown Jewel": 4, "High": 3, "Medium": 2, "Low": 1}
+KEV_MULTIPLIER = 2.0
+EXPOSURE_MULTIPLIER = 1.5
+ATTACK_VECTOR_WEIGHT = {"NETWORK": 1.5, "ADJACENT_NETWORK": 1.25, "LOCAL": 1.0, "PHYSICAL": 0.75}
 
 
 def read_attack_paths_with_reasoning(session) -> list[dict]:

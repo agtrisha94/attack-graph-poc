@@ -31,5 +31,17 @@ def render_graph(
     ]
     # streamlit-agraph's Config formats height/width as f"{value}px" internally,
     # so these must be plain pixel ints, not CSS values like "100%".
-    config = Config(height=height, width=width, directed=True, physics=physics)
+    config = Config(height=height, width=width, directed=True, physics=physics, solver="forceAtlas2Based")
+    # Config.__init__ only nests kwargs it explicitly knows about (like
+    # "solver") into self.physics; unrecognized kwargs land as top-level
+    # sibling keys instead, which vis.js's Network constructor ignores. Tuning
+    # params for forceAtlas2Based must be nested under physics by hand.
+    # forceAtlas2Based (vs vis.js's default barnesHut) pulls hub clusters
+    # tighter instead of spreading same-hop-distance nodes into a uniform
+    # ring around each hub -- barnesHut is what made every management
+    # group's hub-and-spoke star render as a bullseye.
+    config.physics["forceAtlas2Based"] = {
+        "gravitationalConstant": -50, "springLength": 100,
+        "springConstant": 0.08, "avoidOverlap": 0.5,
+    }
     return agraph(nodes=agraph_nodes, edges=agraph_edges, config=config)

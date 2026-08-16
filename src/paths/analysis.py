@@ -5,10 +5,12 @@ choke points. No APOC: the local Neo4j Community image doesn't have it
 installed, so choke points are a plain frequency count, not betweenness
 centrality."""
 
-BLAST_RADIUS_QUERY = """
+from src.paths.extract import HOP_CAP
+
+BLAST_RADIUS_QUERY = f"""
 MATCH (cve:CVE)-[:AFFECTS]->(start:Asset)
 WITH DISTINCT start
-MATCH (start)-[:RUNS|CONNECTS_TO|MEMBER_OF|HAS_SESSION|CONTROLS*0..6]-(reachable:Asset)
+MATCH (start)-[:RUNS|CONNECTS_TO|HAS_SESSION|CONTROLS*0..{HOP_CAP}]-(reachable:Asset)
 WHERE reachable <> start
 RETURN start.node_id AS asset_id, count(DISTINCT reachable) AS blast_radius
 """.strip()

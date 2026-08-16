@@ -160,7 +160,10 @@ schemas:
         type: string
         required: true
         enum: ["Crown Jewel", High, Medium, Low]
-        description: Business criticality used later for blast-radius scoring.
+        description: >
+          Business criticality used later for blast-radius scoring. Assigned
+          per-role (domain controller / server / workstation / user), not
+          uniformly per management group.
       - name: installed_software
         type: list[string]
         required: false
@@ -169,6 +172,19 @@ schemas:
         type: string
         required: false
         description: Azure management group / subscription the node belongs to, per the Enterprise-Scale reference topology.
+      - name: role
+        type: string
+        required: false
+        enum: [domain_controller, server, workstation]
+        description: AD-tiering role, applicable to Computer nodes only (empty string otherwise).
+      - name: internet_facing
+        type: boolean
+        required: false
+        description: True for the small set of Computer nodes modeling attacker entry points (VPN/gateway, public-facing web app).
+      - name: is_admin
+        type: boolean
+        required: false
+        description: True for the small per-group subset of User nodes that hold a CONTROLS edge over a server, applicable to User nodes only (false otherwise).
 
   topology_edges:
     description: Relationships between topology_nodes entries.
