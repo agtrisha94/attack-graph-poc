@@ -2,33 +2,47 @@
 consumer_must_validate checklist against the real pipeline output (real
 CSVs, the real running Neo4j graph) -- not mocks. See
 docs/superpowers/specs/2026-08-16-qa-docs-design.md."""
+import functools
+import pathlib
+
 import pandas as pd
 import pytest
+import yaml
 
-VENDOR_ALIASES = [
-    "microsoft", "windows", "azure", "office", "exchange", "sql server",
-    ".net", "edge", "sharepoint", "active directory",
-]
+from src.graph.validate import validate_graph
+from src.paths.score import score_path
+from src.watchdog.scenario import EPSS_SPIKE_CVE, KEV_DISCLOSURE_CVE
+
+DATA_SCHEMA = yaml.safe_load(open("schemas/data_schema.yaml"))
+VENDOR_ALIASES = DATA_SCHEMA["microsoft_scope_filter"]["vendor_aliases"]
 
 CVE_MASTER_REQUIRED_COLUMNS = [
     "cve_id", "vendor", "product", "description", "base_severity",
     "base_score", "epss_score", "epss_percentile", "kev_flag",
     "published_date",
 ]
+TECHNIQUE_MAP_REQUIRED_COLUMNS = ["technique_id", "technique_name", "tactic"]
 NODES_REQUIRED_COLUMNS = [
     "node_id", "node_type", "display_name", "criticality_tier",
 ]
 EDGES_REQUIRED_COLUMNS = ["source_id", "target_id", "edge_type"]
 
 
+@functools.lru_cache(maxsize=1)
+def _load_cve_master() -> pd.DataFrame:
+    return pd.read_csv("data/processed/microsoft_cve_master.csv")
+
+
 def test_contract_01_requirements_to_data():
-    cve_df = pd.read_csv("data/processed/microsoft_cve_master.csv")
+    cve_df = _load_cve_master()
     technique_df = pd.read_csv("data/processed/technique_map.csv")
     nodes_df = pd.read_csv("data/synthetic/nodes_topology.csv")
     edges_df = pd.read_csv("data/synthetic/edges_topology.csv")
 
     for col in CVE_MASTER_REQUIRED_COLUMNS:
         assert col in cve_df.columns, f"microsoft_cve_master.csv missing required column {col}"
+    for col in TECHNIQUE_MAP_REQUIRED_COLUMNS:
+        assert col in technique_df.columns, f"technique_map.csv missing required column {col}"
     for col in NODES_REQUIRED_COLUMNS:
         assert col in nodes_df.columns, f"nodes_topology.csv missing required column {col}"
     for col in EDGES_REQUIRED_COLUMNS:
@@ -46,6 +60,7 @@ def test_contract_01_requirements_to_data():
     assert kev_false["kev_date_added"].isna().all(), "kev_date_added set on a non-KEV row"
     assert kev_false["ransomware_used"].isna().all(), "ransomware_used set on a non-KEV row"
     assert kev_true["kev_date_added"].notna().all(), "kev_date_added null on a KEV row"
+    assert kev_true["ransomware_used"].notna().all(), "ransomware_used null on a KEV row"
 
     out_of_scope = cve_df[~cve_df["vendor"].str.lower().apply(
         lambda v: any(alias in v for alias in VENDOR_ALIASES)
@@ -66,11 +81,6 @@ def test_contract_01_requirements_to_data():
     missing_target = ~edges_df["target_id"].isin(node_ids)
     assert not missing_source.any(), f"edges reference unknown source_id: {edges_df[missing_source]['source_id'].tolist()[:5]}"
     assert not missing_target.any(), f"edges reference unknown target_id: {edges_df[missing_target]['target_id'].tolist()[:5]}"
-
-
-import pathlib
-
-from src.graph.validate import validate_graph
 
 
 def test_contract_02_and_03_data_to_graph(neo4j_session):
@@ -94,8 +104,6 @@ def test_contract_02_and_03_data_to_graph(neo4j_session):
         assert expected in constraint_names, f"missing constraint {expected}"
 
 
-from src.paths.score import score_path
-
 ATTACK_PATH_SCORE_QUERY = """
 MATCH (p:AttackPath)
 MATCH (c:CVE {cve_id: p.source_cve})
@@ -113,24 +121,48 @@ RETURN p.path_id AS path_id, p.score AS score, p.rank AS rank,
 # Watchdog (Agent 6) permanently mutates these two CVEs' kev_flag/epss_score
 # in place (src/watchdog/scenario.py) without rewriting :AttackPath, by
 # design -- so the persisted score of paths sourced from them no longer
-# reproduces from current CVE state. Known, documented, not a defect.
-KNOWN_WATCHDOG_MUTATED_CVES = {"CVE-2009-0133", "CVE-2024-29988"}
+# reproduces from the live :CVE node. data/processed/microsoft_cve_master.csv
+# still holds the pre-mutation values (Watchdog only mutates the live graph,
+# not the CSV), so we recompute from the CSV instead for these two.
+KNOWN_WATCHDOG_MUTATED_CVES = {KEV_DISCLOSURE_CVE, EPSS_SPIKE_CVE}
 
 
 def test_contract_04_paths_to_reasoning(neo4j_session):
     rows = [dict(r) for r in neo4j_session.run(ATTACK_PATH_SCORE_QUERY)]
     assert len(rows) > 0, "no (:AttackPath) nodes found"
 
-    asset_ids = {
-        r["node_id"] for r in neo4j_session.run("MATCH (a:Asset) RETURN a.node_id AS node_id")
-    }
+    asset_rows = [dict(r) for r in neo4j_session.run(
+        "MATCH (a:Asset) RETURN a.node_id AS node_id, a.blast_radius AS blast_radius, "
+        "a.choke_point_count AS choke_point_count"
+    )]
+    asset_ids = {r["node_id"] for r in asset_rows}
+    for r in asset_rows:
+        if r["blast_radius"] is not None:
+            assert isinstance(r["blast_radius"], int) and r["blast_radius"] >= 0, (
+                f"Asset {r['node_id']} blast_radius {r['blast_radius']} is not a non-negative integer"
+            )
+        if r["choke_point_count"] is not None:
+            assert isinstance(r["choke_point_count"], int) and r["choke_point_count"] >= 0, (
+                f"Asset {r['node_id']} choke_point_count {r['choke_point_count']} is not a non-negative integer"
+            )
+
+    cve_master_by_id = _load_cve_master().set_index("cve_id")
 
     for row in rows:
         for node_id in row["node_ids"]:
             assert node_id in asset_ids, f"AttackPath {row['path_id']} node_ids has unknown asset {node_id}"
 
         if row["source_cve"] in KNOWN_WATCHDOG_MUTATED_CVES:
-            assert row["score"] > 0, f"AttackPath {row['path_id']} has non-positive score"
+            cve_row = cve_master_by_id.loc[row["source_cve"]]
+            expected = score_path(
+                cve_row["base_score"], cve_row["epss_score"], row["criticality_tier"],
+                kev_flag=bool(cve_row["kev_flag"]), hop_count=row["hop_count"],
+                internet_facing=bool(row["internet_facing"]), attack_vector=cve_row["attack_vector"],
+            )
+            assert row["score"] == pytest.approx(expected, rel=1e-6), (
+                f"AttackPath {row['path_id']} (Watchdog-mutated CVE {row['source_cve']}) "
+                f"score {row['score']} != CSV-recomputed {expected}"
+            )
             continue
 
         expected = score_path(
