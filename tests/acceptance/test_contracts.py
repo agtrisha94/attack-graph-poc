@@ -171,3 +171,47 @@ def test_contract_05_reasoning_to_watchdog(neo4j_session):
         for field in ("threat_actors", "mitigations", "technique_ids"):
             assert row[field] is not None, f"Reasoning {row['path_id']}.{field} is null"
             assert isinstance(row[field], list), f"Reasoning {row['path_id']}.{field} is not a list"
+
+
+ALERT_TYPES = {"new_top50_entry", "score_change", "dropped_from_top50"}
+
+
+def test_contract_06_watchdog_to_qa(neo4j_session):
+    alerts = [dict(r) for r in neo4j_session.run(
+        "MATCH (a:Alert) RETURN a.alert_id AS alert_id, a.alert_type AS alert_type, "
+        "a.old_score AS old_score, a.new_score AS new_score, "
+        "a.old_rank AS old_rank, a.new_rank AS new_rank"
+    )]
+    assert len(alerts) > 0, "no (:Alert) nodes found"
+
+    alert_ids = [a["alert_id"] for a in alerts]
+    assert len(alert_ids) == len(set(alert_ids)), "duplicate (:Alert).alert_id found"
+
+    counts = {t: 0 for t in ALERT_TYPES}
+    for a in alerts:
+        assert a["alert_type"] in ALERT_TYPES, f"unexpected alert_type {a['alert_type']}"
+        counts[a["alert_type"]] += 1
+
+        if a["alert_type"] == "new_top50_entry":
+            assert a["old_score"] is None and a["old_rank"] is None
+            assert a["new_score"] is not None and a["new_rank"] is not None
+        elif a["alert_type"] == "dropped_from_top50":
+            assert a["new_score"] is None and a["new_rank"] is None
+            assert a["old_score"] is not None and a["old_rank"] is not None
+        elif a["alert_type"] == "score_change":
+            assert None not in (a["old_score"], a["new_score"], a["old_rank"], a["new_rank"])
+
+    # known_limitations (contract 06): exact counts depend on the top-50
+    # cutoff cascade -- assert the documented minimum, not an exact total.
+    assert counts["score_change"] >= 5, (
+        f"expected >=5 score_change alerts from the KEV disclosure scenario, got {counts['score_change']}"
+    )
+
+    path_count = neo4j_session.run("MATCH (p:AttackPath) RETURN count(p) AS n").single()["n"]
+    reasoning_count = neo4j_session.run("MATCH (r:Reasoning) RETURN count(r) AS n").single()["n"]
+    explained_by_count = neo4j_session.run(
+        "MATCH ()-[e:EXPLAINED_BY]->() RETURN count(e) AS n"
+    ).single()["n"]
+    assert path_count == 50, f"expected 50 baseline AttackPath nodes, got {path_count}"
+    assert reasoning_count == 50, f"expected 50 Reasoning nodes, got {reasoning_count}"
+    assert explained_by_count == 50, f"expected 50 EXPLAINED_BY edges, got {explained_by_count}"
