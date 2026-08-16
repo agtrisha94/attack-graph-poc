@@ -1,0 +1,52 @@
+contract: 06_watchdog_to_qa
+producer: watchdog
+consumer: qa_docs
+
+inputs:
+  - path: contracts/05_baseline_to_watchdog.yaml
+    description: The Neo4j graph, AttackPath/Reasoning baseline this phase reads and diffs against.
+
+outputs:
+  - path: Neo4j graph database (bolt://$NEO4J_URI, credentials in .env, see .env.example)
+    description: >
+      Annotated in place by scripts/watch_paths.py. New node label:
+      (:Alert {alert_id, alert_type, path_id, old_score, new_score, old_rank,
+      new_rank, source_cve, source_asset_id, target_asset_id}) -- one node
+      per detected change, alert_type is one of "new_top50_entry",
+      "score_change", "dropped_from_top50" (fixed set, see
+      docs/superpowers/specs/2026-08-16-watchdog-design.md, Re-score + diff
+      logic). alert_id = f"{alert_type}:{path_id}", the MERGE key. No
+      relationship to :AttackPath -- a dropped_from_top50 alert's path may
+      no longer have a corresponding node. Before writing alerts,
+      scripts/watch_paths.py applies 3 deterministic synthetic scenario
+      mutations (a KEV disclosure on CVE-2009-0133, an EPSS update on
+      CVE-2024-29988, a new CONNECTS_TO edge computer-0078->computer-0160)
+      standing in for a live feed -- this is a static synthetic dataset with
+      no live feed (see design spec, Scope, for why and the upgrade path).
+      :AttackPath and :Reasoning nodes are NOT rewritten by this phase --
+      only the scenario mutation's own CVE/Asset/edge properties change; the
+      persisted top-50 :AttackPath set and its :Reasoning annotations remain
+      exactly as Agent 5 left them.
+  - path: src/watchdog/{scenario,rescore,writeback}.py
+    description: >
+      Query module QA & Docs can import directly instead of writing its own
+      Cypher: apply_kev_disclosure, apply_epss_spike, apply_new_topology_edge,
+      read_baseline_paths, diff_paths, SCORE_CHANGE_THRESHOLD (0.20, fixed).
+
+consumer_must_validate:
+  - "Every (:Alert).alert_type is one of \"new_top50_entry\", \"score_change\", \"dropped_from_top50\"."
+  - "new_top50_entry alerts have old_score/old_rank null and non-null new_score/new_rank; dropped_from_top50 alerts have the reverse; score_change alerts have all four non-null."
+  - "Every (:Alert).alert_id is unique (the MERGE key)."
+  - "(:AttackPath)/(:Reasoning) node counts and :EXPLAINED_BY edges are unchanged from Agent 5's handoff -- Watchdog does not rewrite them."
+
+known_limitations:
+  - >
+    Exact alert counts depend on the top-50 cutoff cascade: a new
+    high-scoring path entering the top 50 can push an unrelated, unmutated
+    path out purely because the cap is 50, not because that path's own
+    CVE/asset facts changed. QA should assert minimum expected alert counts
+    per scenario mutation (e.g. at least 5 score_change alerts from the KEV
+    disclosure, since CVE-2009-0133 sources 5 baseline top-50 paths), not
+    exact totals.
+
+handoff_status: ready
