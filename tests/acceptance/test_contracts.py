@@ -65,3 +65,21 @@ def test_contract_01_requirements_to_data():
     missing_target = ~edges_df["target_id"].isin(node_ids)
     assert not missing_source.any(), f"edges reference unknown source_id: {edges_df[missing_source]['source_id'].tolist()[:5]}"
     assert not missing_target.any(), f"edges reference unknown target_id: {edges_df[missing_target]['target_id'].tolist()[:5]}"
+
+
+import pathlib
+
+from src.graph.validate import validate_graph
+
+
+def test_contract_02_and_03_data_to_graph(neo4j_session):
+    violations = validate_graph(
+        neo4j_session, pathlib.Path("data/processed"), pathlib.Path("data/synthetic")
+    )
+    assert violations == [], f"graph import violations: {violations}"
+
+    constraint_names = {
+        record["name"] for record in neo4j_session.run("SHOW CONSTRAINTS")
+    }
+    for expected in ("cve_id_unique", "technique_id_unique", "asset_node_id_unique"):
+        assert expected in constraint_names, f"missing constraint {expected}"
