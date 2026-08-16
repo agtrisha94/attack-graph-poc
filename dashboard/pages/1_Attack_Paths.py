@@ -149,6 +149,7 @@ technique_ids = selected_row["technique_ids"] or []
 threat_actors = selected_row["threat_actors"] or []
 mitigations = selected_row["mitigations"] or []
 
-st.write("**MITRE ATT&CK Techniques:**", ", ".join(technique_ids) or "Not resolved for this path.")
-st.write("**Threat Actors:**", ", ".join(threat_actors) or "Not resolved for this path.")
-st.write("**Mitigations:**", ", ".join(mitigations) or "Not resolved for this path.")
+if technique_ids:
+    st.write("**MITRE ATT&CK Techniques:**", ", ".join(technique_ids))
+    st.write("**Threat Actors:**", ", ".join(threat_actors) or "No known threat-actor group on record.")
+    st.write("**Mitigations:**", ", ".join(mitigations) or "No known mitigation on record.")
