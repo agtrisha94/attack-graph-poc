@@ -3,6 +3,7 @@ consumer_must_validate checklist against the real pipeline output (real
 CSVs, the real running Neo4j graph) -- not mocks. See
 docs/superpowers/specs/2026-08-16-qa-docs-design.md."""
 import pandas as pd
+import pytest
 
 VENDOR_ALIASES = [
     "microsoft", "windows", "azure", "office", "exchange", "sql server",
@@ -91,3 +92,59 @@ def test_contract_02_and_03_data_to_graph(neo4j_session):
     }
     for expected in ("cve_id_unique", "technique_id_unique", "asset_node_id_unique"):
         assert expected in constraint_names, f"missing constraint {expected}"
+
+
+from src.paths.score import score_path
+
+ATTACK_PATH_SCORE_QUERY = """
+MATCH (p:AttackPath)
+MATCH (c:CVE {cve_id: p.source_cve})
+MATCH (src:Asset {node_id: p.source_asset_id})
+MATCH (tgt:Asset {node_id: p.target_asset_id})
+RETURN p.path_id AS path_id, p.score AS score, p.rank AS rank,
+       p.hop_count AS hop_count, p.node_ids AS node_ids,
+       p.source_cve AS source_cve,
+       c.base_score AS base_score, c.epss_score AS epss_score,
+       c.kev_flag AS kev_flag, c.attack_vector AS attack_vector,
+       src.internet_facing AS internet_facing,
+       tgt.criticality_tier AS criticality_tier
+"""
+
+# Watchdog (Agent 6) permanently mutates these two CVEs' kev_flag/epss_score
+# in place (src/watchdog/scenario.py) without rewriting :AttackPath, by
+# design -- so the persisted score of paths sourced from them no longer
+# reproduces from current CVE state. Known, documented, not a defect.
+KNOWN_WATCHDOG_MUTATED_CVES = {"CVE-2009-0133", "CVE-2024-29988"}
+
+
+def test_contract_04_paths_to_reasoning(neo4j_session):
+    rows = [dict(r) for r in neo4j_session.run(ATTACK_PATH_SCORE_QUERY)]
+    assert len(rows) > 0, "no (:AttackPath) nodes found"
+
+    asset_ids = {
+        r["node_id"] for r in neo4j_session.run("MATCH (a:Asset) RETURN a.node_id AS node_id")
+    }
+
+    for row in rows:
+        for node_id in row["node_ids"]:
+            assert node_id in asset_ids, f"AttackPath {row['path_id']} node_ids has unknown asset {node_id}"
+
+        if row["source_cve"] in KNOWN_WATCHDOG_MUTATED_CVES:
+            assert row["score"] > 0, f"AttackPath {row['path_id']} has non-positive score"
+            continue
+
+        expected = score_path(
+            row["base_score"], row["epss_score"], row["criticality_tier"],
+            kev_flag=row["kev_flag"], hop_count=row["hop_count"],
+            internet_facing=bool(row["internet_facing"]), attack_vector=row["attack_vector"],
+        )
+        assert row["score"] == pytest.approx(expected, rel=1e-6), (
+            f"AttackPath {row['path_id']} score {row['score']} != recomputed {expected}"
+        )
+
+    ranks = sorted(r["rank"] for r in rows)
+    assert ranks == list(range(1, len(rows) + 1)), f"rank is not a dense 1..N ordering: {ranks}"
+
+    scores_by_rank = sorted(rows, key=lambda r: r["rank"])
+    for a, b in zip(scores_by_rank, scores_by_rank[1:]):
+        assert a["score"] >= b["score"], f"rank {a['rank']} score {a['score']} < rank {b['rank']} score {b['score']}"
