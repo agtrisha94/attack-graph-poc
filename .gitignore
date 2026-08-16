@@ -7,3 +7,6 @@ docker-compose.override.yml
 
 # Raw external data sources (large clones/snapshots, refetchable — not checked in)
 data/raw
+
+# Git worktrees for isolated feature work
+.worktrees
