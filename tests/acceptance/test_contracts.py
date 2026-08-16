@@ -148,3 +148,26 @@ def test_contract_04_paths_to_reasoning(neo4j_session):
     scores_by_rank = sorted(rows, key=lambda r: r["rank"])
     for a, b in zip(scores_by_rank, scores_by_rank[1:]):
         assert a["score"] >= b["score"], f"rank {a['rank']} score {a['score']} < rank {b['rank']} score {b['score']}"
+
+
+def test_contract_05_reasoning_to_watchdog(neo4j_session):
+    rows = [dict(r) for r in neo4j_session.run(
+        "MATCH (r:Reasoning) RETURN r.path_id AS path_id, r.explanation AS explanation, "
+        "r.threat_actors AS threat_actors, r.mitigations AS mitigations, "
+        "r.technique_ids AS technique_ids"
+    )]
+    assert len(rows) > 0, "no (:Reasoning) nodes found"
+
+    path_ids = {
+        r["path_id"] for r in neo4j_session.run("MATCH (p:AttackPath) RETURN p.path_id AS path_id")
+    }
+
+    for row in rows:
+        assert row["path_id"] in path_ids, f"Reasoning {row['path_id']} has no matching AttackPath"
+        assert row["explanation"], f"Reasoning {row['path_id']} has empty explanation"
+        # Empty lists are expected per contract 05's known_limitations (the
+        # baseline paths' source CVEs predate the MAPS_TO-mapped CVE set) --
+        # only null is a violation, not emptiness.
+        for field in ("threat_actors", "mitigations", "technique_ids"):
+            assert row[field] is not None, f"Reasoning {row['path_id']}.{field} is null"
+            assert isinstance(row[field], list), f"Reasoning {row['path_id']}.{field} is not a list"
