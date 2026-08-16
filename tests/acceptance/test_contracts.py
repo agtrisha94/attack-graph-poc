@@ -76,6 +76,14 @@ def test_contract_02_and_03_data_to_graph(neo4j_session):
     violations = validate_graph(
         neo4j_session, pathlib.Path("data/processed"), pathlib.Path("data/synthetic")
     )
+    # Watchdog (Agent 6) permanently MERGEs one synthetic CONNECTS_TO edge
+    # (computer-0078 -> computer-0160) into the live graph as its documented,
+    # idempotent scenario mutation (src/watchdog/scenario.py:apply_new_topology_edge,
+    # contracts/06_watchdog_to_qa.yaml) with no revert step -- by the time QA runs,
+    # this +1 topology-edge drift from the raw CSV is expected, not a violation.
+    expected_edges = len(pd.read_csv("data/synthetic/edges_topology.csv"))
+    known_watchdog_drift = f"topology relationship count {expected_edges + 1} != edges_topology.csv rows {expected_edges}"
+    violations = [v for v in violations if v != known_watchdog_drift]
     assert violations == [], f"graph import violations: {violations}"
 
     constraint_names = {
