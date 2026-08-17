@@ -11,7 +11,7 @@ from neo4j import GraphDatabase
 def _driver_config() -> dict[str, str]:
     return {
         "uri": os.environ.get("NEO4J_URI", "bolt://localhost:7687"),
-        "user": os.environ.get("NEO4J_USER", "neo4j"),
+        "user": os.environ.get("NEO4J_USERNAME") or os.environ.get("NEO4J_USER", "neo4j"),
         "password": os.environ["NEO4J_PASSWORD"],
     }
 

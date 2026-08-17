@@ -21,7 +21,7 @@ TOP_N = 50
 
 def main() -> None:
     uri = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
-    user = os.environ.get("NEO4J_USER", "neo4j")
+    user = os.environ.get("NEO4J_USERNAME") or os.environ.get("NEO4J_USER", "neo4j")
     password = os.environ["NEO4J_PASSWORD"]
 
     driver = GraphDatabase.driver(uri, auth=(user, password))
