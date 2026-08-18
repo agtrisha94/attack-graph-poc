@@ -6,11 +6,13 @@ Page 1. Streamlit auto-loads this as the default landing page."""
 import pandas as pd
 import streamlit as st
 
+from _chat_widget import render_chat_trigger
 from _graph_explorer_queries import read_attack_relevant_subgraph
 from _graph_render import render_graph
 from db import get_driver
 
 st.set_page_config(page_title="Graph Explorer", layout="wide")
+render_chat_trigger()
 st.title("Graph Explorer")
 
 TIER_ORDER = ["Crown Jewel", "High", "Medium", "Low"]
@@ -129,6 +131,7 @@ with col_graph:
 st.sidebar.header("Selected node")
 if clicked_id and clicked_id in node_properties:
     props = node_properties[clicked_id]
+    st.session_state.chat_context = f"{props['type']} {clicked_id}"
     if props["type"] == "Asset":
         blast_radius = props.get("blast_radius")
         choke_point_count = props.get("choke_point_count")

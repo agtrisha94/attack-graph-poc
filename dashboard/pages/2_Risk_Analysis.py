@@ -9,6 +9,7 @@ import math
 import pandas as pd
 import streamlit as st
 
+from _chat_widget import render_chat_trigger
 from _graph_render import render_graph
 from _risk_analysis_queries import (
     read_blast_radius,
@@ -19,6 +20,7 @@ from _risk_analysis_queries import (
 from db import get_driver
 
 st.set_page_config(page_title="Risk Analysis", layout="wide")
+render_chat_trigger()
 st.title("Risk Analysis")
 
 st.header("Choke points")
@@ -39,6 +41,10 @@ else:
     selected_choke_asset = st.selectbox(
         "Show attack paths through", options=choke_df["asset_id"],
         format_func=lambda aid: choke_df.set_index("asset_id").loc[aid, "display_name"],
+        key="choke_asset_select",
+        on_change=lambda: st.session_state.update(
+            chat_context=f"Asset {st.session_state.choke_asset_select}",
+        ),
     )
     st.write("**Selected asset:**", choke_df.set_index("asset_id").loc[[selected_choke_asset]])
     with get_driver().session() as session:
@@ -63,6 +69,10 @@ else:
     selected_blast_asset = st.selectbox(
         "Show reachable assets from", options=blast_df["asset_id"],
         format_func=lambda aid: blast_df.set_index("asset_id").loc[aid, "display_name"],
+        key="blast_asset_select",
+        on_change=lambda: st.session_state.update(
+            chat_context=f"Asset {st.session_state.blast_asset_select}",
+        ),
     )
     st.write("**Selected asset:**", blast_df.set_index("asset_id").loc[[selected_blast_asset]])
     with get_driver().session() as session:

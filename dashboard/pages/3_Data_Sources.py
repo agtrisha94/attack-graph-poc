@@ -7,6 +7,7 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
+from _chat_widget import render_chat_trigger
 from _data_sources_queries import (
     read_cve_stats,
     read_installed_software_example,
@@ -17,6 +18,7 @@ from _data_sources_queries import (
 from db import get_driver
 
 st.set_page_config(page_title="Data Sources", layout="wide")
+render_chat_trigger()
 st.title("Data Sources")
 
 st.header("Pipeline")

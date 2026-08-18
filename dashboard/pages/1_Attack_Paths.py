@@ -14,10 +14,12 @@ from _attack_paths_queries import (
     read_attack_paths_with_reasoning,
     read_path_chain_edge_types,
 )
+from _chat_widget import render_chat_trigger
 from _graph_render import render_graph
 from db import get_driver
 
 st.set_page_config(page_title="Attack Paths", layout="wide")
+render_chat_trigger()
 st.title("Attack Paths")
 
 with get_driver().session() as session:
@@ -95,6 +97,10 @@ nav_label.caption(
 )
 
 selected_row = df.iloc[st.session_state.path_idx]
+st.session_state.chat_context = (
+    f"AttackPath #{selected_row['path_id']} "
+    f"({selected_row['source_cve']} -> {selected_row['target_asset_id']})"
+)
 
 st.subheader(f"{selected_row['source_cve']} -> {selected_row['target_asset_id']}")
 
