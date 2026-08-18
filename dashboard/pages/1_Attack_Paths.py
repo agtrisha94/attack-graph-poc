@@ -86,6 +86,15 @@ if table_idx is not None and table_idx != st.session_state.table_selected_idx:
 st.session_state.table_selected_idx = table_idx
 st.session_state.path_idx = min(st.session_state.path_idx, len(df) - 1)
 
+# ponytail: jump-from-chatbot support -- a query-param jump always wins over
+# the table's own click/default selection, so it must be applied last. The
+# table's own highlighted row won't visually match until the user clicks
+# something else; only the detail panel below is guaranteed to jump correctly.
+jump_path_id = st.query_params.get("path_id")
+if jump_path_id and jump_path_id in df["path_id"].values:
+    st.session_state.path_idx = int(df.index[df["path_id"] == jump_path_id][0])
+    del st.query_params["path_id"]
+
 nav_prev, nav_next, nav_label = st.columns([1, 1, 6])
 if nav_prev.button("◀ Previous", disabled=st.session_state.path_idx == 0):
     st.session_state.path_idx -= 1

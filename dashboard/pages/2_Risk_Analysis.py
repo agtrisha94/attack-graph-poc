@@ -23,6 +23,13 @@ st.set_page_config(page_title="Risk Analysis", layout="wide")
 render_chat_trigger()
 st.title("Risk Analysis")
 
+# jump-from-chatbot support -- read once, consumed by whichever of the two
+# selectors below actually has this asset; cleared immediately so it doesn't
+# keep re-forcing the selection on later interactions with this page.
+jump_asset_id = st.query_params.get("asset_id")
+if jump_asset_id:
+    del st.query_params["asset_id"]
+
 st.header("Choke points")
 st.caption(
     "Choke point = how many of the top-ranked attack routes pass through "
@@ -37,6 +44,8 @@ choke_df = pd.DataFrame(choke_points)
 if choke_df.empty:
     st.info("No choke-point data yet — run scripts/find_paths.py first.")
 else:
+    if jump_asset_id and jump_asset_id in choke_df["asset_id"].values:
+        st.session_state.choke_asset_select = jump_asset_id
     st.bar_chart(choke_df, x="display_name", y="choke_point_count", sort="-choke_point_count")
     selected_choke_asset = st.selectbox(
         "Show attack paths through", options=choke_df["asset_id"],
@@ -65,6 +74,8 @@ blast_df = pd.DataFrame(blast_radii)
 if blast_df.empty:
     st.info("No CVE-exploitable assets found.")
 else:
+    if jump_asset_id and jump_asset_id in blast_df["asset_id"].values:
+        st.session_state.blast_asset_select = jump_asset_id
     st.bar_chart(blast_df, x="display_name", y="blast_radius", sort="-blast_radius")
     selected_blast_asset = st.selectbox(
         "Show reachable assets from", options=blast_df["asset_id"],

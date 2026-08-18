@@ -34,6 +34,8 @@ from _chat_formatting import (
     format_glossary_block,
     format_graph_block,
     format_mitre_block,
+    mentioned_asset_ids,
+    mentioned_path_ids,
 )
 from _chatbot_queries import (
     read_path_chain_edge_types,
@@ -66,7 +68,10 @@ SYSTEM_PROMPT = (
     "approach, never as a generic industry rule. [general] entries are "
     "standard, well-established terminology independent of this app.\n\n"
     "End your answer with a 'Sources:' line listing what you used, tagged as "
-    "(your graph), (glossary), or (general reference)."
+    "(your graph), (glossary), or (general reference). Whenever you refer to "
+    "a specific attack path or asset from the graph-facts section, include "
+    "its exact ID as given (e.g. #e06b81e2c476d21a or computer-0081) -- the "
+    "app uses this to offer a direct link to it."
 )
 
 
@@ -146,8 +151,11 @@ def _chat_dialog() -> None:
     )
 
     with st.chat_message("assistant"):
+        jump_path_ids, jump_asset_ids = [], []
         try:
             answer = ask(SYSTEM_PROMPT, user_message)
+            jump_path_ids = mentioned_path_ids(answer, paths)
+            jump_asset_ids = mentioned_asset_ids(answer, assets)
         except NoApiKeyError:
             answer = (
                 "Add `OPENAI_API_KEY` to your `.env` to enable answers. "
@@ -155,6 +163,15 @@ def _chat_dialog() -> None:
                 f"have been sent to the model:\n\n{user_message}"
             )
         st.write(answer)
+        # Only ever shown under the answer that was just generated -- older
+        # turns replay as plain text from chat_messages below, with no
+        # paths/assets kept around to validate jump targets against.
+        for pid in jump_path_ids:
+            if st.button(f"🔎 Open AttackPath #{pid} in Attack Paths", key=f"jump_path_{pid}"):
+                st.switch_page("pages/1_Attack_Paths.py", query_params={"path_id": pid})
+        for aid in jump_asset_ids:
+            if st.button(f"🔎 Open Asset {aid} in Risk Analysis", key=f"jump_asset_{aid}"):
+                st.switch_page("pages/2_Risk_Analysis.py", query_params={"asset_id": aid})
     st.session_state.chat_messages.append({"role": "assistant", "content": answer})
 
 

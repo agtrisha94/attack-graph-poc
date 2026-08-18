@@ -84,3 +84,15 @@ def format_mitre_block(chunks: list[dict]) -> str:
     if not chunks:
         return "(none found)"
     return "\n".join(f"- {c['id']} ({c['name']}): {c['text']}" for c in chunks)
+
+
+def mentioned_path_ids(answer: str, paths: list[dict]) -> list[str]:
+    """Which of the already-fetched (real, grounded) attack-path IDs the
+    model's answer actually names -- drives the "open in app" jump buttons,
+    so a button only ever points at a path we've verified exists."""
+    return [p["path_id"] for p in paths if p["path_id"] in answer]
+
+
+def mentioned_asset_ids(answer: str, assets: list[dict]) -> list[str]:
+    """Same as mentioned_path_ids, for assets."""
+    return [a["asset_id"] for a in assets if a["asset_id"] in answer]

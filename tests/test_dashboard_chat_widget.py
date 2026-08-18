@@ -4,6 +4,8 @@ from dashboard._chat_formatting import (
     format_glossary_block,
     format_graph_block,
     format_mitre_block,
+    mentioned_asset_ids,
+    mentioned_path_ids,
 )
 
 
@@ -110,3 +112,28 @@ def test_format_mitre_block_lists_chunks():
     result = format_mitre_block(chunks)
 
     assert "T1078 (Valid Accounts): Adversaries may use valid accounts." in result
+
+
+def test_mentioned_path_ids_finds_ids_present_in_answer():
+    paths = [{"path_id": "e06b81e2c476d21a"}, {"path_id": "abc123"}]
+    answer = "The path needing most attention is #e06b81e2c476d21a."
+
+    assert mentioned_path_ids(answer, paths) == ["e06b81e2c476d21a"]
+
+
+def test_mentioned_path_ids_returns_empty_list_when_none_mentioned():
+    paths = [{"path_id": "e06b81e2c476d21a"}]
+    answer = "I don't have enough information to answer that."
+
+    assert mentioned_path_ids(answer, paths) == []
+
+
+def test_mentioned_asset_ids_finds_ids_present_in_answer():
+    assets = [{"asset_id": "computer-0230"}, {"asset_id": "sql-prod-01"}]
+    answer = "Asset computer-0230 is a choke point on 4 ranked paths."
+
+    assert mentioned_asset_ids(answer, assets) == ["computer-0230"]
+
+
+def test_mentioned_asset_ids_returns_empty_list_when_none_mentioned():
+    assert mentioned_asset_ids("no assets referenced here", [{"asset_id": "computer-0230"}]) == []
